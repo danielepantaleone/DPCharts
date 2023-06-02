@@ -280,9 +280,7 @@ open class DPBarChartView: DPCanvasView {
         layoutTrackingView()
         setNeedsDisplay()
     }
-    
-    // MARK: - Interface
-    
+        
     // MARK: - Initialization
 
     func commonInit() {
