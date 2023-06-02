@@ -63,6 +63,24 @@ class DPBarLayer: CALayer {
         self.barIndex = barIndex
     }
     
+    override init(layer: Any) {
+        guard let layer = layer as? DPBarLayer else {
+            fatalError("Expecting DPBarLayer got \(type(of: layer))")
+        }
+        animationEnabled = layer.animationEnabled
+        animationDuration = layer.animationDuration
+        animationTimingFunction = layer.animationTimingFunction
+        barPoints = layer.barPoints
+        barColor = layer.barColor
+        barCornerRadius = layer.barCornerRadius
+        barWidth = layer.barWidth
+        barIndex = layer.barIndex
+        selectedIndexAlphaPredominance = layer.selectedIndexAlphaPredominance
+        selectedIndex = layer.selectedIndex
+        super.init(layer: layer)
+        self.commonInit()
+    }
+    
     required init?(coder: NSCoder) {
         super.init()
         self.commonInit()
