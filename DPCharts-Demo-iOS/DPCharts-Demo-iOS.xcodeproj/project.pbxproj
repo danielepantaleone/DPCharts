@@ -7,8 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		64A37DE02A2A53E700A8154B /* PickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64A37DDF2A2A53E700A8154B /* PickerViewController.swift */; };
+		64A37DE32A2A548000A8154B /* UIStoryboard+VCLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64A37DE22A2A548000A8154B /* UIStoryboard+VCLoader.swift */; };
+		64A37DE62A2A54EC00A8154B /* ViewType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64A37DE52A2A54EC00A8154B /* ViewType.swift */; };
+		64A37DE82A2A554E00A8154B /* ViewFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64A37DE72A2A554E00A8154B /* ViewFactory.swift */; };
+		64A37DEA2A2A560E00A8154B /* ViewFactory+DPBarChartViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64A37DE92A2A560E00A8154B /* ViewFactory+DPBarChartViewDataSource.swift */; };
 		64F9926A2A29DCC400D5842A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64F992692A29DCC400D5842A /* AppDelegate.swift */; };
-		64F9926E2A29DCC400D5842A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64F9926D2A29DCC400D5842A /* ViewController.swift */; };
+		64F9926E2A29DCC400D5842A /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64F9926D2A29DCC400D5842A /* MainViewController.swift */; };
 		64F992712A29DCC400D5842A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 64F9926F2A29DCC400D5842A /* Main.storyboard */; };
 		64F992732A29DCC400D5842A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 64F992722A29DCC400D5842A /* Assets.xcassets */; };
 		64F992762A29DCC400D5842A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 64F992742A29DCC400D5842A /* LaunchScreen.storyboard */; };
@@ -16,9 +21,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		64A37DDF2A2A53E700A8154B /* PickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerViewController.swift; sourceTree = "<group>"; };
+		64A37DE22A2A548000A8154B /* UIStoryboard+VCLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStoryboard+VCLoader.swift"; sourceTree = "<group>"; };
+		64A37DE52A2A54EC00A8154B /* ViewType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewType.swift; sourceTree = "<group>"; };
+		64A37DE72A2A554E00A8154B /* ViewFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewFactory.swift; sourceTree = "<group>"; };
+		64A37DE92A2A560E00A8154B /* ViewFactory+DPBarChartViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewFactory+DPBarChartViewDataSource.swift"; sourceTree = "<group>"; };
 		64F992662A29DCC400D5842A /* DPCharts-Demo-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DPCharts-Demo-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		64F992692A29DCC400D5842A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		64F9926D2A29DCC400D5842A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		64F9926D2A29DCC400D5842A /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		64F992702A29DCC400D5842A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		64F992722A29DCC400D5842A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		64F992752A29DCC400D5842A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -38,6 +48,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		64A37DE12A2A547800A8154B /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				64A37DE22A2A548000A8154B /* UIStoryboard+VCLoader.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		64A37DE42A2A54DA00A8154B /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				64A37DE72A2A554E00A8154B /* ViewFactory.swift */,
+				64A37DE92A2A560E00A8154B /* ViewFactory+DPBarChartViewDataSource.swift */,
+				64A37DE52A2A54EC00A8154B /* ViewType.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
 		64F9925D2A29DCC400D5842A = {
 			isa = PBXGroup;
 			children = (
@@ -59,6 +87,8 @@
 		64F992682A29DCC400D5842A /* DPCharts-Demo-iOS */ = {
 			isa = PBXGroup;
 			children = (
+				64A37DE42A2A54DA00A8154B /* Common */,
+				64A37DE12A2A547800A8154B /* Extensions */,
 				64F9927F2A29DD2E00D5842A /* Resources */,
 				64F992802A29DD3B00D5842A /* SupportingFiles */,
 				64F992812A29DD5500D5842A /* ViewControllers */,
@@ -88,7 +118,8 @@
 		64F992812A29DD5500D5842A /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				64F9926D2A29DCC400D5842A /* ViewController.swift */,
+				64F9926D2A29DCC400D5842A /* MainViewController.swift */,
+				64A37DDF2A2A53E700A8154B /* PickerViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -174,7 +205,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				64F9926E2A29DCC400D5842A /* ViewController.swift in Sources */,
+				64A37DEA2A2A560E00A8154B /* ViewFactory+DPBarChartViewDataSource.swift in Sources */,
+				64A37DE32A2A548000A8154B /* UIStoryboard+VCLoader.swift in Sources */,
+				64A37DE82A2A554E00A8154B /* ViewFactory.swift in Sources */,
+				64A37DE02A2A53E700A8154B /* PickerViewController.swift in Sources */,
+				64A37DE62A2A54EC00A8154B /* ViewType.swift in Sources */,
+				64F9926E2A29DCC400D5842A /* MainViewController.swift in Sources */,
 				64F9926A2A29DCC400D5842A /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

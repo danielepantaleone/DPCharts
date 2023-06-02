@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  ViewType.swift
 //  DPCharts-Demo-iOS
 //
 //  Created by Daniele Pantaleone
@@ -9,15 +9,7 @@
 //  Copyright © 2023 Daniele Pantaleone. Licensed under MIT License.
 //
 
-import UIKit
-
-class ViewController: UIViewController {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
-    }
-
-
+enum ViewType: String, CaseIterable {
+    case barChart = "Bar chart (1 item)"
+    case barChartYAxisInverted = "Bar chart (Y axis inverted)"
 }
-
