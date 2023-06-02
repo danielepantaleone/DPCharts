@@ -82,7 +82,6 @@ open class DPBarChartView: DPCanvasView {
     @IBInspectable
     open var touchEnabled: Bool = true {
         didSet {
-            trackingView.isHidden = !touchEnabled
             trackingView.isEnabled = touchEnabled
         }
     }
@@ -149,14 +148,14 @@ open class DPBarChartView: DPCanvasView {
     /// Reference to the view datasource.
     open weak var datasource: DPBarChartViewDataSource? {
         didSet {
-            reloadData()
+            setNeedsLayout()
         }
     }
     
     /// Reference to the view delegate.
     open weak var delegate: DPBarChartViewDelegate? {
         didSet {
-            reloadData()
+            setNeedsLayout()
         }
     }
     
@@ -175,7 +174,6 @@ open class DPBarChartView: DPCanvasView {
         let trackingView = DPTrackingView(frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
         trackingView.insets = insets
         trackingView.delegate = self
-        trackingView.isHidden = !touchEnabled
         trackingView.isEnabled = touchEnabled
         return trackingView
     }()
@@ -275,52 +273,43 @@ open class DPBarChartView: DPCanvasView {
     
     public override func layoutSubviews() {
         super.layoutSubviews()
-        initBounds()
+        initBarsIfNeeded()
+        initLimits()
         initPoints()
-        layoutBarLayers()
+        layoutBars()
         layoutTrackingView()
         setNeedsDisplay()
     }
     
     // MARK: - Interface
     
-    /// Reload chart data by reading its datasource.
-    open func reloadData() {
-        initEverything()
-        setNeedsLayout()
-        setNeedsDisplay()
-    }
-    
     // MARK: - Initialization
 
     func commonInit() {
         isOpaque = false
+        addSubview(trackingView)
     }
     
-    func initEverything() {
-        guard let datasource else { return }
-        let numberOfItemsChanged = datasource.numberOfItems(self) != numberOfItems
-        let numberOfBarsChanged = datasource.numberOfBars(self) != numberOfBars
-        let numberOfBarLayersInvalidated = datasource.numberOfBars(self) != barLayers.count
-        guard numberOfItemsChanged || numberOfBarsChanged || numberOfBarLayersInvalidated else {
-            return
-        }
-        initModelCounters()
-        initBarLayers()
-        initTrackingView()
-    }
-
-    func initModelCounters() {
+    func initBarsIfNeeded() {
         guard let datasource else {
             return
         }
-        numberOfItems = datasource.numberOfItems(self)
-        numberOfBars = datasource.numberOfBars(self)
+        let numberOfItemsChanged = datasource.numberOfItems(self) != numberOfItems
+        let numberOfBarsChanged = datasource.numberOfBars(self) != numberOfBars
+        let numberOfBarLayersInvalidated = datasource.numberOfBars(self) != barLayers.count
+        if numberOfItemsChanged || numberOfBarsChanged || numberOfBarLayersInvalidated {
+            initBars()
+        }
     }
     
-    func initBarLayers() {
+    func initBars() {
+        guard let datasource else {
+            return
+        }
         barLayers.forEach { $0.removeFromSuperlayer() }
         barLayers.removeAll()
+        numberOfItems = datasource.numberOfItems(self)
+        numberOfBars = datasource.numberOfBars(self)
         for i in 0..<numberOfBars {
             let barLayer = DPBarLayer(barIndex: i)
             barLayers.insert(barLayer, at: i)
@@ -328,13 +317,12 @@ open class DPBarChartView: DPCanvasView {
         }
     }
     
-    func initBounds() {
+    func initLimits() {
         yAxisMaxValue = 0
         guard let datasource else { return }
         for i in 0..<numberOfBars {
             for j in 0..<numberOfItems {
-                let v = datasource.barChartView(self, valueForBarAtIndex: i, forItemAtIndex: j)
-                yAxisMaxValue = max(abs(v), yAxisMaxValue)
+                yAxisMaxValue = max(abs(datasource.barChartView(self, valueForBarAtIndex: i, forItemAtIndex: j)), yAxisMaxValue)
             }
         }
         // Adjust max value so that the chart is not cut on top and values are better distributed in the canvas
@@ -364,15 +352,10 @@ open class DPBarChartView: DPCanvasView {
             }
         }
     }
-
-    func initTrackingView() {
-        trackingView.removeFromSuperview()
-        addSubview(trackingView)
-    }
     
     // MARK: - Layout
 
-    func layoutBarLayers() {
+    func layoutBars() {
         let canvasPosX = canvasPosX + (barSpacing * 0.5)
         let canvasPosY = canvasPosY
         let canvasWidth = canvasWidth - barSpacing
@@ -396,7 +379,6 @@ open class DPBarChartView: DPCanvasView {
     func layoutTrackingView() {
         trackingView.frame = CGRect(x: canvasPosX, y: canvasPosY, width: canvasWidth, height: canvasHeight)
         trackingView.insets = insets
-        trackingView.isHidden = !touchEnabled
         trackingView.isEnabled = touchEnabled
     }
     
