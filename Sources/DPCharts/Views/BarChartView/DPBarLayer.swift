@@ -35,9 +35,21 @@ class DPBarLayer: CALayer {
     // MARK: - Sublayers
     
     let areaPath = UIBezierPath()
-    var areaLayer: CAShapeLayer!
     let selectionPath = UIBezierPath()
-    var selectionLayer: CAShapeLayer!
+    
+    lazy var areaLayer: CAShapeLayer = {
+        let layer = CAShapeLayer()
+        layer.lineCap = .butt
+        layer.lineJoin = .round
+        return layer
+    }()
+    
+    lazy var selectionLayer: CAShapeLayer = {
+        let layer = CAShapeLayer()
+        layer.lineCap = .butt
+        layer.lineJoin = .round
+        return layer
+    }()
     
     // MARK: - Lifecycle
     
@@ -68,15 +80,6 @@ class DPBarLayer: CALayer {
     // MARK: - Initialization
     
     func commonInit() {
-        guard areaLayer == nil, selectionLayer == nil else {
-            return
-        }
-        areaLayer = CAShapeLayer()
-        areaLayer.lineCap = .butt
-        areaLayer.lineJoin = .round
-        selectionLayer = CAShapeLayer()
-        selectionLayer.lineCap = .butt
-        selectionLayer.lineJoin = .round
         addSublayer(areaLayer)
         addSublayer(selectionLayer)
         backgroundColor = UIColor.clear.cgColor
