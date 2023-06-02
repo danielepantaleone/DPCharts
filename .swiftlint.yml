@@ -1,0 +1,53 @@
+disabled_rules:
+  - cyclomatic_complexity
+  - identifier_name
+  - notification_center_detachment
+  - trailing_whitespace
+  
+file_length: 500
+function_body_length: 200
+function_parameter_count:
+  warning: 10
+  error: 20
+  
+large_tuple:
+  warning: 4
+  error: 8
+  
+line_length:
+  ignores_function_declarations: true
+  ignores_comments: true
+  ignores_interpolated_strings: true
+  ignores_urls: true
+  warning: 160
+  error: 200
+  
+nesting:
+  type_level:
+    warning: 2
+    error: 4
+    
+opt_in_rules: # some rules are only opt-in
+  - closure_end_indentation
+  - closure_spacing
+  - explicit_init
+  - first_where
+  - object_literal
+  - operator_usage_whitespace
+  - overridden_super_call
+  - redundant_nil_coalescing
+  - sorted_imports
+  - syntactic_sugar
+  
+switch_case_alignment:
+  indented_cases: true
+  
+type_body_length:
+  warning: 400
+  error: 600
+  
+type_name:
+  min_length: 1
+  max_length: 50
+  validates_start_with_lowercase: true
+  validate_protocols: true
