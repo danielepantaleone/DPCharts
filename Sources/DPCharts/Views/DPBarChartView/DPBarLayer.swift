@@ -51,11 +51,11 @@ class DPBarLayer: CALayer {
         return layer
     }()
     
-    // MARK: - Lifecycle
+    // MARK: - Initialization
     
     override init() {
         super.init()
-        self.commonInit()
+        commonInit()
     }
     
     convenience init(barIndex: Int) {
@@ -78,12 +78,12 @@ class DPBarLayer: CALayer {
         selectedIndexAlphaPredominance = layer.selectedIndexAlphaPredominance
         selectedIndex = layer.selectedIndex
         super.init(layer: layer)
-        self.commonInit()
+        commonInit()
     }
     
     required init?(coder: NSCoder) {
         super.init()
-        self.commonInit()
+        commonInit()
     }
     
     // MARK: - Lifecycle

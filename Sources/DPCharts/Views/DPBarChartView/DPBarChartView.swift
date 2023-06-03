@@ -14,7 +14,7 @@ import UIKit
 
 // MARK: - DPBarChartView
 
-/// A bar chart that draws according with a provided datasource and delegate.
+/// A bar chart that draws according with the configured datasource.
 @IBDesignable
 open class DPBarChartView: DPCanvasView {
     
