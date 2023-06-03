@@ -12,7 +12,8 @@
 import Foundation
 import UIKit
 
-class DPBarLayer: CALayer {
+/// A layer to draw a set of bars
+open class DPBarLayer: CALayer {
     
     // MARK: - Properties
     
@@ -81,26 +82,24 @@ class DPBarLayer: CALayer {
         commonInit()
     }
     
-    required init?(coder: NSCoder) {
+    public required init?(coder: NSCoder) {
         super.init()
         commonInit()
     }
-    
-    // MARK: - Lifecycle
-    
-    override func layoutSublayers() {
-        super.layoutSublayers()
-        setupLayers()
-        setupLayersOpacity()
-        setupAnimations()
-    }
-    
-    // MARK: - Initialization
     
     func commonInit() {
         addSublayer(areaLayer)
         addSublayer(selectionLayer)
         masksToBounds = true
+    }
+    
+    // MARK: - Lifecycle
+    
+    public override func layoutSublayers() {
+        super.layoutSublayers()
+        setupLayers()
+        setupLayersOpacity()
+        setupAnimations()
     }
     
     // MARK: - Interface

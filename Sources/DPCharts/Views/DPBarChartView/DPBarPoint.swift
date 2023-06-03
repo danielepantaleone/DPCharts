@@ -12,7 +12,8 @@
 import Foundation
 import UIKit
 
-struct DPBarPoint {
+/// A struct to model bar points
+public struct DPBarPoint {
     var x: CGFloat
     var y: CGFloat
     var barIndex: Int

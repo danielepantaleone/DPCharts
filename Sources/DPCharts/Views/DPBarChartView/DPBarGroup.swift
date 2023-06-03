@@ -12,7 +12,8 @@
 import Foundation
 import UIKit
 
-struct DPBarGroup {
+/// A struct to group different bars according with their X-axis index.
+public struct DPBarGroup {
     var x: CGFloat
     var y: CGFloat
     var width: CGFloat
