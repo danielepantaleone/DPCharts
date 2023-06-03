@@ -100,7 +100,6 @@ class DPBarLayer: CALayer {
     func commonInit() {
         addSublayer(areaLayer)
         addSublayer(selectionLayer)
-        backgroundColor = UIColor.clear.cgColor
         masksToBounds = true
     }
     

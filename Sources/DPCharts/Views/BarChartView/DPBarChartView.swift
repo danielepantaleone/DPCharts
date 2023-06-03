@@ -158,16 +158,7 @@ open class DPBarChartView: DPCanvasView {
             setNeedsLayout()
         }
     }
-    
-    // MARK: - Overrides
-    
-    // swiftlint: disable unused_setter_value
-    public override var isOpaque: Bool {
-        get { false }
-        set { super.isOpaque = false }
-    }
-    // swiftlint: enable unused_setter_value
-    
+
     // MARK: - Subviews
     
     lazy var trackingView: DPTrackingView = {
