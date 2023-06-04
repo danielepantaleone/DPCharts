@@ -146,14 +146,14 @@ open class DPBarChartView: DPCanvasView {
     // MARK: - Public weak properties
 
     /// Reference to the view datasource.
-    open weak var datasource: DPBarChartViewDataSource? {
+    open weak var datasource: (any DPBarChartViewDataSource)? {
         didSet {
             setNeedsLayout()
         }
     }
     
     /// Reference to the view delegate.
-    open weak var delegate: DPBarChartViewDelegate? {
+    open weak var delegate: (any DPBarChartViewDelegate)? {
         didSet {
             setNeedsLayout()
         }
@@ -177,9 +177,6 @@ open class DPBarChartView: DPCanvasView {
     var numberOfBars: Int = 0 // number of bars in the chart
     var yAxisMaxValue: CGFloat = 0 // minimum value on Y-axis
     var yAxisMarkersRetainedWidth: CGFloat? // retained width across refresh
-    
-    // MARK: - Computed private properties
-    
     var barWidth: CGFloat {
         guard numberOfBars > 0 && numberOfItems > 0 else {
             return 0
@@ -301,7 +298,7 @@ open class DPBarChartView: DPCanvasView {
         numberOfBars = datasource.numberOfBars(self)
         for i in 0..<numberOfBars {
             let barLayer = DPBarLayer(barIndex: i)
-            barLayers.insert(barLayer, at: i)
+            barLayers.append(barLayer)
             layer.addSublayer(barLayer)
         }
     }
@@ -471,37 +468,37 @@ open class DPBarChartView: DPCanvasView {
         let canvasHeight = canvasHeight
         let canvasWidth = canvasWidth
         let distance: CGFloat = canvasHeight / CGFloat(yAxisMarkersCount - 1)
-        let lineBeginPositionOnXAxis: CGFloat = canvasPosX
-        let lineEndPositionOnXAxis: CGFloat = lineBeginPositionOnXAxis + canvasWidth
+        let xAxisLineBeginPosition: CGFloat = canvasPosX
+        let xAxisLineEndPosition: CGFloat = xAxisLineBeginPosition + canvasWidth
         
         ctx.saveGState()
         ctx.setAllowsAntialiasing(true)
         ctx.setShouldAntialias(true)
     
         for i in 0..<yAxisMarkersCount {
-            let linePositionOnYAxis = canvasPosY + canvasHeight - (CGFloat(i) * distance) - (markersLineWidth * 0.5)
+            let yAxisLinePosition = canvasPosY + canvasHeight - (CGFloat(i) * distance) - (markersLineWidth * 0.5)
             // Draw the marker line without overlapping with the TOP and BOTTOM border/marker line
             if i > 0 && i < yAxisMarkersCount - 1 {
                 ctx.setAlpha(markersLineAlpha)
                 ctx.setLineWidth(markersLineWidth)
                 ctx.setStrokeColor(markersLineColor.cgColor)
                 ctx.setLineDash(phase: 0, lengths: markersLineDashed ? markersLineDashLengths : [])
-                ctx.move(to: CGPoint(x: lineBeginPositionOnXAxis, y: linePositionOnYAxis))
-                ctx.addLine(to: CGPoint(x: lineEndPositionOnXAxis, y: linePositionOnYAxis))
+                ctx.move(to: CGPoint(x: xAxisLineBeginPosition, y: yAxisLinePosition))
+                ctx.addLine(to: CGPoint(x: xAxisLineEndPosition, y: yAxisLinePosition))
                 ctx.strokePath()
             }
             // Draw the marker text if we have some content
             if let marker = markerOnYAxisAtIndex(i, for: valueOnYAxisAtIndex(i)) {
-                let labelPositionOnYAxis: CGFloat = linePositionOnYAxis - marker.size().height * 0.5
-                let labelPositionOnXAxis: CGFloat
+                let yAxisLabelPosition: CGFloat = yAxisLinePosition - marker.size().height * 0.5
+                let xAxisLabelPosition: CGFloat
                 if yAxisInverted {
-                    labelPositionOnXAxis = canvasPosX + canvasWidth + yAxisMarkersSpacing
+                    xAxisLabelPosition = canvasPosX + canvasWidth + yAxisMarkersSpacing
                 } else {
-                    labelPositionOnXAxis = canvasPosX - marker.size().width - yAxisMarkersSpacing
+                    xAxisLabelPosition = canvasPosX - marker.size().width - yAxisMarkersSpacing
                 }
                 ctx.setAlpha(1.0)
                 ctx.setStrokeColor(markersTextColor.cgColor)
-                marker.draw(at: CGPoint(x: labelPositionOnXAxis, y: labelPositionOnYAxis))
+                marker.draw(at: CGPoint(x: xAxisLabelPosition, y: yAxisLabelPosition))
             }
         }
         

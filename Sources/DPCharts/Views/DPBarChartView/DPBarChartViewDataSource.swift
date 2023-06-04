@@ -43,7 +43,7 @@ public extension DPBarChartViewDataSource {
 }
 
 #if TARGET_INTERFACE_BUILDER
-class DPBarChartViewIBDataSource: DPBarChartViewDataSource {
+public class DPBarChartViewIBDataSource: DPBarChartViewDataSource {
     
     func numberOfBars(_ barChartView: OCTOBarChartView) -> Int {
         return 1
