@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		64379FD12A2C7D8400BD1FE6 /* ViewFactory+DPLineChartViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64379FD02A2C7D8400BD1FE6 /* ViewFactory+DPLineChartViewDataSource.swift */; };
 		64A37DE02A2A53E700A8154B /* PickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64A37DDF2A2A53E700A8154B /* PickerViewController.swift */; };
 		64A37DE32A2A548000A8154B /* UIStoryboard+VCLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64A37DE22A2A548000A8154B /* UIStoryboard+VCLoader.swift */; };
 		64A37DE62A2A54EC00A8154B /* ViewType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64A37DE52A2A54EC00A8154B /* ViewType.swift */; };
@@ -21,6 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		64379FD02A2C7D8400BD1FE6 /* ViewFactory+DPLineChartViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ViewFactory+DPLineChartViewDataSource.swift"; sourceTree = "<group>"; };
 		64A37DDF2A2A53E700A8154B /* PickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerViewController.swift; sourceTree = "<group>"; };
 		64A37DE22A2A548000A8154B /* UIStoryboard+VCLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStoryboard+VCLoader.swift"; sourceTree = "<group>"; };
 		64A37DE52A2A54EC00A8154B /* ViewType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewType.swift; sourceTree = "<group>"; };
@@ -61,6 +63,7 @@
 			children = (
 				64A37DE72A2A554E00A8154B /* ViewFactory.swift */,
 				64A37DE92A2A560E00A8154B /* ViewFactory+DPBarChartViewDataSource.swift */,
+				64379FD02A2C7D8400BD1FE6 /* ViewFactory+DPLineChartViewDataSource.swift */,
 				64A37DE52A2A54EC00A8154B /* ViewType.swift */,
 			);
 			path = Common;
@@ -205,6 +208,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				64379FD12A2C7D8400BD1FE6 /* ViewFactory+DPLineChartViewDataSource.swift in Sources */,
 				64A37DEA2A2A560E00A8154B /* ViewFactory+DPBarChartViewDataSource.swift in Sources */,
 				64A37DE32A2A548000A8154B /* UIStoryboard+VCLoader.swift in Sources */,
 				64A37DE82A2A554E00A8154B /* ViewFactory.swift in Sources */,
@@ -361,6 +365,7 @@
 				DEVELOPMENT_TEAM = FC2P7T9CWM;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "DPCharts-Demo-iOS/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = DPCharts;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -371,7 +376,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.danielepantaleone.dpchartsdemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -390,6 +395,7 @@
 				DEVELOPMENT_TEAM = FC2P7T9CWM;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "DPCharts-Demo-iOS/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = DPCharts;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -400,7 +406,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.danielepantaleone.dpchartsdemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

@@ -10,6 +10,14 @@
 //
 
 enum ViewType: String, CaseIterable {
-    case barChart = "Bar chart (1 item)"
-    case barChartYAxisInverted = "Bar chart (Y axis inverted)"
+    case barChart = "Bar chart"
+    case barChartYAxisInverted = "Bar chart (Y-axis inverted)"
+    case lineChart = "Line chart"
+    case lineChartArea = "Line chart (area)"
+    case lineChartBezier = "Line chart (bezier curve)"
+    case lineChartBezierArea = "Line chart (bezier curve + area)"
+    case lineChartYAxisInverted = "Line chart (Y-axis inverted)"
+    case lineChartYAxisInvertedArea = "Line chart (Y-axis inverted + area)"
+    case lineChartYAxisInvertedBezier = "Line chart (Y-axis inverted + bezier curve)"
+    case lineChartYAxisInvertedBezierArea = "Line chart (Y-axis inverted, bezier curve + area)"
 }
