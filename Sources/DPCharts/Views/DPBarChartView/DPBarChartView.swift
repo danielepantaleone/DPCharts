@@ -76,6 +76,14 @@ open class DPBarChartView: DPCanvasView {
         }
     }
     
+    /// Whether group of bars need to be stacked on top of each other (default = `false`).
+    @IBInspectable
+    open var barStacked: Bool = false {
+        didSet {
+            setNeedsLayout()
+        }
+    }
+    
     // MARK: - Interaction configuration properties
 
     /// Whether or not to enable touch events (default = `true`).
@@ -186,7 +194,7 @@ open class DPBarChartView: DPCanvasView {
             width -= (barSpacing * CGFloat(numberOfItems - 1))
         }
         width -= barSpacing
-        width /= CGFloat(numberOfItems * numberOfBars)
+        width /= CGFloat(numberOfItems * (barStacked ? 1 : numberOfBars))
         return width
     }
     var barGroups: [DPBarGroup] {
@@ -196,7 +204,7 @@ open class DPBarChartView: DPCanvasView {
                 barGroups.append(DPBarGroup(
                     x: .greatestFiniteMagnitude,
                     y: 0.0,
-                    width: barWidth * CGFloat(numberOfBars),
+                    width: p.width * (barStacked ? 1.0 : CGFloat(numberOfBars)),
                     index: p.index))
             }
             barGroups[p.index].x = min(barGroups[p.index].x, p.x)
@@ -297,8 +305,10 @@ open class DPBarChartView: DPCanvasView {
         numberOfItems = datasource.numberOfItems(self)
         numberOfBars = datasource.numberOfBars(self)
         for i in 0..<numberOfBars {
-            let barLayer = DPBarLayer(barIndex: i)
-            barLayers.append(barLayer)
+            barLayers.append(DPBarLayer(barIndex: i))
+        }
+        // We reverse the order of bar layers to ease stacked bars layout
+        for barLayer in barLayers.reversed() {
             layer.addSublayer(barLayer)
         }
     }
@@ -306,9 +316,19 @@ open class DPBarChartView: DPCanvasView {
     func initLimits() {
         yAxisMaxValue = 0
         guard let datasource else { return }
-        for i in 0..<numberOfBars {
-            for j in 0..<numberOfItems {
-                yAxisMaxValue = max(abs(datasource.barChartView(self, valueForBarAtIndex: i, forItemAtIndex: j)), yAxisMaxValue)
+        if barStacked {
+            for i in 0..<numberOfItems {
+                var accumulator: CGFloat = 0
+                for j in 0..<numberOfBars {
+                    accumulator += abs(datasource.barChartView(self, valueForBarAtIndex: j, forItemAtIndex: i))
+                }
+                yAxisMaxValue = max(yAxisMaxValue, accumulator)
+            }
+        } else {
+            for i in 0..<numberOfBars {
+                for j in 0..<numberOfItems {
+                    yAxisMaxValue = max(abs(datasource.barChartView(self, valueForBarAtIndex: i, forItemAtIndex: j)), yAxisMaxValue)
+                }
             }
         }
         // Adjust max value so that the chart is not cut on top and values are better distributed in the canvas
@@ -322,19 +342,29 @@ open class DPBarChartView: DPCanvasView {
         guard let datasource else {
             return
         }
-        var xAxisPosition: CGFloat = 0
-        var yAxisPosition: CGFloat = 0
         let barWidth = barWidth
         let canvasHeight = canvasHeight
         for i in 0..<numberOfBars {
             barPoints.insert([], at: i)
             for j in 0..<numberOfItems {
                 let value = datasource.barChartView(self, valueForBarAtIndex: i, forItemAtIndex: j)
-                let shiftByBar = (barWidth * CGFloat(numberOfBars) * CGFloat(j)) + (barWidth * CGFloat(i))
-                let shiftBySpacing = barSpacing * CGFloat(j)
-                xAxisPosition = shiftByBar + shiftBySpacing
-                yAxisPosition = yAxisMaxValue == 0 ? canvasHeight : canvasHeight - (canvasHeight * (value / yAxisMaxValue))
-                barPoints[i].insert(DPBarPoint(x: xAxisPosition, y: yAxisPosition, barIndex: i, index: j), at: j)
+                var barHeight = yAxisMaxValue == 0 ? canvasHeight : (canvasHeight * (value / yAxisMaxValue))
+                let barSpacing = barSpacing * CGFloat(j)
+                let xAxisPosition: CGFloat
+                let yAxisPosition: CGFloat
+                if barStacked {
+                    var stackHeight: CGFloat = 0
+                    for k in 0..<i {
+                        stackHeight += barPoints[k][j].height
+                    }
+                    xAxisPosition = (barWidth * CGFloat(j)) + barSpacing
+                    yAxisPosition = canvasHeight - barHeight - stackHeight
+                    barHeight = canvasHeight - yAxisPosition // recompute to prevent glitches when changing bars alpha
+                } else {
+                    xAxisPosition = ((barWidth * CGFloat(numberOfBars) * CGFloat(j)) + (barWidth * CGFloat(i))) + barSpacing
+                    yAxisPosition = canvasHeight - barHeight
+                }
+                barPoints[i].insert(DPBarPoint(x: xAxisPosition, y: yAxisPosition, height: barHeight, width: barWidth, barIndex: i, index: j), at: j)
             }
         }
     }
@@ -346,7 +376,6 @@ open class DPBarChartView: DPCanvasView {
         let canvasPosY = canvasPosY
         let canvasWidth = canvasWidth - barSpacing
         let canvasHeight = canvasHeight
-        let barWidth = barWidth
         for i in 0..<numberOfBars {
             let bar = barLayers[i]
             bar.frame = CGRect(x: canvasPosX, y: canvasPosY, width: canvasWidth, height: canvasHeight)
@@ -357,7 +386,6 @@ open class DPBarChartView: DPCanvasView {
             bar.barCornerRadius = barCornerRadius
             bar.barColor = datasource?.barChartView(self, colorForBarAtIndex: i) ?? DPBarChartView.defaultBarColor
             bar.barPoints = barPoints[i]
-            bar.barWidth = barWidth
             bar.setNeedsLayout()
         }
     }
@@ -418,9 +446,9 @@ open class DPBarChartView: DPCanvasView {
         let canvasPosX = canvasPosX
         let canvasPosY = canvasPosY
         let canvasHeight = canvasHeight
-        let lineBeginPositionOnYAxis: CGFloat = canvasPosY + (markersLineWidth * 0.5)
-        let lineEndPositionOnYAxis: CGFloat = lineBeginPositionOnYAxis + canvasHeight - (markersLineWidth * 0.5)
-        let widthOfBarItem: CGFloat = barWidth * CGFloat(numberOfBars)
+        let yAxisLineBeginPosition: CGFloat = canvasPosY + (markersLineWidth * 0.5)
+        let yAxisLineEndPosition: CGFloat = yAxisLineBeginPosition + canvasHeight - (markersLineWidth * 0.5)
+        let barItemWidth: CGFloat = barWidth * (barStacked ? 1.0 : CGFloat(numberOfBars))
         
         ctx.saveGState()
         ctx.setAllowsAntialiasing(true)
@@ -429,24 +457,24 @@ open class DPBarChartView: DPCanvasView {
         for i in 0..<numberOfItems {
             // Draw the marker line without overlapping with the LEADING and TRAILING border/marker line
             if i > 0 {
-                let shiftOnXAxis: CGFloat = ((widthOfBarItem + barSpacing) * CGFloat(i)) - (barSpacing * 0.5)
-                let positionOnXAxis: CGFloat = canvasPosX + shiftOnXAxis - markersLineWidth * 0.5 + (barSpacing * 0.5)
+                let xAxisShift: CGFloat = ((barItemWidth + barSpacing) * CGFloat(i)) - (barSpacing * 0.5)
+                let xAxisPosition: CGFloat = canvasPosX + xAxisShift - markersLineWidth * 0.5 + (barSpacing * 0.5)
                 ctx.setAlpha(markersLineAlpha)
                 ctx.setLineWidth(markersLineWidth)
                 ctx.setStrokeColor(markersLineColor.cgColor)
                 ctx.setLineDash(phase: 0, lengths: markersLineDashed ? markersLineDashLengths : [])
-                ctx.move(to: CGPoint(x: positionOnXAxis, y: lineBeginPositionOnYAxis))
-                ctx.addLine(to: CGPoint(x: positionOnXAxis, y: lineEndPositionOnYAxis))
+                ctx.move(to: CGPoint(x: xAxisPosition, y: yAxisLineBeginPosition))
+                ctx.addLine(to: CGPoint(x: xAxisPosition, y: yAxisLineEndPosition))
                 ctx.strokePath()
             }
             // Draw the marker text if we have some content
             if let marker = markerOnXAxisAtItem(i) {
-                let labelShiftOnXAxis: CGFloat = ((widthOfBarItem + barSpacing) * CGFloat(i + 1)) - (widthOfBarItem * 0.5)
-                let labelPositionOnXAxis: CGFloat = canvasPosX + labelShiftOnXAxis - (marker.size().width * 0.5) - (barSpacing * 0.5)
-                let labelPositionOnYAxis: CGFloat = canvasPosY + canvasHeight + xAxisMarkersSpacing
+                let xAxisLabelShift: CGFloat = ((barItemWidth + barSpacing) * CGFloat(i + 1)) - (barItemWidth * 0.5)
+                let xAxisLabelPosition: CGFloat = canvasPosX + xAxisLabelShift - (marker.size().width * 0.5) - (barSpacing * 0.5)
+                let yAxisLabelPosition: CGFloat = canvasPosY + canvasHeight + xAxisMarkersSpacing
                 ctx.setAlpha(1.0)
                 ctx.setStrokeColor(markersTextColor.cgColor)
-                marker.draw(at: CGPoint(x: labelPositionOnXAxis, y: labelPositionOnYAxis))
+                marker.draw(at: CGPoint(x: xAxisLabelPosition, y: yAxisLabelPosition))
             }
         }
         

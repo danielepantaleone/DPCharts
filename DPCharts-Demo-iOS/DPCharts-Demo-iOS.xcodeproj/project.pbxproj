@@ -50,6 +50,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		64379FD22A2C86EB00BD1FE6 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				64F9926D2A29DCC400D5842A /* MainViewController.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		64379FD32A2C86EF00BD1FE6 /* Picker */ = {
+			isa = PBXGroup;
+			children = (
+				64A37DDF2A2A53E700A8154B /* PickerViewController.swift */,
+			);
+			path = Picker;
+			sourceTree = "<group>";
+		};
 		64A37DE12A2A547800A8154B /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -90,7 +106,6 @@
 		64F992682A29DCC400D5842A /* DPCharts-Demo-iOS */ = {
 			isa = PBXGroup;
 			children = (
-				64A37DE42A2A54DA00A8154B /* Common */,
 				64A37DE12A2A547800A8154B /* Extensions */,
 				64F9927F2A29DD2E00D5842A /* Resources */,
 				64F992802A29DD3B00D5842A /* SupportingFiles */,
@@ -121,8 +136,9 @@
 		64F992812A29DD5500D5842A /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				64F9926D2A29DCC400D5842A /* MainViewController.swift */,
-				64A37DDF2A2A53E700A8154B /* PickerViewController.swift */,
+				64A37DE42A2A54DA00A8154B /* Common */,
+				64379FD32A2C86EF00BD1FE6 /* Picker */,
+				64379FD22A2C86EB00BD1FE6 /* Main */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";

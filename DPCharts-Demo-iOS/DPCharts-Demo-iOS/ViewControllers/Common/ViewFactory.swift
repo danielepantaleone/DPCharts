@@ -33,9 +33,13 @@ class ViewFactory {
     func createView(ofType type: ViewType) -> UIView {
         switch type {
             case .barChart:
-                return createBarChart(yAxisInverted: false)
+                return createBarChart(stacked: false, yAxisInverted: false)
+            case .barChartStacked:
+                return createBarChart(stacked: true, yAxisInverted: false)
             case .barChartYAxisInverted:
-                return createBarChart(yAxisInverted: true)
+                return createBarChart(stacked: false, yAxisInverted: true)
+            case .barChartYAxisInvertedStacked:
+                return createBarChart(stacked: true, yAxisInverted: true)
             case .lineChart:
                 return createLineChart(bezierCurveEnabled: false, areaEnabled: false, yAxisInverted: false)
             case .lineChartArea:
@@ -72,9 +76,10 @@ class ViewFactory {
 
 extension ViewFactory {
 
-    private func createBarChart(yAxisInverted: Bool) -> DPBarChartView {
+    private func createBarChart(stacked: Bool, yAxisInverted: Bool) -> DPBarChartView {
         let barChartView = DPBarChartView()
         barChartView.datasource = self
+        barChartView.barStacked = stacked
         barChartView.xAxisTitle = "Title of X-axis"
         barChartView.yAxisInverted = yAxisInverted
         barChartView.yAxisMarkersWidthRetained = true

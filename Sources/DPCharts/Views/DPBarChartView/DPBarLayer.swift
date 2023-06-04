@@ -23,7 +23,6 @@ open class DPBarLayer: CALayer {
     var barPoints: [DPBarPoint] = []
     var barColor: UIColor = .darkGray
     var barCornerRadius: CGFloat = 3.0
-    var barWidth: CGFloat = 10.0
     var barIndex: Int = 0
     var selectedIndexAlphaPredominance: CGFloat = 0.6
     var selectedIndex: Int? {
@@ -74,7 +73,6 @@ open class DPBarLayer: CALayer {
         barPoints = layer.barPoints
         barColor = layer.barColor
         barCornerRadius = layer.barCornerRadius
-        barWidth = layer.barWidth
         barIndex = layer.barIndex
         selectedIndexAlphaPredominance = layer.selectedIndexAlphaPredominance
         selectedIndex = layer.selectedIndex
@@ -103,19 +101,12 @@ open class DPBarLayer: CALayer {
     }
     
     // MARK: - Interface
-    
-    func add(x: CGFloat, y: CGFloat, barIndex: Int, index: Int) {
-        add(point: DPBarPoint(x: x, y: y, barIndex: barIndex, index: index))
-    }
-    func add(point: DPBarPoint) {
-        barPoints.append(point)
-    }
 
     func closestPointAt(x: CGFloat) -> DPBarPoint? {
         var compare: CGFloat = .greatestFiniteMagnitude
         var p: DPBarPoint?
         for point in barPoints {
-            let distance = abs((point.x + (barWidth / 2.0)) - x)
+            let distance = abs((point.x + (point.width * 0.5)) - x)
             if distance < compare {
                 compare = distance
                 p = point
@@ -142,16 +133,16 @@ open class DPBarLayer: CALayer {
                 roundedRect: CGRect(
                     x: point.x,
                     y: point.y,
-                    width: barWidth,
-                    height: bounds.height - point.y + barCornerRadius),
+                    width: point.width,
+                    height: point.height + barCornerRadius),
                 cornerRadius: barCornerRadius))
             if selectedIndex == index {
                 selectionPath.append(UIBezierPath(
                     roundedRect: CGRect(
                         x: point.x,
                         y: point.y,
-                        width: barWidth,
-                        height: bounds.height - point.y + barCornerRadius),
+                        width: point.width,
+                        height: point.height + barCornerRadius),
                     cornerRadius: barCornerRadius))
             }
         }

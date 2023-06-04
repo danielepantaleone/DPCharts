@@ -11,7 +11,9 @@
 
 enum ViewType: String, CaseIterable {
     case barChart = "Bar chart"
+    case barChartStacked = "Bar chart (stacked)"
     case barChartYAxisInverted = "Bar chart (Y-axis inverted)"
+    case barChartYAxisInvertedStacked = "Bar chart (Y-axis inverted + stacked)"
     case lineChart = "Line chart"
     case lineChartArea = "Line chart (area)"
     case lineChartBezier = "Line chart (bezier curve)"
