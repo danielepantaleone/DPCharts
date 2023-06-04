@@ -12,7 +12,7 @@
 import Foundation
 
 /// The type of the shape to draw.
-public enum DPShapeType: CaseIterable {
+public enum DPShapeType: String, CaseIterable {
     /// A circle
     case circle
     /// A diamond
