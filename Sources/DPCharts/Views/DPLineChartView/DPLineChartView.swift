@@ -281,12 +281,12 @@ open class DPLineChartView: DPCanvasView {
     }
     var yAxisOriginIndex: Int {
         let canvasHeight: CGFloat = canvasHeight
-        let positonOfOriginOnYAxis = canvasHeight * (abs(minYAxisValue) / maxYAxisSpan)
+        let yAxisOriginPosition = canvasHeight * (abs(minYAxisValue) / maxYAxisSpan)
         let distance: CGFloat = canvasHeight / CGFloat(yAxisMarkersCount)
-        let lineShiftOnYAxis: CGFloat = positonOfOriginOnYAxis.truncatingRemainder(dividingBy: distance)
+        let yAxisLineShift: CGFloat = yAxisOriginPosition.truncatingRemainder(dividingBy: distance)
         var index: Int = 0
         for i in 0..<yAxisMarkersCount {
-            if ((distance * CGFloat(i)) + lineShiftOnYAxis) > positonOfOriginOnYAxis {
+            if ((distance * CGFloat(i)) + yAxisLineShift) > yAxisOriginPosition {
                 break
             }
             index = i
@@ -425,8 +425,6 @@ open class DPLineChartView: DPCanvasView {
     func initPoints() {
         points.removeAll()
         guard let datasource else { return }
-        var xAxisPosition: CGFloat = 0 // The position on the X-axis of the point currently being created
-        var yAxisPosition: CGFloat = 0 // The position on the Y-axis of the point currently being created
         let canvasHeight = canvasHeight
         let canvasWidth = canvasWidth
         let maxYAxisSpan = maxYAxisSpan
@@ -434,8 +432,8 @@ open class DPLineChartView: DPCanvasView {
             points.insert([], at: i)
             for j in 0..<numberOfPoints {
                 let value = datasource.lineChartView(self, valueForLineAtIndex: i, forPointAtIndex: j)
-                xAxisPosition = (canvasWidth / ((CGFloat(numberOfPoints)) - 1)) * CGFloat(j)
-                yAxisPosition = ((maxYAxisValue - value) / maxYAxisSpan) * canvasHeight
+                let xAxisPosition: CGFloat = (canvasWidth / ((CGFloat(numberOfPoints)) - 1)) * CGFloat(j)
+                let yAxisPosition: CGFloat = ((maxYAxisValue - value) / maxYAxisSpan) * canvasHeight
                 points[i].insert(DPLinePoint(x: xAxisPosition, y: yAxisPosition, lineIndex: i, index: j), at: j)
             }
         }

@@ -102,13 +102,6 @@ open class DPLineLayer: CALayer {
 
     // MARK: - Interface
     
-    func add(x: CGFloat, y: CGFloat, lineIndex: Int, index: Int) {
-        add(point: DPLinePoint(x: x, y: y, lineIndex: lineIndex, index: index))
-    }
-    func add(point: DPLinePoint) {
-        linePoints.append(point)
-    }
-
     func closestPointAt(x: CGFloat) -> DPLinePoint? {
         var compare: CGFloat = .greatestFiniteMagnitude
         var p: DPLinePoint?
