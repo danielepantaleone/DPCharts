@@ -11,7 +11,7 @@
 
 import Foundation
 
- extension Array {
+extension Array {
     
     /// Returns the element at the specified index or `nil` if no element is found.
     ///
