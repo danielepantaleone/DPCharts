@@ -237,8 +237,6 @@ open class DPLineChartView: DPCanvasView {
     
     // MARK: - Subviews
     
-    // MARK: - Subviews
-    
     lazy var touchCursor: UIView = {
         let touchCursor = UIView()
         touchCursor.backgroundColor = touchCursorColor
@@ -698,10 +696,10 @@ open class DPLineChartView: DPCanvasView {
     // MARK: - Storyboard
     
     #if TARGET_INTERFACE_BUILDER
-    let ibDataSource = OCTOLineChartViewIBDataSource()
+    let ibDataSource = DPLineChartViewIBDataSource()
     
     // swiftlint:disable:next overridden_super_call
-    override func prepareForInterfaceBuilder() {
+    public override func prepareForInterfaceBuilder() {
         datasource = ibDataSource
     }
     #endif
