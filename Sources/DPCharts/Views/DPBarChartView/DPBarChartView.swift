@@ -113,44 +113,6 @@ open class DPBarChartView: DPCanvasView {
         }
     }
     
-    // MARK: - Y-axis properties
-    
-    /// The number of markers on Y-axis (default = `6`).
-    @IBInspectable
-    open var yAxisMarkersCount: Int = 6 {
-        didSet {
-            setNeedsLayout()
-            setNeedsDisplay()
-        }
-    }
-    
-    /// The spacing between the marker label and the leading/trailing border (default = `8`).
-    @IBInspectable
-    open var yAxisMarkersSpacing: CGFloat = 8 {
-        didSet {
-            setNeedsLayout()
-            setNeedsDisplay()
-        }
-    }
-    
-    /// The width of the Y-axis markers, 0 or negative if should be calculated automatically (default = `0`).
-    @IBInspectable
-    open var yAxisMarkersWidth: CGFloat = 0 {
-        didSet {
-            setNeedsLayout()
-            setNeedsDisplay()
-        }
-    }
-    
-    /// Whether to retain the first computed marker width across updates (`true`), or `false` to re-calculate every time (default = `false`).
-    @IBInspectable
-    open var yAxisMarkersWidthRetained: Bool = false {
-        didSet {
-            setNeedsLayout()
-            setNeedsDisplay()
-        }
-    }
-    
     // MARK: - Public weak properties
 
     /// Reference to the view datasource.
@@ -184,7 +146,6 @@ open class DPBarChartView: DPCanvasView {
     var numberOfItems: Int = 0 // number of items on the X-axis
     var numberOfBars: Int = 0 // number of bars in the chart
     var yAxisMaxValue: CGFloat = 0 // minimum value on Y-axis
-    var yAxisMarkersRetainedWidth: CGFloat? // retained width across refresh
     var barWidth: CGFloat {
         guard numberOfBars > 0 && numberOfItems > 0 else {
             return 0
@@ -226,28 +187,6 @@ open class DPBarChartView: DPCanvasView {
             }
         }
         return height + xAxisMarkersSpacing
-    }
-    override var yAxisMarkersMaxWidth: CGFloat {
-        guard yAxisMarkersCount > 0 else {
-            return 0
-        }
-        if yAxisMarkersWidth > 0 {
-            return yAxisMarkersWidth
-        }
-        if yAxisMarkersWidthRetained {
-            if let yAxisMarkersRetainedWidth {
-                return yAxisMarkersRetainedWidth
-            }
-        }
-        var width: CGFloat = 0
-        for i in 0..<yAxisMarkersCount {
-            if let marker = markerOnYAxisAtIndex(i, for: valueOnYAxisAtIndex(i)) {
-                width = max(width, marker.size().width)
-            }
-        }
-        width += yAxisMarkersSpacing
-        yAxisMarkersRetainedWidth = width
-        return width
     }
     
     // MARK: - Lifecycle
@@ -437,7 +376,6 @@ open class DPBarChartView: DPCanvasView {
     
     public override func draw(_ rect: CGRect) {
         drawXAxisMarkers(rect)
-        drawYAxisMarkers(rect)
         super.draw(rect)
     }
     
@@ -489,58 +427,6 @@ open class DPBarChartView: DPCanvasView {
         
     }
     
-    func drawYAxisMarkers(_ rect: CGRect) {
-        
-        guard yAxisMarkersCount > 1 else {
-            return
-        }
-        guard let ctx = UIGraphicsGetCurrentContext() else {
-            return
-        }
-        
-        let canvasPosX = canvasPosX
-        let canvasPosY = canvasPosY
-        let canvasHeight = canvasHeight
-        let canvasWidth = canvasWidth
-        let distance: CGFloat = canvasHeight / CGFloat(yAxisMarkersCount - 1)
-        let xAxisLineBeginPosition: CGFloat = canvasPosX
-        let xAxisLineEndPosition: CGFloat = xAxisLineBeginPosition + canvasWidth
-        
-        ctx.saveGState()
-        ctx.setAllowsAntialiasing(true)
-        ctx.setShouldAntialias(true)
-    
-        for i in 0..<yAxisMarkersCount {
-            let yAxisLinePosition = canvasPosY + canvasHeight - (CGFloat(i) * distance) - (markersLineWidth * 0.5)
-            // Draw the marker line without overlapping with the TOP and BOTTOM border/marker line
-            if i > 0 && i < yAxisMarkersCount - 1 {
-                ctx.setAlpha(markersLineAlpha)
-                ctx.setLineWidth(markersLineWidth)
-                ctx.setStrokeColor(markersLineColor.cgColor)
-                ctx.setLineDash(phase: 0, lengths: markersLineDashed ? markersLineDashLengths : [])
-                ctx.move(to: CGPoint(x: xAxisLineBeginPosition, y: yAxisLinePosition))
-                ctx.addLine(to: CGPoint(x: xAxisLineEndPosition, y: yAxisLinePosition))
-                ctx.strokePath()
-            }
-            // Draw the marker text if we have some content
-            if let marker = markerOnYAxisAtIndex(i, for: valueOnYAxisAtIndex(i)) {
-                let yAxisLabelPosition: CGFloat = yAxisLinePosition - marker.size().height * 0.5
-                let xAxisLabelPosition: CGFloat
-                if yAxisInverted {
-                    xAxisLabelPosition = canvasPosX + canvasWidth + yAxisMarkersSpacing
-                } else {
-                    xAxisLabelPosition = canvasPosX - marker.size().width - yAxisMarkersSpacing
-                }
-                ctx.setAlpha(1.0)
-                ctx.setStrokeColor(markersTextColor.cgColor)
-                marker.draw(at: CGPoint(x: xAxisLabelPosition, y: yAxisLabelPosition))
-            }
-        }
-        
-        ctx.restoreGState()
-        
-    }
-    
     // MARK: - Misc
     
     func markerOnXAxisAtItem(_ index: Int) -> NSAttributedString? {
@@ -550,21 +436,16 @@ open class DPBarChartView: DPCanvasView {
         return markerFor(string)
     }
     
-    func markerOnYAxisAtIndex(_ index: Int, for value: CGFloat) -> NSAttributedString? {
+    // MARK: - Overrides
+    
+    override func markerOnYAxisAtIndex(_ index: Int, for value: CGFloat) -> NSAttributedString? {
         guard let string = datasource?.barChartView(self, labelForMarkerOnYAxisAtIndex: index, for: value) else {
             return nil
         }
         return markerFor(string)
     }
-    
-    func markerFor(_ string: String) -> NSAttributedString {
-        return NSAttributedString(string: string, attributes: [
-            .foregroundColor: markersTextColor,
-            .font: markersTextFont
-        ])
-    }
-    
-    func valueOnYAxisAtIndex(_ index: Int) -> CGFloat {
+        
+    override func valueOnYAxisAtIndex(_ index: Int) -> CGFloat {
         return (yAxisMaxValue / CGFloat(yAxisMarkersCount)) * CGFloat(index)
     }
     

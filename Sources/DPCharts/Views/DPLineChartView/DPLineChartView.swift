@@ -181,44 +181,6 @@ open class DPLineChartView: DPCanvasView {
         }
     }
     
-    // MARK: - Y-axis properties
-    
-    /// The number of markers on Y-axis (default = `6`).
-    @IBInspectable
-    open var yAxisMarkersCount: Int = 6 {
-        didSet {
-            setNeedsLayout()
-            setNeedsDisplay()
-        }
-    }
-    
-    /// The spacing between the marker label and the leading/trailing border (default = `8`).
-    @IBInspectable
-    open var yAxisMarkersSpacing: CGFloat = 8 {
-        didSet {
-            setNeedsLayout()
-            setNeedsDisplay()
-        }
-    }
-    
-    /// The width of the Y-axis markers, 0 or negative if should be calculated automatically (default = `0`).
-    @IBInspectable
-    open var yAxisMarkersWidth: CGFloat = 0 {
-        didSet {
-            setNeedsLayout()
-            setNeedsDisplay()
-        }
-    }
-    
-    /// Whether to retain the first computed marker width across updates (`true`), or `false` to re-calculate every time (default = `false`).
-    @IBInspectable
-    open var yAxisMarkersWidthRetained: Bool = false {
-        didSet {
-            setNeedsLayout()
-            setNeedsDisplay()
-        }
-    }
-    
     // MARK: - Public weak properties
     
     /// Reference to the chart datasource.
@@ -256,30 +218,29 @@ open class DPLineChartView: DPCanvasView {
     var lineLayers: [DPLineLayer] = [] // array of line shapes
     var shapeLayers: [DPShapeLayer] = [] // array of views to be displayed selected points
     var points: [[DPLinePoint]] = [] // array of points in the chart
-    var minYAxisValue: CGFloat = DPLineChartView.defaultYAxisMinValue // maximum value on Y-axis
-    var maxYAxisValue: CGFloat = DPLineChartView.defaultYAxisMaxValue // minimum value on Y-axis
-    var maxYAxisSpan: CGFloat { // absolute value of delta between maximum and minimum value on Y-axis
-        guard minYAxisValue != DPLineChartView.defaultYAxisMinValue &&
-              maxYAxisValue != DPLineChartView.defaultYAxisMaxValue else {
-            return 0
-        }
-        return abs(minYAxisValue) + abs(maxYAxisValue)
-    }
     var numberOfPoints: Int = 0 // number of points on the X-axis
     var numberOfLines: Int = 0 // number of lines in the chart
-    var yAxisMarkersRetainedWidth: CGFloat? // retained width across refresh
+    var yAxisMinValue: CGFloat = DPLineChartView.defaultYAxisMinValue // maximum value on Y-axis
+    var yAxisMaxValue: CGFloat = DPLineChartView.defaultYAxisMaxValue // minimum value on Y-axis
+    var yAxisMaxSpan: CGFloat { // absolute value of delta between maximum and minimum value on Y-axis
+        guard yAxisMinValue != DPLineChartView.defaultYAxisMinValue &&
+              yAxisMaxValue != DPLineChartView.defaultYAxisMaxValue else {
+            return 0
+        }
+        return abs(yAxisMinValue) + abs(yAxisMaxValue)
+    }
     var yAxisOriginOffset: CGFloat {
-        if minYAxisValue >= 0 {
+        if yAxisMinValue >= 0 {
             return canvasHeight
-        } else if maxYAxisValue <= 0 {
+        } else if yAxisMaxValue <= 0 {
             return 0
         } else {
-            return canvasHeight * (abs(maxYAxisValue) / maxYAxisSpan)
+            return canvasHeight * (abs(yAxisMaxValue) / yAxisMaxSpan)
         }
     }
     var yAxisOriginIndex: Int {
         let canvasHeight: CGFloat = canvasHeight
-        let yAxisOriginPosition = canvasHeight * (abs(minYAxisValue) / maxYAxisSpan)
+        let yAxisOriginPosition = canvasHeight * (abs(yAxisMinValue) / yAxisMaxSpan)
         let distance: CGFloat = canvasHeight / CGFloat(yAxisMarkersCount)
         let yAxisLineShift: CGFloat = yAxisOriginPosition.truncatingRemainder(dividingBy: distance)
         var index: Int = 0
@@ -305,26 +266,6 @@ open class DPLineChartView: DPCanvasView {
             }
         }
         return height + xAxisMarkersSpacing
-    }
-    override var yAxisMarkersMaxWidth: CGFloat {
-        guard yAxisMarkersCount > 0 else {
-            return 0
-        }
-        if yAxisMarkersWidth > 0 {
-            return yAxisMarkersWidth
-        }
-        if yAxisMarkersWidthRetained, let yAxisMarkersRetainedWidth {
-            return yAxisMarkersRetainedWidth
-        }
-        var width: CGFloat = 0
-        for i in 0..<yAxisMarkersCount {
-            if let marker = markerOnYAxisAtIndex(i, for: valueOnYAxisAtIndex(i)) {
-                width = max(width, marker.size().width)
-            }
-        }
-        width += yAxisMarkersSpacing
-        yAxisMarkersRetainedWidth = width
-        return width
     }
 
     // MARK: - Lifecycle
@@ -402,28 +343,28 @@ open class DPLineChartView: DPCanvasView {
     }
     
     func initLimits() {
-        maxYAxisValue = DPLineChartView.defaultYAxisMaxValue
-        minYAxisValue = DPLineChartView.defaultYAxisMinValue
+        yAxisMaxValue = DPLineChartView.defaultYAxisMaxValue
+        yAxisMinValue = DPLineChartView.defaultYAxisMinValue
         guard let datasource else { return }
         for i in 0..<numberOfLines {
             for j in 0..<numberOfPoints {
                 let v = datasource.lineChartView(self, valueForLineAtIndex: i, forPointAtIndex: j)
-                maxYAxisValue = max(v, maxYAxisValue)
-                minYAxisValue = min(v, minYAxisValue)
+                yAxisMaxValue = max(v, yAxisMaxValue)
+                yAxisMinValue = min(v, yAxisMinValue)
             }
         }
         // Adjust min value (if needed) so that the chart is not cut on bottom and values are better distributed in the canvas
         let shiftFactor = bezierCurveEnabled ? DPLineChartView.defaultBezierShiftFactor : DPLineChartView.defaultShiftFactor
-        let maxYAxisSpan = maxYAxisSpan
-        if minYAxisValue >= 0 {
-            minYAxisValue = 0
+        let maxYAxisSpan = yAxisMaxSpan
+        if yAxisMinValue >= 0 {
+            yAxisMinValue = 0
         } else {
-            minYAxisValue -= (shiftFactor * maxYAxisSpan)
+            yAxisMinValue -= (shiftFactor * maxYAxisSpan)
         }
-        if maxYAxisValue <= 0 {
-            maxYAxisValue = 0
+        if yAxisMaxValue <= 0 {
+            yAxisMaxValue = 0
         } else {
-            maxYAxisValue += (shiftFactor * maxYAxisSpan)
+            yAxisMaxValue += (shiftFactor * maxYAxisSpan)
         }
     }
 
@@ -432,13 +373,13 @@ open class DPLineChartView: DPCanvasView {
         guard let datasource else { return }
         let canvasHeight = canvasHeight
         let canvasWidth = canvasWidth
-        let maxYAxisSpan = maxYAxisSpan
+        let maxYAxisSpan = yAxisMaxSpan
         for i in 0..<numberOfLines {
             points.insert([], at: i)
             for j in 0..<numberOfPoints {
                 let value = datasource.lineChartView(self, valueForLineAtIndex: i, forPointAtIndex: j)
                 let xAxisPosition: CGFloat = (canvasWidth / ((CGFloat(numberOfPoints)) - 1)) * CGFloat(j)
-                let yAxisPosition: CGFloat = ((maxYAxisValue - value) / maxYAxisSpan) * canvasHeight
+                let yAxisPosition: CGFloat = ((yAxisMaxValue - value) / maxYAxisSpan) * canvasHeight
                 points[i].insert(DPLinePoint(x: xAxisPosition, y: yAxisPosition, lineIndex: i, index: j), at: j)
             }
         }
@@ -560,7 +501,6 @@ open class DPLineChartView: DPCanvasView {
     
     public override func draw(_ rect: CGRect) {
         drawXAxisMarkers(rect)
-        drawYAxisMarkers(rect)
         super.draw(rect)
     }
 
@@ -611,58 +551,6 @@ open class DPLineChartView: DPCanvasView {
         ctx.restoreGState()
         
     }
-    
-    func drawYAxisMarkers(_ rect: CGRect) {
-        
-        guard yAxisMarkersCount > 1 else {
-            return
-        }
-        guard let ctx = UIGraphicsGetCurrentContext() else {
-            return
-        }
-        
-        let canvasPosX = canvasPosX
-        let canvasPosY = canvasPosY
-        let canvasHeight = canvasHeight
-        let canvasWidth = canvasWidth
-        let distance: CGFloat = canvasHeight / CGFloat(yAxisMarkersCount - 1)
-        let xAxisLineBeginPosition: CGFloat = canvasPosX
-        let xAxisLineEndPosition: CGFloat = xAxisLineBeginPosition + canvasWidth
-        
-        ctx.saveGState()
-        ctx.setAllowsAntialiasing(true)
-        ctx.setShouldAntialias(true)
-    
-        for i in 0..<yAxisMarkersCount {
-            let yAxisLinePosition = canvasPosY + canvasHeight - (CGFloat(i) * distance) - (markersLineWidth * 0.5)
-            // Draw the marker line without overlapping with the TOP and BOTTOM border/marker line
-            if i > 0 && i < yAxisMarkersCount - 1 {
-                ctx.setAlpha(markersLineAlpha)
-                ctx.setLineWidth(markersLineWidth)
-                ctx.setStrokeColor(markersLineColor.cgColor)
-                ctx.setLineDash(phase: 0, lengths: markersLineDashed ? markersLineDashLengths : [])
-                ctx.move(to: CGPoint(x: xAxisLineBeginPosition, y: yAxisLinePosition))
-                ctx.addLine(to: CGPoint(x: xAxisLineEndPosition, y: yAxisLinePosition))
-                ctx.strokePath()
-            }
-            // Draw the marker text if we have some content
-            if let marker = markerOnYAxisAtIndex(i, for: valueOnYAxisAtIndex(i)) {
-                let yAxisLabelPosition: CGFloat = yAxisLinePosition - marker.size().height * 0.5
-                let xAxisLabelPosition: CGFloat
-                if yAxisInverted {
-                    xAxisLabelPosition = canvasPosX + canvasWidth + yAxisMarkersSpacing
-                } else {
-                    xAxisLabelPosition = canvasPosX - marker.size().width - yAxisMarkersSpacing
-                }
-                ctx.setAlpha(1.0)
-                ctx.setStrokeColor(markersLineColor.cgColor)
-                marker.draw(at: CGPoint(x: xAxisLabelPosition, y: yAxisLabelPosition))
-            }
-        }
-        
-        ctx.restoreGState()
-        
-    }
 
     // MARK: - Misc
     
@@ -673,22 +561,17 @@ open class DPLineChartView: DPCanvasView {
         return markerFor(string)
     }
     
-    func markerOnYAxisAtIndex(_ index: Int, for value: CGFloat) -> NSAttributedString? {
+    // MARK: - Overrides
+    
+    override func markerOnYAxisAtIndex(_ index: Int, for value: CGFloat) -> NSAttributedString? {
         guard let string = datasource?.lineChartView(self, labelForMarkerOnYAxisAtIndex: index, for: value) else {
             return nil
         }
         return markerFor(string)
     }
     
-    func markerFor(_ string: String) -> NSAttributedString {
-        return NSAttributedString(string: string, attributes: [
-            .foregroundColor: markersTextColor,
-            .font: markersTextFont
-        ])
-    }
-    
-    func valueOnYAxisAtIndex(_ index: Int) -> CGFloat {
-        let step: CGFloat = maxYAxisSpan / CGFloat(yAxisMarkersCount)
+    override func valueOnYAxisAtIndex(_ index: Int) -> CGFloat {
+        let step: CGFloat = yAxisMaxSpan / CGFloat(yAxisMarkersCount)
         let distance: Int = index - yAxisOriginIndex
         return step * CGFloat(distance)
     }

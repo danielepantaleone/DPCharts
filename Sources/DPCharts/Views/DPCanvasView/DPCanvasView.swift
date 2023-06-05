@@ -179,6 +179,42 @@ open class DPCanvasView: UIView {
         }
     }
     
+    /// The number of markers on Y-axis (default = `6`).
+    @IBInspectable
+    open var yAxisMarkersCount: Int = 6 {
+        didSet {
+            setNeedsLayout()
+            setNeedsDisplay()
+        }
+    }
+    
+    /// The spacing between the marker label and the leading/trailing border (default = `8`).
+    @IBInspectable
+    open var yAxisMarkersSpacing: CGFloat = 8 {
+        didSet {
+            setNeedsLayout()
+            setNeedsDisplay()
+        }
+    }
+    
+    /// The width of the Y-axis markers, 0 or negative if should be calculated automatically (default = `0`).
+    @IBInspectable
+    open var yAxisMarkersWidth: CGFloat = 0 {
+        didSet {
+            setNeedsLayout()
+            setNeedsDisplay()
+        }
+    }
+    
+    /// Whether to retain the first computed marker width across updates (`true`), or `false` to re-calculate every time (default = `false`).
+    @IBInspectable
+    open var yAxisMarkersWidthRetained: Bool = false {
+        didSet {
+            setNeedsLayout()
+            setNeedsDisplay()
+        }
+    }
+    
     // MARK: - Public properties
     
     /// The internal insets of the chart (default = `UIEdgeInsets.zero`).
@@ -219,6 +255,10 @@ open class DPCanvasView: UIView {
             setNeedsDisplay()
         }
     }
+    
+    // MARK: - Stored properties
+    
+    var yAxisMarkersRetainedWidth: CGFloat? // retained width across refresh
     
     // MARK: - Computed properties
     
@@ -283,20 +323,57 @@ open class DPCanvasView: UIView {
         preconditionFailure("xAxisMarkersMaxHeight must be implemented")
     }
     var yAxisMarkersMaxWidth: CGFloat {
-        preconditionFailure("yAxisMarkersMaxWidth must be implemented")
+        guard yAxisMarkersCount > 0 else {
+            return 0
+        }
+        if yAxisMarkersWidth > 0 {
+            return yAxisMarkersWidth
+        }
+        if yAxisMarkersWidthRetained, let yAxisMarkersRetainedWidth {
+            return yAxisMarkersRetainedWidth
+        }
+        var width: CGFloat = 0
+        for i in 0..<yAxisMarkersCount {
+            if let marker = markerOnYAxisAtIndex(i, for: valueOnYAxisAtIndex(i)) {
+                width = max(width, marker.size().width)
+            }
+        }
+        width += yAxisMarkersSpacing
+        yAxisMarkersRetainedWidth = width
+        return width
+    }
+    
+    // MARK: - Abstract interface
+    
+    func markerOnYAxisAtIndex(_ index: Int, for value: CGFloat) -> NSAttributedString? {
+        preconditionFailure("markerOnYAxisAtIndex must be implemented")
+    }
+
+    func valueOnYAxisAtIndex(_ index: Int) -> CGFloat {
+        preconditionFailure("valueOnYAxisAtIndex must be implemented")
+    }
+    
+    // MARK: - Internals
+    
+    func markerFor(_ string: String) -> NSAttributedString {
+        return NSAttributedString(string: string, attributes: [
+            .foregroundColor: markersTextColor,
+            .font: markersTextFont
+        ])
     }
     
     // MARK: - Custom drawing
     
     public override func draw(_ rect: CGRect) {
         super.draw(rect)
+        drawYAxisMarkers(rect)
         drawAxisTitles(rect)
-        drawCanvas(rect)
+        drawAxis(rect)
     }
     
     // MARK: - Drawing
     
-    func drawCanvas(_ rect: CGRect) {
+    func drawAxis(_ rect: CGRect) {
         
         guard let ctx = UIGraphicsGetCurrentContext() else {
             return
@@ -432,6 +509,58 @@ open class DPCanvasView: UIView {
                 y: labelPositionOnYAxis,
                 width: canvasHeight,
                 height: yAxisTitleAttributedString.size().height))
+        }
+        
+        ctx.restoreGState()
+        
+    }
+    
+    func drawYAxisMarkers(_ rect: CGRect) {
+        
+        guard yAxisMarkersCount > 1 else {
+            return
+        }
+        guard let ctx = UIGraphicsGetCurrentContext() else {
+            return
+        }
+        
+        let canvasPosX = canvasPosX
+        let canvasPosY = canvasPosY
+        let canvasHeight = canvasHeight
+        let canvasWidth = canvasWidth
+        let distance: CGFloat = canvasHeight / CGFloat(yAxisMarkersCount - 1)
+        let xAxisLineBeginPosition: CGFloat = canvasPosX
+        let xAxisLineEndPosition: CGFloat = xAxisLineBeginPosition + canvasWidth
+        
+        ctx.saveGState()
+        ctx.setAllowsAntialiasing(true)
+        ctx.setShouldAntialias(true)
+    
+        for i in 0..<yAxisMarkersCount {
+            let yAxisLinePosition = canvasPosY + canvasHeight - (CGFloat(i) * distance) - (markersLineWidth * 0.5)
+            // Draw the marker line without overlapping with the TOP and BOTTOM border/marker line
+            if i > 0 && i < yAxisMarkersCount - 1 {
+                ctx.setAlpha(markersLineAlpha)
+                ctx.setLineWidth(markersLineWidth)
+                ctx.setStrokeColor(markersLineColor.cgColor)
+                ctx.setLineDash(phase: 0, lengths: markersLineDashed ? markersLineDashLengths : [])
+                ctx.move(to: CGPoint(x: xAxisLineBeginPosition, y: yAxisLinePosition))
+                ctx.addLine(to: CGPoint(x: xAxisLineEndPosition, y: yAxisLinePosition))
+                ctx.strokePath()
+            }
+            // Draw the marker text if we have some content
+            if let marker = markerOnYAxisAtIndex(i, for: valueOnYAxisAtIndex(i)) {
+                let yAxisLabelPosition: CGFloat = yAxisLinePosition - marker.size().height * 0.5
+                let xAxisLabelPosition: CGFloat
+                if yAxisInverted {
+                    xAxisLabelPosition = canvasPosX + canvasWidth + yAxisMarkersSpacing
+                } else {
+                    xAxisLabelPosition = canvasPosX - marker.size().width - yAxisMarkersSpacing
+                }
+                ctx.setAlpha(1.0)
+                ctx.setStrokeColor(markersLineColor.cgColor)
+                marker.draw(at: CGPoint(x: xAxisLabelPosition, y: yAxisLabelPosition))
+            }
         }
         
         ctx.restoreGState()
