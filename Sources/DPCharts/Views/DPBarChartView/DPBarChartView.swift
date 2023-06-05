@@ -571,7 +571,7 @@ open class DPBarChartView: DPCanvasView {
     // MARK: - Storyboard
     
     #if TARGET_INTERFACE_BUILDER
-    let ibDataSource = OCTOBarChartViewIBDataSource()
+    let ibDataSource = DPBarChartViewIBDataSource()
     // swiftlint:disable:next overridden_super_call
     public override func prepareForInterfaceBuilder() {
         datasource = ibDataSource
