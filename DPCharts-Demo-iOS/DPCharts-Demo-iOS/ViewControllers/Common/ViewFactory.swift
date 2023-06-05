@@ -21,7 +21,8 @@ class ViewFactory {
 
     var barChartValues: [[CGFloat]] = []
     var lineChartValues: [[CGFloat]] = []
-
+    var pieChartValues: [CGFloat] = []
+    
     // MARK: - Initialization
 
     init() {
@@ -56,6 +57,10 @@ class ViewFactory {
                 return createLineChart(bezierCurveEnabled: true, areaEnabled: false, yAxisInverted: true)
             case .lineChartYAxisInvertedBezierArea:
                 return createLineChart(bezierCurveEnabled: true, areaEnabled: true, yAxisInverted: true)
+            case .pieChart:
+                return createPieChart(asDonut: false)
+            case .pieChartDonut:
+                return createPieChart(asDonut: true)
         }
     }
 
@@ -68,6 +73,9 @@ class ViewFactory {
             (0..<20).map { _ in CGFloat.random(in: (20)...(100)) },
             (0..<20).map { _ in CGFloat.random(in: (20)...(100)) }
         ]
+        pieChartValues = (0..<4).map { _ in
+            return CGFloat.random(in: (0)...(100))
+        }
     }
 
 }
@@ -76,7 +84,7 @@ class ViewFactory {
 
 extension ViewFactory {
 
-    private func createBarChart(stacked: Bool, yAxisInverted: Bool) -> DPBarChartView {
+    func createBarChart(stacked: Bool, yAxisInverted: Bool) -> DPBarChartView {
         let barChartView = DPBarChartView()
         barChartView.datasource = self
         barChartView.barStacked = stacked
@@ -103,6 +111,18 @@ extension ViewFactory {
         lineChartView.translatesAutoresizingMaskIntoConstraints = false
         lineChartView.heightAnchor.constraint(equalToConstant: 220).isActive = true
         return lineChartView
+    }
+    
+    func createPieChart(asDonut: Bool) -> DPPieChartView {
+        let pieChartView = DPPieChartView()
+        pieChartView.datasource = self
+        pieChartView.donutEnabled = asDonut
+        pieChartView.donutTitle = "550km"
+        pieChartView.donutSubtitle = "Total distance"
+        pieChartView.donutVerticalSpacing = 4.0
+        pieChartView.translatesAutoresizingMaskIntoConstraints = false
+        pieChartView.heightAnchor.constraint(equalToConstant: 320).isActive = true
+        return pieChartView
     }
 
 }

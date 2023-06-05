@@ -22,4 +22,6 @@ enum ViewType: String, CaseIterable {
     case lineChartYAxisInvertedArea = "Line chart (Y-axis inverted + area)"
     case lineChartYAxisInvertedBezier = "Line chart (Y-axis inverted + bezier curve)"
     case lineChartYAxisInvertedBezierArea = "Line chart (Y-axis inverted, bezier curve + area)"
+    case pieChart = "Pie chart"
+    case pieChartDonut = "Pie chart (donut)"
 }
