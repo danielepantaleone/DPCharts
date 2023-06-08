@@ -59,12 +59,12 @@ open class DPLineLayer: CALayer {
     
     override init() {
         super.init()
-        self.commonInit()
+        commonInit()
     }
     
     override init(layer: Any) {
         guard let layer = layer as? DPLineLayer else {
-            fatalError("Expecting DPBarLayer got \(type(of: layer))")
+            fatalError("Expecting DPLineLayer got \(type(of: layer))")
         }
         animationEnabled = layer.animationEnabled
         animationDuration = layer.animationDuration
@@ -85,6 +85,8 @@ open class DPLineLayer: CALayer {
         super.init(coder: coder)
         commonInit()
     }
+    
+    // MARK: - Lifecycle
     
     open override func layoutSublayers() {
         super.layoutSublayers()
