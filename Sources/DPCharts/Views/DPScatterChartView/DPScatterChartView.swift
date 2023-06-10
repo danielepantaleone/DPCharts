@@ -20,6 +20,8 @@ open class DPScatterChartView: DPCanvasView {
     
     // MARK: - Static properties
     
+    /// Default alpha for scatter points
+    static let defaultPointAlpha: CGFloat = 0.7
     /// Default size for scatter points
     static let defaultPointSize: CGFloat = 10.0
     /// Default color to use when rendering points
@@ -60,6 +62,14 @@ open class DPScatterChartView: DPCanvasView {
         }
     }
 
+    /// The alpha value for scatter points (default = `0.7`).
+    @IBInspectable
+    open var scatterPointsAlpha: Double = DPScatterChartView.defaultPointAlpha {
+        didSet {
+            setNeedsLayout()
+        }
+    }
+    
     // MARK: - Interaction configuration properties
     
     /// Whether or not to enable touch events (default = `true`).
@@ -271,6 +281,7 @@ open class DPScatterChartView: DPCanvasView {
             dataset.animationEnabled = animationsEnabled
             dataset.animationDuration = animationDuration
             dataset.animationTimingFunction = animationTimingFunction
+            dataset.scatterPointsAlpha = scatterPointsAlpha
             dataset.scatterPointsColor = datasource?.scatterChartView(self, colorForDataSetAtIndex: i) ?? DPScatterChartView.defaultPointColor
             dataset.scatterPointsType = datasource?.scatterChartView(self, shapeForDataSetAtIndex: i) ?? DPScatterChartView.defaultPointShapeType
             dataset.scatterPoints = points[i]

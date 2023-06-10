@@ -21,8 +21,9 @@ open class DPScatterDatasetLayer: CALayer {
     var animationDuration: TimeInterval = 0.2
     var animationTimingFunction: CAMediaTimingFunctionName = .linear
     var numberOfPoints: Int = 0
-    var scatterPointsColor: UIColor = .black
-    var scatterPointsType: DPShapeType = .circle
+    var scatterPointsAlpha: CGFloat = DPScatterChartView.defaultPointAlpha
+    var scatterPointsColor: UIColor = DPScatterChartView.defaultPointColor
+    var scatterPointsType: DPShapeType = DPScatterChartView.defaultPointShapeType
     var scatterPoints: [DPScatterPoint] = []
     
     // MARK: - Sublayers
@@ -114,7 +115,7 @@ open class DPScatterDatasetLayer: CALayer {
             let newPosition: CGPoint = point.cgPoint
             let newBounds: CGRect = CGRect(x: 0, y: 0, width: point.size, height: point.size)
             CATransaction.setDisableActions(true)
-            shape.color = scatterPointsColor
+            shape.color = scatterPointsColor.withAlphaComponent(scatterPointsAlpha)
             shape.type = scatterPointsType
             shape.position = newPosition
             shape.bounds = newBounds
