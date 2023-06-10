@@ -31,7 +31,7 @@ extension ViewFactory: DPScatterChartViewDataSource {
         if datasetIndex == 0 {
             return .circle
         } else {
-            return .triangle
+            return .diamond
         }
     }
     
