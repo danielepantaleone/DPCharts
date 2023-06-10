@@ -71,7 +71,6 @@ open class DPScatterDatasetLayer: CALayer {
     open override func layoutSublayers() {
         super.layoutSublayers()
         setupLayers()
-        setupAnimations()
     }
 
     // MARK: - Initialization
@@ -110,33 +109,33 @@ open class DPScatterDatasetLayer: CALayer {
         for i in 0..<numberOfPoints {
             let point = scatterPoints[i]
             let shape = shapeLayers[i]
+            let x: CGFloat = point.x - (point.size * 0.5)
+            let y: CGFloat = point.y - (point.size * 0.5)
+            let oldPosition = shape.position
+            let oldBounds = shape.bounds
+            let newPosition: CGPoint = CGPoint(x: x, y: y)
+            let newBounds: CGRect = CGRect(x: 0, y: 0, width: point.size, height: point.size)
+            CATransaction.setDisableActions(true)
             shape.color = scatterPointsColor
             shape.type = scatterPointsType
-            shape.frame = CGRect(
-                x: point.x - (point.size * 0.5),
-                y: point.y - (point.size * 0.5),
-                width: point.size,
-                height: point.size)
+            shape.position = newPosition
+            shape.bounds = newBounds
+            CATransaction.setDisableActions(false)
+            shape.removeAllAnimations()
             shape.setNeedsLayout()
-        }
-    }
-    
-    private func setupAnimations() {
-        for i in 0..<numberOfPoints {
-            let shape = shapeLayers[i]
-            shape.removeAnimation(forKey: "frame")
             if animationEnabled {
-                let point = scatterPoints[i]
                 let positionAnim: CABasicAnimation = CABasicAnimation(keyPath: "position")
-                positionAnim.toValue = NSValue(cgPoint: point.cgPoint)
+                positionAnim.fromValue = oldPosition
+                positionAnim.toValue = newPosition
                 let boundsAnim: CABasicAnimation = CABasicAnimation(keyPath: "bounds")
-                boundsAnim.toValue = NSValue(cgRect: CGRect(x: 0, y: 0, width: point.size, height: point.size))
-                var animations: CAAnimationGroup = CAAnimationGroup()
+                boundsAnim.fromValue = oldBounds
+                boundsAnim.toValue = newBounds
+                let animations: CAAnimationGroup = CAAnimationGroup()
                 animations.animations = [positionAnim, boundsAnim]
                 animations.duration = animationDuration
                 animations.timingFunction = CAMediaTimingFunction(name: animationTimingFunction)
                 animations.isRemovedOnCompletion = true
-                shape.add(animations, forKey: "frame")
+                shape.add(positionAnim, forKey: "frame")
             }
         }
     }
