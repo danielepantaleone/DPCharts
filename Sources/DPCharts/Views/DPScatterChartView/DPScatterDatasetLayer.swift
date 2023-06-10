@@ -109,11 +109,9 @@ open class DPScatterDatasetLayer: CALayer {
         for i in 0..<numberOfPoints {
             let point = scatterPoints[i]
             let shape = shapeLayers[i]
-            let x: CGFloat = point.x - (point.size * 0.5)
-            let y: CGFloat = point.y - (point.size * 0.5)
             let oldPosition = shape.position
             let oldBounds = shape.bounds
-            let newPosition: CGPoint = CGPoint(x: x, y: y)
+            let newPosition: CGPoint = point.cgPoint
             let newBounds: CGRect = CGRect(x: 0, y: 0, width: point.size, height: point.size)
             CATransaction.setDisableActions(true)
             shape.color = scatterPointsColor

@@ -219,14 +219,19 @@ open class DPScatterChartView: DPCanvasView {
         xAxisMaxValue = 0.0
         yAxisMaxValue = 0.0
         guard let datasource else { return }
+        var shiftBy: CGFloat = 0
         for i in 0..<numberOfDatasets {
             for j in 0..<numberOfPointsByDataset[i] {
                 let x = datasource.scatterChartView(self, xAxisValueForDataSetAtIndex: i, forPointAtIndex: j)
                 let y = datasource.scatterChartView(self, yAxisValueForDataSetAtIndex: i, forPointAtIndex: j)
+                let size = datasource.scatterChartView(self, sizeDataSetAtIndex: i, forPointAtIndex: j)
                 xAxisMaxValue = max(x, yAxisMaxValue)
                 yAxisMaxValue = max(y, yAxisMaxValue)
+                shiftBy = max(size, shiftBy)
             }
         }
+        xAxisMaxValue += shiftBy
+        yAxisMaxValue += shiftBy
     }
 
     func initPoints() {

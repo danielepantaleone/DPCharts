@@ -142,6 +142,7 @@ extension ViewFactory {
         scatterChartView.yAxisInverted = yAxisInverted
         scatterChartView.yAxisMarkersWidthRetained = true
         scatterChartView.yAxisTitle = "Title of Y-axis"
+        scatterChartView.topSpacing = 8
         scatterChartView.translatesAutoresizingMaskIntoConstraints = false
         scatterChartView.heightAnchor.constraint(equalToConstant: 220).isActive = true
         return scatterChartView
