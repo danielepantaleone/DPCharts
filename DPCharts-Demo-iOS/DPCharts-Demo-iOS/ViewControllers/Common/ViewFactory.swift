@@ -22,6 +22,8 @@ class ViewFactory {
     var barChartValues: [[CGFloat]] = []
     var lineChartValues: [[CGFloat]] = []
     var pieChartValues: [CGFloat] = []
+    var scatterChartValues: [[CGPoint]] = []
+
     
     // MARK: - Initialization
 
@@ -61,6 +63,10 @@ class ViewFactory {
                 return createPieChart(asDonut: false)
             case .pieChartDonut:
                 return createPieChart(asDonut: true)
+            case .scatterChart:
+                return createScatterChart(yAxisInverted: false)
+            case .scatterChartYAxisInverted:
+                return createScatterChart(yAxisInverted: true)
         }
     }
 
@@ -76,6 +82,10 @@ class ViewFactory {
         pieChartValues = (0..<4).map { _ in
             return CGFloat.random(in: (0)...(100))
         }
+        scatterChartValues = [
+            (0..<40).map { _ in CGPoint(x: .random(in: 100...220), y: .random(in: 100...220)) },
+            (0..<20).map { _ in CGPoint(x: .random(in: 10...120), y: .random(in: 10...120)) },
+        ]
     }
 
 }
@@ -123,6 +133,21 @@ extension ViewFactory {
         pieChartView.translatesAutoresizingMaskIntoConstraints = false
         pieChartView.heightAnchor.constraint(equalToConstant: 320).isActive = true
         return pieChartView
+    }
+    
+    func createScatterChart(yAxisInverted: Bool) -> DPScatterChartView {
+        let scatterChartView = DPScatterChartView()
+        scatterChartView.datasource = self
+        scatterChartView.xAxisTitle = "Title of X-axis"
+        scatterChartView.yAxisInverted = yAxisInverted
+        scatterChartView.yAxisMarkersWidthRetained = true
+        scatterChartView.yAxisTitle = "Title of Y-axis"
+        scatterChartView.topSpacing = 8
+        scatterChartView.rightSpacing = yAxisInverted ? 0 : 8
+        scatterChartView.leftSpacing = yAxisInverted ? 8 : 0
+        scatterChartView.translatesAutoresizingMaskIntoConstraints = false
+        scatterChartView.heightAnchor.constraint(equalToConstant: 220).isActive = true
+        return scatterChartView
     }
 
 }
