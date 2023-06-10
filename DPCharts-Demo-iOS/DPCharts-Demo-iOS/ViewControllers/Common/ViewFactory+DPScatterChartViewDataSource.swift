@@ -35,6 +35,10 @@ extension ViewFactory: DPScatterChartViewDataSource {
         }
     }
     
+    func scatterChartView(_ scatterChartView: DPScatterChartView, sizeDataSetAtIndex datasetIndex: Int, forPointAtIndex index: Int) -> CGFloat {
+        return .random(in: 8...14)
+    }
+    
     func scatterChartView(_ scatterChartView: DPScatterChartView, xAxisValueForDataSetAtIndex datasetIndex: Int, forPointAtIndex index: Int) -> CGFloat {
         return scatterChartValues[datasetIndex][index].x
     }

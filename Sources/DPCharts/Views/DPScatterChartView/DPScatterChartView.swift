@@ -239,6 +239,7 @@ open class DPScatterChartView: DPCanvasView {
             for j in 0..<numberOfPointsByDataset[i] {
                 let x = datasource.scatterChartView(self, xAxisValueForDataSetAtIndex: i, forPointAtIndex: j)
                 let y = datasource.scatterChartView(self, yAxisValueForDataSetAtIndex: i, forPointAtIndex: j)
+                let size = datasource.scatterChartView(self, sizeDataSetAtIndex: i, forPointAtIndex: j)
                 let xAxisPosition: CGFloat = ((xAxisMaxValue - x) / xAxisMaxValue) * canvasWidth
                 let yAxisPosition: CGFloat = ((yAxisMaxValue - y) / yAxisMaxValue) * canvasHeight
                 points[i].insert(DPScatterPoint(
@@ -246,7 +247,7 @@ open class DPScatterChartView: DPCanvasView {
                     y: yAxisPosition,
                     datasetIndex: i,
                     index: j,
-                    size: DPScatterChartView.defaultPointSize), at: j)
+                    size: size), at: j)
             }
         }
     }

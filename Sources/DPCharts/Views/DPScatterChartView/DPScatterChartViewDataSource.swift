@@ -22,9 +22,11 @@ public protocol DPScatterChartViewDataSource: AnyObject {
     func scatterChartView(_ scatterChartView: DPScatterChartView, colorForDataSetAtIndex datasetIndex: Int) -> UIColor
     /// The shape type used to render the given dataset
     func scatterChartView(_ scatterChartView: DPScatterChartView, shapeForDataSetAtIndex datasetIndex: Int) -> DPShapeType
-    /// The X-axis value for the given dataset/dot index combination
+    /// The size for the given dataset/point combination
+    func scatterChartView(_ scatterChartView: DPScatterChartView, sizeDataSetAtIndex datasetIndex: Int, forPointAtIndex index: Int) -> CGFloat
+    /// The X-axis value for the given dataset/point combination
     func scatterChartView(_ scatterChartView: DPScatterChartView, xAxisValueForDataSetAtIndex datasetIndex: Int, forPointAtIndex index: Int) -> CGFloat
-    /// The Y-axis value for the given dataset/dot index combination
+    /// The Y-axis value for the given dataset/point combination
     func scatterChartView(_ scatterChartView: DPScatterChartView, yAxisValueForDataSetAtIndex datasetIndex: Int, forPointAtIndex index: Int) -> CGFloat
     /// The string to be displayed below the marker at the given index on the X axis.
     func scatterChartView(_ scatterChartView: DPScatterChartView, labelForMarkerOnXAxisAtIndex index: Int, for value: CGFloat) -> String?
@@ -39,6 +41,9 @@ public extension DPScatterChartViewDataSource {
     }
     func scatterChartView(_ scatterChartView: DPScatterChartView, shapeForDataSetAtIndex datasetIndex: Int) -> DPShapeType {
         return DPScatterChartView.defaultPointShapeType
+    }
+    func scatterChartView(_ scatterChartView: DPScatterChartView, sizeDataSetAtIndex datasetIndex: Int, forPointAtIndex index: Int) -> CGFloat {
+        return DPScatterChartView.defaultPointSize
     }
     func scatterChartView(_ scatterChartView: DPScatterChartView, labelForMarkerOnXAxisAtIndex index: Int, for value: CGFloat) -> String? {
         return String(format: "%ld", Int(floor(value)))
