@@ -20,11 +20,19 @@ open class DPScatterDatasetLayer: CALayer {
     var animationEnabled: Bool = true
     var animationDuration: TimeInterval = 0.2
     var animationTimingFunction: CAMediaTimingFunctionName = .linear
+    var datasetIndex: Int = 0
     var numberOfPoints: Int = 0
     var scatterPointsAlpha: CGFloat = DPScatterChartView.defaultPointAlpha
     var scatterPointsColor: UIColor = DPScatterChartView.defaultPointColor
     var scatterPointsType: DPShapeType = DPScatterChartView.defaultPointShapeType
     var scatterPoints: [DPScatterPoint] = []
+    var selectedIndexAlphaPredominance: CGFloat = 0.6
+    var selectedIndex: Int? {
+        didSet {
+            setupLayers()
+            setupOpacity()
+        }
+    }
     
     // MARK: - Sublayers
 
@@ -43,8 +51,9 @@ open class DPScatterDatasetLayer: CALayer {
         commonInit()
     }
     
-    init(numberOfPoints: Int) {
+    init(datasetIndex: Int, numberOfPoints: Int) {
         super.init()
+        self.datasetIndex = datasetIndex
         self.numberOfPoints = numberOfPoints
         commonInit()
     }
@@ -80,29 +89,6 @@ open class DPScatterDatasetLayer: CALayer {
         shapeLayers.forEach { addSublayer($0) }
         masksToBounds = true
     }
-
-    // MARK: - Interface
-    
-    func closestPointAt(_ point: CGPoint) -> DPScatterPoint? {
-        var compare: CGFloat = .greatestFiniteMagnitude
-        var p: DPScatterPoint?
-        for scatterPoint in scatterPoints {
-            let distance = sqrt(pow(point.x - scatterPoint.x, 2) + pow(point.y - scatterPoint.y, 2))
-            if distance < compare {
-                compare = distance
-                p = scatterPoint
-            }
-        }
-        return p
-    }
-
-//    func pointAt(index: Int) -> DPScatterPoint? {
-//        return scatterPoints[safeIndex: index]
-//    }
-
-    func removeAllPoints() {
-        scatterPoints.removeAll()
-    }
     
     // MARK: - Rendering
     
@@ -137,6 +123,13 @@ open class DPScatterDatasetLayer: CALayer {
                 shape.add(positionAnim, forKey: "frame")
             }
         }
+    }
+    
+    private func setupOpacity() {
+        CATransaction.begin()
+        CATransaction.setDisableActions(true)
+        opacity = selectedIndex == nil || selectedIndex == datasetIndex ? 1.0 : 1.0 - Float(selectedIndexAlphaPredominance)
+        CATransaction.commit()
     }
 
 }

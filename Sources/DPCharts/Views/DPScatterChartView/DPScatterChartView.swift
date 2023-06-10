@@ -80,6 +80,14 @@ open class DPScatterChartView: DPCanvasView {
         }
     }
     
+    /// Alpha channel predominance for selected dots (default = `0.6`).
+    @IBInspectable
+    open var touchAlphaPredominance: CGFloat = 0.6 {
+        didSet {
+            setNeedsLayout()
+        }
+    }
+    
     // MARK: - X-axis properties
 
     /// The number of markers on X-axis (default = `6`).
@@ -109,12 +117,12 @@ open class DPScatterChartView: DPCanvasView {
         }
     }
     
-//    /// Reference to the chart delegate.
-//    open weak var delegate: (any DPLineChartViewDelegate)? {
-//        didSet {
-//            setNeedsLayout()
-//        }
-//    }
+    /// Reference to the chart delegate.
+    open weak var delegate: (any DPScatterChartViewDelegate)? {
+        didSet {
+            setNeedsLayout()
+        }
+    }
     
     // MARK: - Subviews
     
@@ -218,7 +226,7 @@ open class DPScatterChartView: DPCanvasView {
         numberOfDatasets = datasource.numberOfDatasets(self)
         for i in 0..<numberOfDatasets {
             let numberOfPoints = datasource.scatterChartView(self, numberOfPointsForDatasetAtIndex: i)
-            let datasetLayer = DPScatterDatasetLayer(numberOfPoints: numberOfPoints)
+            let datasetLayer = DPScatterDatasetLayer(datasetIndex: i, numberOfPoints: numberOfPoints)
             numberOfPointsByDataset.append(numberOfPoints)
             datasetLayers.append(datasetLayer)
             layer.addSublayer(datasetLayer)
@@ -297,31 +305,35 @@ open class DPScatterChartView: DPCanvasView {
    
     // MARK: - Touch gesture
     
-//    func closestIndex(at x: CGFloat) -> Int? {
-//        for line in lineLayers {
-//            if let point = line.closestPointAt(x: x) {
-//                return point.index
-//            }
-//        }
-//        return nil
-//    }
-//
-//    func touchAt(_ point: CGPoint) {
-//        guard touchEnabled else { return } // Disabled
-//        guard point.x >= 0 else { return } // Out of bounds
-//        guard let closestIndex = closestIndex(at: point.x) else { return } // Out of scope
-//        layoutTouchCursorAt(point)
-//        layoutShapesAt(closestIndex)
-//        delegate?.lineChartView(self, didTouchAtIndex: closestIndex)
-//    }
-//
-//    func touchEndedAt(_ point: CGPoint) {
-//        guard touchEnabled else { return } // Disabled
-//        guard let closestIndex = closestIndex(at: point.x) else { return } // Out of scope
-//        hideTouchCursor()
-//        hideShapes()
-//        delegate?.lineChartView(self, didReleaseTouchFromIndex: closestIndex)
-//    }
+    func closestPoint(at point: CGPoint) -> DPScatterPoint? {
+        var compare: CGFloat = .greatestFiniteMagnitude
+        var p: DPScatterPoint?
+        for datasetLayer in datasetLayers {
+            for scatterPoint in datasetLayer.scatterPoints {
+                let distance = sqrt(pow(point.x - scatterPoint.x, 2) + pow(point.y - scatterPoint.y, 2))
+                if distance < compare {
+                    compare = distance
+                    p = scatterPoint
+                }
+            }
+        }
+        return p
+    }
+
+    func touchAt(_ point: CGPoint) {
+        guard touchEnabled else { return } // Disabled
+        guard point.x >= 0 else { return } // Out of bounds
+        guard let p = closestPoint(at: point) else { return } // Out of scope
+        datasetLayers.forEach { $0.selectedIndex = p.datasetIndex }
+        delegate?.scatterChartView(self, didTouchDatasetAtIndex: p.datasetIndex, withPointAt: p.index)
+    }
+
+    func touchEndedAt(_ point: CGPoint) {
+        guard touchEnabled else { return } // Disabled
+        guard let p = closestPoint(at: point) else { return } // Out of scope
+        datasetLayers.forEach { $0.selectedIndex = nil }
+        delegate?.scatterChartView(self, didReleaseTouchFromDatasetAtIndex: p.datasetIndex, withPointAt: p.index)
+    }
     
     // MARK: - Custom drawing
     
@@ -421,27 +433,27 @@ open class DPScatterChartView: DPCanvasView {
 extension DPScatterChartView: DPTrackingViewDelegate {
     
     func trackingView(_ trackingView: DPTrackingView, touchDownAt point: CGPoint) {
-//        touchAt(point)
+        touchAt(point)
     }
     
     func trackingView(_ trackingView: DPTrackingView, touchMovedTo point: CGPoint) {
-//        touchAt(point)
+        touchAt(point)
     }
     
     func trackingView(_ trackingView: DPTrackingView, touchUpAt point: CGPoint) {
-//        touchEndedAt(point)
+        touchEndedAt(point)
     }
     
     func trackingView(_ trackingView: DPTrackingView, touchCanceledAt point: CGPoint) {
-//        touchEndedAt(point)
+        touchEndedAt(point)
     }
     
     func trackingView(_ trackingView: DPTrackingView, tapSingleAt point: CGPoint) {
-//        touchEndedAt(point)
+        touchEndedAt(point)
     }
     
     func trackingView(_ trackingView: DPTrackingView, tapDoubleAt point: CGPoint) {
-//        touchEndedAt(point)
+        touchEndedAt(point)
     }
     
 }
