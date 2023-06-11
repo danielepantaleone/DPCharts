@@ -359,8 +359,8 @@ open class DPPieChartView: UIView {
         for i in 0..<numberOfSlices {
             let angle = from + (chartRatios[i] * 0.5) + rotateBy.fromDegToRad
             chartLabelsShift.append(CGPoint(
-                x: (chartLabels[i].bounds.width / 2.0) * cos(angle),
-                y: (chartLabels[i].bounds.height / 2.0) * sin(angle)))
+                x: (chartLabels[i].bounds.midX) * cos(angle),
+                y: (chartLabels[i].bounds.midY) * sin(angle)))
             from += chartRatios[i]
         }
     }
@@ -422,8 +422,8 @@ open class DPPieChartView: UIView {
                 var from: CGFloat = 0.0
                 for j in 0..<chartRatios.count {
                     let subpath = UIBezierPath(rect: CGRect(
-                        x: -slicesSpacing / 2.0 + arcCenter.x,
-                        y: -arcRadius + arcCenter.y,
+                        x: arcCenter.x - slicesSpacing * 0.5 ,
+                        y: arcCenter.y - arcRadius,
                         width: slicesSpacing,
                         height: arcRadius))
                     subpath.apply(CGAffineTransform(translationX: -arcCenter.x, y: -arcCenter.y))
