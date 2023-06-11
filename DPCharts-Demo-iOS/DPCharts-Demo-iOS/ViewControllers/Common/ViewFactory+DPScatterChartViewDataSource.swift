@@ -19,7 +19,7 @@ extension ViewFactory: DPScatterChartViewDataSource {
         return scatterChartValues[datasetIndex].count
     }
     
-    func scatterChartView(_ scatterChartView: DPScatterChartView, colorForDataSetAtIndex datasetIndex: Int) -> UIColor {
+    func scatterChartView(_ scatterChartView: DPScatterChartView, shapeColorForDataSetAtIndex datasetIndex: Int) -> UIColor {
         if datasetIndex == 0 {
             return .primary500
         } else {
@@ -27,11 +27,11 @@ extension ViewFactory: DPScatterChartViewDataSource {
         }
     }
     
-    func scatterChartView(_ scatterChartView: DPScatterChartView, shapeForDataSetAtIndex datasetIndex: Int) -> DPShapeType {
+    func scatterChartView(_ scatterChartView: DPScatterChartView, shapeTypeForDataSetAtIndex datasetIndex: Int) -> DPShapeType {
         return .circle
     }
     
-    func scatterChartView(_ scatterChartView: DPScatterChartView, sizeDataSetAtIndex datasetIndex: Int, forPointAtIndex index: Int) -> CGFloat {
+    func scatterChartView(_ scatterChartView: DPScatterChartView, shapeSizeForDataSetAtIndex datasetIndex: Int, forPointAtIndex index: Int) -> CGFloat {
         return .random(in: 8...14)
     }
     

@@ -19,11 +19,11 @@ public protocol DPScatterChartViewDataSource: AnyObject {
     /// The number of dots to display for the given dataset
     func scatterChartView(_ scatterChartView: DPScatterChartView, numberOfPointsForDatasetAtIndex datasetIndex: Int) -> Int
     /// The color used to render the given dataset
-    func scatterChartView(_ scatterChartView: DPScatterChartView, colorForDataSetAtIndex datasetIndex: Int) -> UIColor
+    func scatterChartView(_ scatterChartView: DPScatterChartView, shapeColorForDataSetAtIndex datasetIndex: Int) -> UIColor
     /// The shape type used to render the given dataset
-    func scatterChartView(_ scatterChartView: DPScatterChartView, shapeForDataSetAtIndex datasetIndex: Int) -> DPShapeType
+    func scatterChartView(_ scatterChartView: DPScatterChartView, shapeTypeForDataSetAtIndex datasetIndex: Int) -> DPShapeType
     /// The size for the given dataset/point combination
-    func scatterChartView(_ scatterChartView: DPScatterChartView, sizeDataSetAtIndex datasetIndex: Int, forPointAtIndex index: Int) -> CGFloat
+    func scatterChartView(_ scatterChartView: DPScatterChartView, shapeSizeForDataSetAtIndex datasetIndex: Int, forPointAtIndex index: Int) -> CGFloat
     /// The X-axis value for the given dataset/point combination
     func scatterChartView(_ scatterChartView: DPScatterChartView, xAxisValueForDataSetAtIndex datasetIndex: Int, forPointAtIndex index: Int) -> CGFloat
     /// The Y-axis value for the given dataset/point combination
@@ -36,13 +36,13 @@ public protocol DPScatterChartViewDataSource: AnyObject {
 
 public extension DPScatterChartViewDataSource {
     
-    func scatterChartView(_ scatterChartView: DPScatterChartView, colorForDataSetAtIndex datasetIndex: Int) -> UIColor {
+    func scatterChartView(_ scatterChartView: DPScatterChartView, shapeColorForDataSetAtIndex datasetIndex: Int) -> UIColor {
         return DPScatterChartView.defaultPointColor
     }
-    func scatterChartView(_ scatterChartView: DPScatterChartView, shapeForDataSetAtIndex datasetIndex: Int) -> DPShapeType {
+    func scatterChartView(_ scatterChartView: DPScatterChartView, shapeTypeForDataSetAtIndex datasetIndex: Int) -> DPShapeType {
         return DPScatterChartView.defaultPointShapeType
     }
-    func scatterChartView(_ scatterChartView: DPScatterChartView, sizeDataSetAtIndex datasetIndex: Int, forPointAtIndex index: Int) -> CGFloat {
+    func scatterChartView(_ scatterChartView: DPScatterChartView, shapeSizeForDataSetAtIndex datasetIndex: Int, forPointAtIndex index: Int) -> CGFloat {
         return DPScatterChartView.defaultPointSize
     }
     func scatterChartView(_ scatterChartView: DPScatterChartView, labelForMarkerOnXAxisAtIndex index: Int, for value: CGFloat) -> String? {

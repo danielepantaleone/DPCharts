@@ -78,6 +78,8 @@ open class DPScatterDatasetLayer: CALayer {
         commonInit()
     }
     
+    // MARK: - Lifecycle
+    
     open override func layoutSublayers() {
         super.layoutSublayers()
         setupLayers()

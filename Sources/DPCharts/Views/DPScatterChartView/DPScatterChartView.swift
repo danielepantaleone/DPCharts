@@ -242,7 +242,7 @@ open class DPScatterChartView: DPCanvasView {
             for j in 0..<numberOfPointsByDataset[i] {
                 let x = datasource.scatterChartView(self, xAxisValueForDataSetAtIndex: i, forPointAtIndex: j)
                 let y = datasource.scatterChartView(self, yAxisValueForDataSetAtIndex: i, forPointAtIndex: j)
-                let size = datasource.scatterChartView(self, sizeDataSetAtIndex: i, forPointAtIndex: j)
+                let size = datasource.scatterChartView(self, shapeSizeForDataSetAtIndex: i, forPointAtIndex: j)
                 xAxisMaxValue = max(x, yAxisMaxValue)
                 yAxisMaxValue = max(y, yAxisMaxValue)
                 shiftBy = max(size, shiftBy)
@@ -262,7 +262,7 @@ open class DPScatterChartView: DPCanvasView {
             for j in 0..<numberOfPointsByDataset[i] {
                 let x = datasource.scatterChartView(self, xAxisValueForDataSetAtIndex: i, forPointAtIndex: j)
                 let y = datasource.scatterChartView(self, yAxisValueForDataSetAtIndex: i, forPointAtIndex: j)
-                let size = datasource.scatterChartView(self, sizeDataSetAtIndex: i, forPointAtIndex: j)
+                let size = datasource.scatterChartView(self, shapeSizeForDataSetAtIndex: i, forPointAtIndex: j)
                 let xAxisPosition: CGFloat = ((xAxisMaxValue - x) / xAxisMaxValue) * canvasWidth
                 let yAxisPosition: CGFloat = ((yAxisMaxValue - y) / yAxisMaxValue) * canvasHeight
                 points[i].insert(DPScatterPoint(
@@ -290,8 +290,8 @@ open class DPScatterChartView: DPCanvasView {
             dataset.animationDuration = animationDuration
             dataset.animationTimingFunction = animationTimingFunction
             dataset.scatterPointsAlpha = scatterPointsAlpha
-            dataset.scatterPointsColor = datasource?.scatterChartView(self, colorForDataSetAtIndex: i) ?? DPScatterChartView.defaultPointColor
-            dataset.scatterPointsType = datasource?.scatterChartView(self, shapeForDataSetAtIndex: i) ?? DPScatterChartView.defaultPointShapeType
+            dataset.scatterPointsColor = datasource?.scatterChartView(self, shapeColorForDataSetAtIndex: i) ?? DPScatterChartView.defaultPointColor
+            dataset.scatterPointsType = datasource?.scatterChartView(self, shapeTypeForDataSetAtIndex: i) ?? DPScatterChartView.defaultPointShapeType
             dataset.scatterPoints = points[i]
             dataset.setNeedsLayout()
         }
