@@ -18,17 +18,17 @@ open class DPCanvasView: UIView {
     
     // MARK: - Border properties
     
-    /// The color of the borders surrounding the chart (default = `.lightGray`).
+    /// The color of the X and Y axis of the chart (default = `.lightGray`).
     @IBInspectable
-    open var bordersColor: UIColor = .lightGray {
+    open var axisColor: UIColor = .lightGray {
         didSet {
             setNeedsDisplay()
         }
     }
 
-    /// The width of the borders surrounding the chart (default = `1`).
+    /// The width of the X and Y axis of the chart (default = `1`).
     @IBInspectable
-    open var bordersWidth: CGFloat = 1 {
+    open var axisWidth: CGFloat = 1 {
         didSet {
             setNeedsLayout()
             setNeedsDisplay()
@@ -263,17 +263,17 @@ open class DPCanvasView: UIView {
     // MARK: - Computed properties
     
     var canvasHeight: CGFloat {
-        return frame.height - insets.top - insets.bottom - bordersWidth - markersLineWidth - xAxisMarkersMaxHeight - xAxisTitleHeight
+        return frame.height - insets.top - insets.bottom - axisWidth - markersLineWidth - xAxisMarkersMaxHeight - xAxisTitleHeight
     }
     var canvasWidth: CGFloat {
-        return frame.width - insets.left - insets.right - bordersWidth - markersLineWidth - yAxisMarkersMaxWidth - yAxisTitleHeight
+        return frame.width - insets.left - insets.right - axisWidth - markersLineWidth - yAxisMarkersMaxWidth - yAxisTitleHeight
     }
     var canvasPosX: CGFloat {
         var pos: CGFloat = insets.left
         if yAxisInverted {
             pos += markersLineWidth
         } else {
-            pos += bordersWidth + yAxisMarkersMaxWidth + yAxisTitleHeight
+            pos += axisWidth + yAxisMarkersMaxWidth + yAxisTitleHeight
         }
         return pos
     }
@@ -411,16 +411,16 @@ open class DPCanvasView: UIView {
         // ************************************* //
         
         ctx.saveGState()
-        ctx.setLineWidth(bordersWidth)
-        ctx.setStrokeColor(bordersColor.cgColor)
+        ctx.setLineWidth(axisWidth)
+        ctx.setStrokeColor(axisColor.cgColor)
         if yAxisInverted { // TRAILING AND BOTTOM
-            ctx.move(to: CGPoint(x: x1, y: y2 - (bordersWidth * 0.5)))
-            ctx.addLine(to: CGPoint(x: x2 - (bordersWidth * 0.5), y: y2 - (bordersWidth * 0.5)))
-            ctx.addLine(to: CGPoint(x: x2 - (bordersWidth * 0.5), y: y1))
+            ctx.move(to: CGPoint(x: x1, y: y2 - (axisWidth * 0.5)))
+            ctx.addLine(to: CGPoint(x: x2 - (axisWidth * 0.5), y: y2 - (axisWidth * 0.5)))
+            ctx.addLine(to: CGPoint(x: x2 - (axisWidth * 0.5), y: y1))
         } else { // LEADING AND BOTTOM
-            ctx.move(to: CGPoint(x: x1 + (bordersWidth * 0.5), y: y1))
-            ctx.addLine(to: CGPoint(x: x1 + (bordersWidth * 0.5), y: y2 - (bordersWidth * 0.5)))
-            ctx.addLine(to: CGPoint(x: x2, y: y2 - (bordersWidth * 0.5)))
+            ctx.move(to: CGPoint(x: x1 + (axisWidth * 0.5), y: y1))
+            ctx.addLine(to: CGPoint(x: x1 + (axisWidth * 0.5), y: y2 - (axisWidth * 0.5)))
+            ctx.addLine(to: CGPoint(x: x2, y: y2 - (axisWidth * 0.5)))
         }
         ctx.strokePath()
         ctx.restoreGState()
@@ -448,8 +448,8 @@ open class DPCanvasView: UIView {
             ctx.addLine(to: CGPoint(x: x1 + (markersLineWidth * 0.5), y: y1 + (markersLineWidth * 0.5)))
             ctx.addLine(to: CGPoint(x: x2, y: y1 + (markersLineWidth * 0.5)))
         } else { // TRAILING AND TOP
-            ctx.move(to: CGPoint(x: x1, y: y1 - (markersLineWidth * 0.5) + (bordersWidth * 0.5)))
-            ctx.addLine(to: CGPoint(x: x2 - (markersLineWidth * 0.5), y: y1 - (markersLineWidth * 0.5) + (bordersWidth * 0.5)))
+            ctx.move(to: CGPoint(x: x1, y: y1 - (markersLineWidth * 0.5) + (axisWidth * 0.5)))
+            ctx.addLine(to: CGPoint(x: x2 - (markersLineWidth * 0.5), y: y1 - (markersLineWidth * 0.5) + (axisWidth * 0.5)))
             ctx.addLine(to: CGPoint(x: x2 - (markersLineWidth * 0.5), y: y2))  // V
         }
         ctx.strokePath()
