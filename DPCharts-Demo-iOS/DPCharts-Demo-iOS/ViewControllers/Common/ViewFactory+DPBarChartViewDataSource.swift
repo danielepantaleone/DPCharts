@@ -29,9 +29,9 @@ extension ViewFactory: DPBarChartViewDataSource {
 
     func barChartView(_ barChartView: DPBarChartView, colorForBarAtIndex barIndex: Int) -> UIColor {
         if barIndex == 0 {
-            return .blue
+            return .primary500
         } else {
-            return .gray
+            return .secondary500
         }
     }
 

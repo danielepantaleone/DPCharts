@@ -98,6 +98,9 @@ extension ViewFactory {
         let barChartView = DPBarChartView()
         barChartView.datasource = self
         barChartView.barStacked = stacked
+        barChartView.axisColor = .grey500
+        barChartView.markersLineColor = .grey500
+        barChartView.markersTextColor = .grey500
         barChartView.xAxisTitle = "Title of X-axis"
         barChartView.yAxisInverted = yAxisInverted
         barChartView.yAxisMarkersWidthRetained = true
@@ -113,6 +116,9 @@ extension ViewFactory {
         lineChartView.datasource = self
         lineChartView.bezierCurveEnabled = bezierCurveEnabled
         lineChartView.areaEnabled = areaEnabled
+        lineChartView.axisColor = .grey500
+        lineChartView.markersLineColor = .grey500
+        lineChartView.markersTextColor = .grey500
         lineChartView.xAxisTitle = "Title of X-axis"
         lineChartView.yAxisInverted = yAxisInverted
         lineChartView.yAxisMarkersWidthRetained = true
@@ -126,6 +132,7 @@ extension ViewFactory {
     func createPieChart(asDonut: Bool) -> DPPieChartView {
         let pieChartView = DPPieChartView()
         pieChartView.datasource = self
+        pieChartView.labelsColor = .grey500
         pieChartView.donutEnabled = asDonut
         pieChartView.donutTitle = "550km"
         pieChartView.donutSubtitle = "Total distance"
@@ -138,6 +145,9 @@ extension ViewFactory {
     func createScatterChart(yAxisInverted: Bool) -> DPScatterChartView {
         let scatterChartView = DPScatterChartView()
         scatterChartView.datasource = self
+        scatterChartView.axisColor = .grey500
+        scatterChartView.markersLineColor = .grey500
+        scatterChartView.markersTextColor = .grey500
         scatterChartView.xAxisTitle = "Title of X-axis"
         scatterChartView.yAxisInverted = yAxisInverted
         scatterChartView.yAxisMarkersWidthRetained = true

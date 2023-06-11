@@ -25,14 +25,14 @@ extension ViewFactory: DPPieChartViewDataSource {
 
     func pieChartView(_ pieChartView: DPPieChartView, colorForSliceAtIndex index: Int) -> UIColor {
         switch index {
-            case 1:
-                return .blue
+            case 0:
+                return .primary500
             case 2:
-                return .yellow
+                return .secondary500
             case 3:
-                return .red
+                return .red500
             default:
-                return .gray
+                return .green500
         }
     }
 

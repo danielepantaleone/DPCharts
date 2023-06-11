@@ -29,9 +29,9 @@ extension ViewFactory: DPLineChartViewDataSource {
     
     func lineChartView(_ lineChartView: DPLineChartView, colorForLineAtIndex lineIndex: Int) -> UIColor {
         if lineIndex == 0 {
-            return .blue
+            return .primary500
         } else {
-            return .gray
+            return .secondary500
         }
     }
     

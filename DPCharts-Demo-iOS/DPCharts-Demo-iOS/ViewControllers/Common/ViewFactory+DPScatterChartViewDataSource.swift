@@ -21,18 +21,14 @@ extension ViewFactory: DPScatterChartViewDataSource {
     
     func scatterChartView(_ scatterChartView: DPScatterChartView, colorForDataSetAtIndex datasetIndex: Int) -> UIColor {
         if datasetIndex == 0 {
-            return .blue
+            return .primary500
         } else {
-            return .red
+            return .secondary500
         }
     }
     
     func scatterChartView(_ scatterChartView: DPScatterChartView, shapeForDataSetAtIndex datasetIndex: Int) -> DPShapeType {
-        if datasetIndex == 0 {
-            return .circle
-        } else {
-            return .diamond
-        }
+        return .circle
     }
     
     func scatterChartView(_ scatterChartView: DPScatterChartView, sizeDataSetAtIndex datasetIndex: Int, forPointAtIndex index: Int) -> CGFloat {
