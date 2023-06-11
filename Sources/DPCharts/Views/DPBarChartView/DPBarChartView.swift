@@ -231,7 +231,7 @@ open class DPBarChartView: DPCanvasView {
     }
     
     func initBarsIfNeeded() {
-        guard let datasource else {
+        guard let datasource = datasource else {
             return
         }
         let numberOfItemsChanged = datasource.numberOfItems(self) != numberOfItems
@@ -243,7 +243,7 @@ open class DPBarChartView: DPCanvasView {
     }
     
     func initBars() {
-        guard let datasource else {
+        guard let datasource = datasource else {
             return
         }
         barLayers.forEach { $0.removeFromSuperlayer() }
@@ -261,7 +261,7 @@ open class DPBarChartView: DPCanvasView {
     
     func initLimits() {
         yAxisMaxValue = 0
-        guard let datasource else { return }
+        guard let datasource = datasource else { return }
         if barStacked {
             for i in 0..<numberOfItems {
                 var accumulator: CGFloat = 0
@@ -285,7 +285,7 @@ open class DPBarChartView: DPCanvasView {
     
     func initPoints() {
         barPoints.removeAll()
-        guard let datasource else {
+        guard let datasource = datasource else {
             return
         }
         let barWidth = barWidth

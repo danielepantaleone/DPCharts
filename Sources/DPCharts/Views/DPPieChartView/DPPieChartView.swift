@@ -300,7 +300,7 @@ open class DPPieChartView: UIView {
     }
     
     func initShapesIfNeeded() {
-        guard let datasource else {
+        guard let datasource = datasource else {
             return
         }
         let numberOfSlicesChanged = datasource.numberOfSlices(self) != numberOfSlices
@@ -311,7 +311,7 @@ open class DPPieChartView: UIView {
     }
     
     func initShapes() {
-        guard let datasource else {
+        guard let datasource = datasource else {
             return
         }
         numberOfSlices = datasource.numberOfSlices(self)
@@ -338,7 +338,7 @@ open class DPPieChartView: UIView {
     // MARK: - Layout
     
     func layoutInit() {
-        guard let datasource else {
+        guard let datasource = datasource else {
             return
         }
         chartLabelsShift.removeAll()
@@ -388,7 +388,7 @@ open class DPPieChartView: UIView {
     }
     
     func layoutLabels() {
-        guard let datasource else {
+        guard let datasource = datasource else {
             return
         }
         let rotation = rotateBy.fromDegToRad
@@ -451,7 +451,7 @@ open class DPPieChartView: UIView {
     }
 
     func layoutShapes() {
-        guard let datasource else {
+        guard let datasource = datasource else {
             return
         }
         let rotation = rotateBy.fromDegToRad

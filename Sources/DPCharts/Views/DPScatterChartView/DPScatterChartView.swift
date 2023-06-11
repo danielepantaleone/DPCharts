@@ -200,7 +200,7 @@ open class DPScatterChartView: DPCanvasView {
     }
 
     func initDatasetsIfNeeded() {
-        guard let datasource else {
+        guard let datasource = datasource else {
             return
         }
         let numberOfDatasetsChanged = datasource.numberOfDatasets(self) != numberOfDatasets
@@ -217,7 +217,7 @@ open class DPScatterChartView: DPCanvasView {
     }
     
     func initDatasets() {
-        guard let datasource else {
+        guard let datasource = datasource else {
             return
         }
         datasetLayers.forEach { $0.removeFromSuperlayer() }
@@ -236,7 +236,7 @@ open class DPScatterChartView: DPCanvasView {
     func initLimits() {
         xAxisMaxValue = 0.0
         yAxisMaxValue = 0.0
-        guard let datasource else { return }
+        guard let datasource = datasource else { return }
         var shiftBy: CGFloat = 0
         for i in 0..<numberOfDatasets {
             for j in 0..<numberOfPointsByDataset[i] {
@@ -254,7 +254,7 @@ open class DPScatterChartView: DPCanvasView {
 
     func initPoints() {
         points.removeAll()
-        guard let datasource else { return }
+        guard let datasource = datasource else { return }
         let canvasHeight = canvasHeight
         let canvasWidth = canvasWidth
         for i in 0..<numberOfDatasets {
