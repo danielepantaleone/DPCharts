@@ -23,7 +23,7 @@ class ViewFactory {
     var lineChartValues: [[CGFloat]] = []
     var pieChartValues: [CGFloat] = []
     var scatterChartValues: [[CGPoint]] = []
-
+    var heatMapValues: [[CGFloat]] = []
     
     // MARK: - Initialization
 
@@ -43,6 +43,8 @@ class ViewFactory {
                 return createBarChart(stacked: false, yAxisInverted: true)
             case .barChartYAxisInvertedStacked:
                 return createBarChart(stacked: true, yAxisInverted: true)
+            case .heatmap:
+                return createHeatmap()
             case .legendHorizontal:
                 return createLegend(horizontal: true)
             case .legendVertical:
@@ -76,19 +78,27 @@ class ViewFactory {
 
     func reloadDatasets() {
         barChartValues = [
-            (0..<6).map { _ in CGFloat.random(in: (20)...(200)) },
-            (0..<6).map { _ in CGFloat.random(in: (20)...(200)) }
+            (0..<6).map { _ in CGFloat.random(in: 20...200) },
+            (0..<6).map { _ in CGFloat.random(in: 20...200) }
         ]
         lineChartValues = [
-            (0..<20).map { _ in CGFloat.random(in: (20)...(100)) },
-            (0..<20).map { _ in CGFloat.random(in: (20)...(100)) }
+            (0..<20).map { _ in CGFloat.random(in: 20...100) },
+            (0..<20).map { _ in CGFloat.random(in: 20...100) }
         ]
         pieChartValues = (0..<4).map { _ in
-            return CGFloat.random(in: (0)...(100))
+            return CGFloat.random(in: 0...100)
         }
         scatterChartValues = [
             (0..<40).map { _ in CGPoint(x: .random(in: 100...220), y: .random(in: 100...220)) },
             (0..<20).map { _ in CGPoint(x: .random(in: 10...120), y: .random(in: 10...120)) },
+        ]
+        heatMapValues = [
+            (0..<8).map { _ in CGFloat.random(in: 0...100) },
+            (0..<8).map { _ in CGFloat.random(in: 0...100) },
+            (0..<8).map { _ in CGFloat.random(in: 0...100) },
+            (0..<8).map { _ in CGFloat.random(in: 0...100) },
+            (0..<8).map { _ in CGFloat.random(in: 0...100) },
+            (0..<8).map { _ in CGFloat.random(in: 0...100) }
         ]
     }
 
@@ -122,6 +132,16 @@ extension ViewFactory {
         legendView.spacing =  horizontal ? 8.0 : 4.0
         legendView.textColor = .grey500
         return legendView
+    }
+    
+    func createHeatmap() -> DPHeatMapView {
+        let heatmapView = DPHeatMapView()
+        heatmapView.datasource = self
+        heatmapView.cellAbsenceColor = .grey300
+        heatmapView.cellLowPercentageColor = .secondary300
+        heatmapView.cellHighPercentageColor = .green600
+        heatmapView.heightAnchor.constraint(equalToConstant: 220).isActive = true
+        return heatmapView
     }
     
     func createLineChart(bezierCurveEnabled: Bool, areaEnabled: Bool, yAxisInverted: Bool) -> DPLineChartView {
