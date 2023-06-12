@@ -12,11 +12,11 @@
 import Foundation
 import UIKit
 
-/// A protocol to configure line chart appearance.
+/// A protocol to configure scatter chart appearance.
 public protocol DPScatterChartViewDataSource: AnyObject {
     /// The number of datasets that we want to display in this scatter chart
     func numberOfDatasets(_ scatterChartView: DPScatterChartView) -> Int
-    /// The number of dots to display for the given dataset
+    /// The number of points to display for the given dataset
     func scatterChartView(_ scatterChartView: DPScatterChartView, numberOfPointsForDatasetAtIndex datasetIndex: Int) -> Int
     /// The color used to render the given dataset
     func scatterChartView(_ scatterChartView: DPScatterChartView, shapeColorForDataSetAtIndex datasetIndex: Int) -> UIColor

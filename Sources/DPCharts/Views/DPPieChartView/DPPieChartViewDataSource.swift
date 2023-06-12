@@ -12,6 +12,7 @@
 import Foundation
 import UIKit
 
+/// A protocol to configure pie chart appearance.
 public protocol DPPieChartViewDataSource: AnyObject {
     /// The number of slices in this chart
     func numberOfSlices(_ pieChartView: DPPieChartView) -> Int

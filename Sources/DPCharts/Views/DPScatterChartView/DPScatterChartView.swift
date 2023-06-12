@@ -136,12 +136,12 @@ open class DPScatterChartView: DPCanvasView {
 
     // MARK: - Private properties
         
-    var points: [[DPScatterPoint]] = [] // array of points in the chart
-    var datasetLayers: [DPScatterDatasetLayer] = [] // array of views to display scatter datasets
-    var numberOfPointsByDataset: [Int] = [] // number of points for each dataset
-    var numberOfDatasets: Int = 0 // number of datasets in the chart
-    var xAxisMaxValue: CGFloat = 0 // maximum value on X-axis
-    var yAxisMaxValue: CGFloat = 0 // minimum value on Y-axis
+    var points: [[DPScatterPoint]] = []
+    var datasetLayers: [DPScatterDatasetLayer] = []
+    var numberOfPointsByDataset: [Int] = []
+    var numberOfDatasets: Int = 0
+    var xAxisMaxValue: CGFloat = 0
+    var yAxisMaxValue: CGFloat = 0
     
     // MARK: - Overridden properties
     

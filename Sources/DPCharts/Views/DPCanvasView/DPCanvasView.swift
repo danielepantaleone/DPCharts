@@ -16,7 +16,7 @@ import UIKit
 @IBDesignable
 open class DPCanvasView: UIView {
     
-    // MARK: - Border properties
+    // MARK: - Axis properties
     
     /// The color of the X and Y axis of the chart (default = `.lightGray`).
     @IBInspectable

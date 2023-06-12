@@ -2,7 +2,11 @@
 //  ViewFactory+DPScatterChartViewDataSource.swift
 //  DPCharts-Demo-iOS
 //
-//  Created by Daniele Pantaleone on 10/06/23.
+//  Created by Daniele Pantaleone
+//    - Github: https://github.com/danielepantaleone
+//    - LinkedIn: https://www.linkedin.com/in/danielepantaleone
+//
+//  Copyright © 2023 Daniele Pantaleone. Licensed under MIT License.
 //
 
 import DPCharts

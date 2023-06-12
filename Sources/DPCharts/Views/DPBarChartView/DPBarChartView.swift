@@ -141,11 +141,11 @@ open class DPBarChartView: DPCanvasView {
     
     // MARK: - Private properties
         
-    var barLayers: [DPBarLayer] = [] // array of bar shapes
-    var barPoints: [[DPBarPoint]] = [] // array of points in the chart
-    var numberOfItems: Int = 0 // number of items on the X-axis
-    var numberOfBars: Int = 0 // number of bars in the chart
-    var yAxisMaxValue: CGFloat = 0 // minimum value on Y-axis
+    var barLayers: [DPBarLayer] = []
+    var barPoints: [[DPBarPoint]] = []
+    var numberOfItems: Int = 0
+    var numberOfBars: Int = 0
+    var yAxisMaxValue: CGFloat = 0
     var barWidth: CGFloat {
         guard numberOfBars > 0 && numberOfItems > 0 else {
             return 0
