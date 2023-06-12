@@ -11,6 +11,7 @@
 		64379FD52A2DC33A00BD1FE6 /* ViewFactory+DPPieChartViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64379FD42A2DC33A00BD1FE6 /* ViewFactory+DPPieChartViewDataSource.swift */; };
 		6473DD352A34C5F80007C355 /* ViewFactory+DPScatterChartViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6473DD342A34C5F80007C355 /* ViewFactory+DPScatterChartViewDataSource.swift */; };
 		6473DD372A35B7A20007C355 /* UIColor+Palette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6473DD362A35B7A20007C355 /* UIColor+Palette.swift */; };
+		6473DD392A36504B0007C355 /* ViewFactory+DPLegendViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6473DD382A36504B0007C355 /* ViewFactory+DPLegendViewDataSource.swift */; };
 		64A37DE02A2A53E700A8154B /* PickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64A37DDF2A2A53E700A8154B /* PickerViewController.swift */; };
 		64A37DE32A2A548000A8154B /* UIStoryboard+VCLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64A37DE22A2A548000A8154B /* UIStoryboard+VCLoader.swift */; };
 		64A37DE62A2A54EC00A8154B /* ViewType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64A37DE52A2A54EC00A8154B /* ViewType.swift */; };
@@ -29,6 +30,7 @@
 		64379FD42A2DC33A00BD1FE6 /* ViewFactory+DPPieChartViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewFactory+DPPieChartViewDataSource.swift"; sourceTree = "<group>"; };
 		6473DD342A34C5F80007C355 /* ViewFactory+DPScatterChartViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewFactory+DPScatterChartViewDataSource.swift"; sourceTree = "<group>"; };
 		6473DD362A35B7A20007C355 /* UIColor+Palette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Palette.swift"; sourceTree = "<group>"; };
+		6473DD382A36504B0007C355 /* ViewFactory+DPLegendViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewFactory+DPLegendViewDataSource.swift"; sourceTree = "<group>"; };
 		64A37DDF2A2A53E700A8154B /* PickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerViewController.swift; sourceTree = "<group>"; };
 		64A37DE22A2A548000A8154B /* UIStoryboard+VCLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStoryboard+VCLoader.swift"; sourceTree = "<group>"; };
 		64A37DE52A2A54EC00A8154B /* ViewType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewType.swift; sourceTree = "<group>"; };
@@ -86,6 +88,7 @@
 			children = (
 				64A37DE72A2A554E00A8154B /* ViewFactory.swift */,
 				64A37DE92A2A560E00A8154B /* ViewFactory+DPBarChartViewDataSource.swift */,
+				6473DD382A36504B0007C355 /* ViewFactory+DPLegendViewDataSource.swift */,
 				64379FD02A2C7D8400BD1FE6 /* ViewFactory+DPLineChartViewDataSource.swift */,
 				64379FD42A2DC33A00BD1FE6 /* ViewFactory+DPPieChartViewDataSource.swift */,
 				6473DD342A34C5F80007C355 /* ViewFactory+DPScatterChartViewDataSource.swift */,
@@ -235,6 +238,7 @@
 			files = (
 				64379FD12A2C7D8400BD1FE6 /* ViewFactory+DPLineChartViewDataSource.swift in Sources */,
 				6473DD352A34C5F80007C355 /* ViewFactory+DPScatterChartViewDataSource.swift in Sources */,
+				6473DD392A36504B0007C355 /* ViewFactory+DPLegendViewDataSource.swift in Sources */,
 				64A37DEA2A2A560E00A8154B /* ViewFactory+DPBarChartViewDataSource.swift in Sources */,
 				64379FD52A2DC33A00BD1FE6 /* ViewFactory+DPPieChartViewDataSource.swift in Sources */,
 				64A37DE32A2A548000A8154B /* UIStoryboard+VCLoader.swift in Sources */,

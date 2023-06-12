@@ -41,7 +41,6 @@ open class DPShapeLayer: CALayer {
         layer.lineJoin = .bevel
         layer.lineWidth = 0
         layer.strokeColor = nil
-        layer.needsDisplayOnBoundsChange = true
         return layer
     }()
     
@@ -85,7 +84,7 @@ open class DPShapeLayer: CALayer {
         switch type {
             case .circle:
                 let arcCenter = CGPoint(x: bounds.width * 0.5, y: bounds.height * 0.5)
-                let arcRadius = (min(bounds.height, bounds.width) * 0.5)
+                let arcRadius = min(bounds.height, bounds.width) * 0.5
                 shapeLayer.path = UIBezierPath(arcCenter: arcCenter, radius: arcRadius, startAngle: 0, endAngle: Double.pi * 2.0, clockwise: true).cgPath
             case .diamond:
                 let path: UIBezierPath = UIBezierPath()

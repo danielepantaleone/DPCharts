@@ -43,6 +43,10 @@ class ViewFactory {
                 return createBarChart(stacked: false, yAxisInverted: true)
             case .barChartYAxisInvertedStacked:
                 return createBarChart(stacked: true, yAxisInverted: true)
+            case .legendHorizontal:
+                return createLegend(horizontal: true)
+            case .legendVertical:
+                return createLegend(horizontal: false)
             case .lineChart:
                 return createLineChart(bezierCurveEnabled: false, areaEnabled: false, yAxisInverted: false)
             case .lineChartArea:
@@ -109,6 +113,15 @@ extension ViewFactory {
         barChartView.translatesAutoresizingMaskIntoConstraints = false
         barChartView.heightAnchor.constraint(equalToConstant: 220).isActive = true
         return barChartView
+    }
+    
+    func createLegend(horizontal: Bool) -> DPLegendView {
+        let legendView = DPLegendView()
+        legendView.datasource = self
+        legendView.horizontal = horizontal
+        legendView.spacing =  horizontal ? 8.0 : 4.0
+        legendView.textColor = .grey500
+        return legendView
     }
     
     func createLineChart(bezierCurveEnabled: Bool, areaEnabled: Bool, yAxisInverted: Bool) -> DPLineChartView {
