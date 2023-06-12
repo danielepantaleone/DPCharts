@@ -182,7 +182,7 @@ open class DPBarChartView: DPCanvasView {
         }
         var height: CGFloat = 0
         for i in 0..<numberOfItems {
-            if let marker = markerOnXAxisAtItem(i) {
+            if let marker = xAxisMarkerAtItem(i) {
                 height = max(height, marker.size().height)
             }
         }
@@ -413,7 +413,7 @@ open class DPBarChartView: DPCanvasView {
                 ctx.strokePath()
             }
             // Draw the marker text if we have some content
-            if let marker = markerOnXAxisAtItem(i) {
+            if let marker = xAxisMarkerAtItem(i) {
                 let xAxisLabelShift: CGFloat = ((barItemWidth + barSpacing) * CGFloat(i + 1)) - (barItemWidth * 0.5)
                 let xAxisLabelPosition: CGFloat = canvasPosX + xAxisLabelShift - (marker.size().width * 0.5) - (barSpacing * 0.5)
                 let yAxisLabelPosition: CGFloat = canvasPosY + canvasHeight + xAxisMarkersSpacing
@@ -429,23 +429,23 @@ open class DPBarChartView: DPCanvasView {
     
     // MARK: - Misc
     
-    func markerOnXAxisAtItem(_ index: Int) -> NSAttributedString? {
-        guard let string = datasource?.barChartView(self, labelForMarkerOnXAxisAtItem: index) else {
+    func xAxisMarkerAtItem(_ item: Int) -> NSAttributedString? {
+        guard let string = datasource?.barChartView(self, labelForMarkerOnXAxisAtItem: item) else {
             return nil
         }
-        return markerFor(string)
+        return marker(string)
     }
     
     // MARK: - Overrides
     
-    override func markerOnYAxisAtIndex(_ index: Int, for value: CGFloat) -> NSAttributedString? {
+    override func yAxisMarkerAtIndex(_ index: Int, for value: CGFloat) -> NSAttributedString? {
         guard let string = datasource?.barChartView(self, labelForMarkerOnYAxisAtIndex: index, for: value) else {
             return nil
         }
-        return markerFor(string)
+        return marker(string)
     }
         
-    override func valueOnYAxisAtIndex(_ index: Int) -> CGFloat {
+    override func yAxisValueAtIndex(_ index: Int) -> CGFloat {
         return (yAxisMaxValue / CGFloat(yAxisMarkersCount)) * CGFloat(index)
     }
     

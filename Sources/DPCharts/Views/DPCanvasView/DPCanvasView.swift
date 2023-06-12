@@ -334,7 +334,7 @@ open class DPCanvasView: UIView {
         }
         var width: CGFloat = 0
         for i in 0..<yAxisMarkersCount {
-            if let marker = markerOnYAxisAtIndex(i, for: valueOnYAxisAtIndex(i)) {
+            if let marker = yAxisMarkerAtIndex(i, for: yAxisValueAtIndex(i)) {
                 width = max(width, marker.size().width)
             }
         }
@@ -345,17 +345,17 @@ open class DPCanvasView: UIView {
     
     // MARK: - Abstract interface
     
-    func markerOnYAxisAtIndex(_ index: Int, for value: CGFloat) -> NSAttributedString? {
+    func yAxisMarkerAtIndex(_ index: Int, for value: CGFloat) -> NSAttributedString? {
         preconditionFailure("markerOnYAxisAtIndex must be implemented")
     }
 
-    func valueOnYAxisAtIndex(_ index: Int) -> CGFloat {
+    func yAxisValueAtIndex(_ index: Int) -> CGFloat {
         preconditionFailure("valueOnYAxisAtIndex must be implemented")
     }
     
     // MARK: - Internals
     
-    func markerFor(_ string: String) -> NSAttributedString {
+    func marker(_ string: String) -> NSAttributedString {
         return NSAttributedString(string: string, attributes: [
             .foregroundColor: markersTextColor,
             .font: markersTextFont
@@ -549,7 +549,7 @@ open class DPCanvasView: UIView {
                 ctx.strokePath()
             }
             // Draw the marker text if we have some content
-            if let marker = markerOnYAxisAtIndex(i, for: valueOnYAxisAtIndex(i)) {
+            if let marker = yAxisMarkerAtIndex(i, for: yAxisValueAtIndex(i)) {
                 let yAxisLabelPosition: CGFloat = yAxisLinePosition - marker.size().height * 0.5
                 let xAxisLabelPosition: CGFloat
                 if yAxisInverted {

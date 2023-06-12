@@ -261,7 +261,7 @@ open class DPLineChartView: DPCanvasView {
         }
         var height: CGFloat = 0
         for i in 0..<xAxisMarkersCount {
-            if let marker = markerOnXAxisAtIndex(i) {
+            if let marker = xAxisMarkerAtIndex(i) {
                 height = max(height, marker.size().height)
             }
         }
@@ -538,7 +538,7 @@ open class DPLineChartView: DPCanvasView {
                 ctx.strokePath()
             }
             // Draw the marker text if we have some content
-            if let marker = markerOnXAxisAtIndex(i) {
+            if let marker = xAxisMarkerAtIndex(i) {
                 let xMin: CGFloat = 0.0
                 let xMax: CGFloat = bounds.width - marker.size().width
                 let xAxisLabelPosition: CGFloat = (xAxisPosition - (marker.size().width * 0.5)).clamped(to: xMin...xMax)
@@ -554,23 +554,23 @@ open class DPLineChartView: DPCanvasView {
 
     // MARK: - Misc
     
-    func markerOnXAxisAtIndex(_ index: Int) -> NSAttributedString? {
+    func xAxisMarkerAtIndex(_ index: Int) -> NSAttributedString? {
         guard let string = datasource?.lineChartView(self, labelForMarkerOnXAxisAtIndex: index) else {
             return nil
         }
-        return markerFor(string)
+        return marker(string)
     }
     
     // MARK: - Overrides
     
-    override func markerOnYAxisAtIndex(_ index: Int, for value: CGFloat) -> NSAttributedString? {
+    override func yAxisMarkerAtIndex(_ index: Int, for value: CGFloat) -> NSAttributedString? {
         guard let string = datasource?.lineChartView(self, labelForMarkerOnYAxisAtIndex: index, for: value) else {
             return nil
         }
-        return markerFor(string)
+        return marker(string)
     }
     
-    override func valueOnYAxisAtIndex(_ index: Int) -> CGFloat {
+    override func yAxisValueAtIndex(_ index: Int) -> CGFloat {
         let step: CGFloat = yAxisMaxSpan / CGFloat(yAxisMarkersCount)
         let distance: Int = index - yAxisOriginIndex
         return step * CGFloat(distance)
