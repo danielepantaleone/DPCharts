@@ -12,6 +12,7 @@
 import Foundation
 import UIKit
 
+/// A protocol to handle line chart user interaction.
 public protocol DPLineChartViewDelegate: AnyObject {
     /// Sent to the delegate when the user touches the chart.
     func lineChartView(_ lineChartView: DPLineChartView, didTouchAtIndex index: Int)

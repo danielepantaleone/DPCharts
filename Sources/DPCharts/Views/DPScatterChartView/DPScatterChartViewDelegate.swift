@@ -12,6 +12,7 @@
 import Foundation
 import UIKit
 
+/// A protocol to handle scatter chart user interaction.
 public protocol DPScatterChartViewDelegate: AnyObject {
     /// Sent to the delegate when the user touches the chart.
     func scatterChartView(_ lineChartView: DPScatterChartView, didTouchDatasetAtIndex datasetIndex: Int, withPointAt index: Int)
