@@ -39,7 +39,4 @@ extension UIColor {
     static let red400: UIColor = #colorLiteral(red: 0.937254902, green: 0.3215686275, blue: 0.3137254902, alpha: 1)
     static let red300: UIColor = #colorLiteral(red: 0.8980392157, green: 0.4509803922, blue: 0.4509803922, alpha: 1)
     
-    
-    
-    
 }

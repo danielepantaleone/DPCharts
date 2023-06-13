@@ -13,12 +13,12 @@ import Foundation
 import UIKit
 
 enum StoryboardID: String {
-    case MainViewController = "MainViewController"
-    case PickerViewController = "PickerViewController"
+    case MainViewController
+    case PickerViewController
 }
 
 enum Storyboard: String {
-    case Main = "Main"
+    case Main
 }
 
 extension UIStoryboard {

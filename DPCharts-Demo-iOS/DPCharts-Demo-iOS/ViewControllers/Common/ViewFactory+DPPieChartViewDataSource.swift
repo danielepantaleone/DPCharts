@@ -41,4 +41,3 @@ extension ViewFactory: DPPieChartViewDataSource {
     }
    
 }
-

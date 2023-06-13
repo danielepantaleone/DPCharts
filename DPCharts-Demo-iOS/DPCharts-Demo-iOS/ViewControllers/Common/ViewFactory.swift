@@ -100,7 +100,7 @@ class ViewFactory {
         // SCATTER CHART
         scatterChartValues = [
             (0..<40).map { _ in CGPoint(x: .random(in: 100...220), y: .random(in: 100...220)) },
-            (0..<20).map { _ in CGPoint(x: .random(in: 10...120), y: .random(in: 10...120)) },
+            (0..<20).map { _ in CGPoint(x: .random(in: 10...120), y: .random(in: 10...120)) }
         ]
         // HEATMAP
         heatMapValues = []
@@ -139,7 +139,7 @@ extension ViewFactory {
         let legendView = DPLegendView()
         legendView.datasource = self
         legendView.horizontal = horizontal
-        legendView.spacing =  horizontal ? 8.0 : 4.0
+        legendView.spacing = horizontal ? 8.0 : 4.0
         legendView.textColor = .grey500
         return legendView
     }
