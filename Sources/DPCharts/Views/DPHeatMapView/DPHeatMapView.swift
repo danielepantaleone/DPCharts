@@ -567,5 +567,15 @@ open class DPHeatMapView: UIView {
         ctx.restoreGState()
 
     }
+    
+    // MARK: - Storyboard
+    
+    #if TARGET_INTERFACE_BUILDER
+    let ibDataSource = DPHeatMapViewIBDataSource()
+    // swiftlint:disable:next overridden_super_call
+    public override func prepareForInterfaceBuilder() {
+        datasource = ibDataSource
+    }
+    #endif
 
 }
