@@ -26,6 +26,20 @@ public protocol DPHeatMapViewDataSource: AnyObject {
     func heatMapView(_ heatMapView: DPHeatMapView, yAxisMarkerLabelForRowAtIndex rowIndex: Int) -> String?
 }
 
+public extension DPHeatMapViewDataSource {
+    
+    func heatMapView(_ heatMapView: DPHeatMapView, xAxisMarkerLabelForColumnAtIndex columnIndex: Int) -> String? {
+        return "\(columnIndex)"
+    }
+    func heatMapView(_ heatMapView: DPHeatMapView, yAxisMarkerLabelForRowAtIndex rowIndex: Int) -> String? {
+        if let scalar = UnicodeScalar(rowIndex + Int(("A" as UnicodeScalar).value)) {
+            return String(Character(scalar))
+        }
+        return "\(rowIndex)"
+    }
+    
+}
+
 #if TARGET_INTERFACE_BUILDER
 public class DPHeatMapViewIBDataSource: DPHeatMapViewDataSource {
     
@@ -37,12 +51,6 @@ public class DPHeatMapViewIBDataSource: DPHeatMapViewDataSource {
     }
     func heatMapView(_ heatMapView: DPHeatMapView, valueForRowAtIndex rowIndex: Int, forColumnAtIndex columnIndex: Int) -> CGFloat {
         return .random(in: 0...100)
-    }
-    func heatMapView(_ heatMapView: DPHeatMapView, xAxisMarkerLabelForColumnAtIndex columnIndex: Int) -> String? {
-        return "\(columnIndex)"
-    }
-    func heatMapView(_ heatMapView: DPHeatMapView, yAxisMarkerLabelForRowAtIndex rowIndex: Int) -> String? {
-        return String(Character(UnicodeScalar(rowIndex + Int(("A" as UnicodeScalar).value))!))
     }
     
 }
