@@ -10,17 +10,18 @@
 //
 
 import Foundation
+import UIKit
 
 extension CGFloat {
     
     /// Converts decimal degrees to radians.
     var fromDegToRad: CGFloat {
-        return self * CGFloat.pi / 180.0
+        return self * .pi / 180.0
     }
     
     /// Converts radians to decimal degrees.
     var fromRadToDeg: CGFloat {
-        return self * 180.0 / CGFloat.pi
+        return self * 180.0 / .pi
     }
     
 }

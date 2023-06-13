@@ -13,7 +13,7 @@ import Foundation
 
 extension Comparable {
     
-    /// Clamp the current value so that it'sn contained within the provided range
+    /// Clamp the current value so that it's contained within the provided range.
     ///
     /// - parameters:
     ///   - limits: The range used to limit the value
