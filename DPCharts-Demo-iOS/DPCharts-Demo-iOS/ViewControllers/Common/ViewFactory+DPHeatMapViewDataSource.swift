@@ -28,7 +28,10 @@ extension ViewFactory: DPHeatMapViewDataSource {
         return "\(columnIndex)"
     }
     func heatMapView(_ heatMapView: DPHeatMapView, yAxisMarkerLabelForRowAtIndex rowIndex: Int) -> String? {
-        return String(Character(UnicodeScalar(rowIndex + Int(("A" as UnicodeScalar).value))!))
+        if let scalar = UnicodeScalar(rowIndex + Int(("A" as UnicodeScalar).value)) {
+            return String(Character(scalar))
+        }
+        return "\(rowIndex)"
     }
     
 }

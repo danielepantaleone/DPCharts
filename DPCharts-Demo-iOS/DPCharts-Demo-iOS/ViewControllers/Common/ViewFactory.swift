@@ -180,8 +180,8 @@ extension ViewFactory {
         pieChartView.datasource = self
         pieChartView.labelsColor = .grey500
         pieChartView.donutEnabled = asDonut
-        pieChartView.donutTitle = "550km"
-        pieChartView.donutSubtitle = "Total distance"
+        pieChartView.donutTitle = "Title"
+        pieChartView.donutSubtitle = "Brief description"
         pieChartView.donutVerticalSpacing = 4.0
         pieChartView.translatesAutoresizingMaskIntoConstraints = false
         pieChartView.heightAnchor.constraint(equalToConstant: 320).isActive = true

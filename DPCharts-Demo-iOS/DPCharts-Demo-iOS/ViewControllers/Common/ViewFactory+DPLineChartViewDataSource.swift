@@ -40,7 +40,10 @@ extension ViewFactory: DPLineChartViewDataSource {
     }
     
     func lineChartView(_ lineChartView: DPLineChartView, labelForMarkerOnXAxisAtIndex index: Int) -> String? {
-        return "\(index + 2000)"
+        if let scalar = UnicodeScalar(index + Int(("A" as UnicodeScalar).value)) {
+            return String(Character(scalar))
+        }
+        return "\(index)"
     }
     
     func lineChartView(_ lineChartView: DPLineChartView, labelForMarkerOnYAxisAtIndex index: Int, for value: CGFloat) -> String? {

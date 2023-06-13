@@ -36,7 +36,10 @@ extension ViewFactory: DPBarChartViewDataSource {
     }
 
     func barChartView(_ barChartView: DPBarChartView, labelForMarkerOnXAxisAtItem index: Int) -> String? {
-        return "\(index + 2000)"
+        if let scalar = UnicodeScalar(index + Int(("A" as UnicodeScalar).value)) {
+            return String(Character(scalar))
+        }
+        return "\(index)"
     }
 
     func barChartView(_ barChartView: DPBarChartView, labelForMarkerOnYAxisAtIndex index: Int, for value: CGFloat) -> String? {
