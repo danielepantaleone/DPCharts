@@ -20,8 +20,11 @@ public protocol DPHeatMapViewDataSource: AnyObject {
     func numberOfColumns(_ heatMapView: DPHeatMapView) -> Int
     /// The size for the given dataset/point combination
     func heatMapView(_ heatMapView: DPHeatMapView, valueForRowAtIndex rowIndex: Int, forColumnAtIndex columnIndex: Int) -> CGFloat
+    /// The string to be displayed above/below the given column on the X axis.
+    func heatMapView(_ heatMapView: DPHeatMapView, xAxisMarkerLabelForColumnAtIndex columnIndex: Int) -> String?
+    /// The string to be displayed before/after the given row on the X axis.
+    func heatMapView(_ heatMapView: DPHeatMapView, yAxisMarkerLabelForRowAtIndex rowIndex: Int) -> String?
 }
-
 
 #if TARGET_INTERFACE_BUILDER
 public class DPHeatMapViewIBDataSource: DPHeatMapViewDataSource {
@@ -34,6 +37,12 @@ public class DPHeatMapViewIBDataSource: DPHeatMapViewDataSource {
     }
     func heatMapView(_ heatMapView: DPHeatMapView, valueForRowAtIndex rowIndex: Int, forColumnAtIndex columnIndex: Int) -> CGFloat {
         return .random(in: 0...100)
+    }
+    func heatMapView(_ heatMapView: DPHeatMapView, xAxisMarkerLabelForColumnAtIndex columnIndex: Int) -> String? {
+        return "\(columnIndex)"
+    }
+    func heatMapView(_ heatMapView: DPHeatMapView, yAxisMarkerLabelForRowAtIndex rowIndex: Int) -> String? {
+        return String(Character(UnicodeScalar(rowIndex + Int(("A" as UnicodeScalar).value))!))
     }
     
 }

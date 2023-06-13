@@ -44,7 +44,13 @@ class ViewFactory {
             case .barChartYAxisInvertedStacked:
                 return createBarChart(stacked: true, yAxisInverted: true)
             case .heatmap:
-                return createHeatmap()
+                return createHeatmap(xAxisInverted: false, yAxisInverted: false)
+            case .heatmapXAxisInverted:
+                return createHeatmap(xAxisInverted: true, yAxisInverted: false)
+            case .heatmapYAxisInverted:
+                return createHeatmap(xAxisInverted: false, yAxisInverted: true)
+            case .heatmapXandYAxisInverted:
+                return createHeatmap(xAxisInverted: true, yAxisInverted: true)
             case .legendHorizontal:
                 return createLegend(horizontal: true)
             case .legendVertical:
@@ -77,29 +83,33 @@ class ViewFactory {
     }
 
     func reloadDatasets() {
+        // BARCHART
         barChartValues = [
-            (0..<6).map { _ in CGFloat.random(in: 20...200) },
-            (0..<6).map { _ in CGFloat.random(in: 20...200) }
+            (0..<6).map { _ in .random(in: 20...200) },
+            (0..<6).map { _ in .random(in: 20...200) }
         ]
+        // LINECHART
         lineChartValues = [
-            (0..<20).map { _ in CGFloat.random(in: 20...100) },
-            (0..<20).map { _ in CGFloat.random(in: 20...100) }
+            (0..<20).map { _ in .random(in: 20...100) },
+            (0..<20).map { _ in .random(in: 20...100) }
         ]
+        // PIE CHART
         pieChartValues = (0..<4).map { _ in
             return CGFloat.random(in: 0...100)
         }
+        // SCATTER CHART
         scatterChartValues = [
             (0..<40).map { _ in CGPoint(x: .random(in: 100...220), y: .random(in: 100...220)) },
             (0..<20).map { _ in CGPoint(x: .random(in: 10...120), y: .random(in: 10...120)) },
         ]
-        heatMapValues = [
-            (0..<8).map { _ in CGFloat.random(in: 0...100) },
-            (0..<8).map { _ in CGFloat.random(in: 0...100) },
-            (0..<8).map { _ in CGFloat.random(in: 0...100) },
-            (0..<8).map { _ in CGFloat.random(in: 0...100) },
-            (0..<8).map { _ in CGFloat.random(in: 0...100) },
-            (0..<8).map { _ in CGFloat.random(in: 0...100) }
-        ]
+        // HEATMAP
+        heatMapValues = []
+        for i in 0..<8 {
+            heatMapValues.insert([], at: i)
+            for j in 0..<10 {
+                heatMapValues[i].insert(.random(in: 0...100), at: j)
+            }
+        }
     }
 
 }
@@ -134,9 +144,12 @@ extension ViewFactory {
         return legendView
     }
     
-    func createHeatmap() -> DPHeatMapView {
+    func createHeatmap(xAxisInverted: Bool, yAxisInverted: Bool) -> DPHeatMapView {
         let heatmapView = DPHeatMapView()
         heatmapView.datasource = self
+        heatmapView.xAxisInverted = xAxisInverted
+        heatmapView.yAxisInverted = yAxisInverted
+        heatmapView.axisLabelsTextColor = .grey500
         heatmapView.cellAbsenceColor = .grey300
         heatmapView.cellLowPercentageColor = .secondary300
         heatmapView.cellHighPercentageColor = .green600
