@@ -13,6 +13,7 @@
 		6473DD372A35B7A20007C355 /* UIColor+Palette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6473DD362A35B7A20007C355 /* UIColor+Palette.swift */; };
 		6473DD392A36504B0007C355 /* ViewFactory+DPLegendViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6473DD382A36504B0007C355 /* ViewFactory+DPLegendViewDataSource.swift */; };
 		6473DD3B2A3765880007C355 /* ViewFactory+DPHeatMapViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6473DD3A2A3765880007C355 /* ViewFactory+DPHeatMapViewDataSource.swift */; };
+		6473DD3D2A38A0640007C355 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 6473DD3C2A38A0640007C355 /* .swiftlint.yml */; };
 		64A37DE02A2A53E700A8154B /* PickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64A37DDF2A2A53E700A8154B /* PickerViewController.swift */; };
 		64A37DE32A2A548000A8154B /* UIStoryboard+VCLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64A37DE22A2A548000A8154B /* UIStoryboard+VCLoader.swift */; };
 		64A37DE62A2A54EC00A8154B /* ViewType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64A37DE52A2A54EC00A8154B /* ViewType.swift */; };
@@ -33,6 +34,7 @@
 		6473DD362A35B7A20007C355 /* UIColor+Palette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Palette.swift"; sourceTree = "<group>"; };
 		6473DD382A36504B0007C355 /* ViewFactory+DPLegendViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewFactory+DPLegendViewDataSource.swift"; sourceTree = "<group>"; };
 		6473DD3A2A3765880007C355 /* ViewFactory+DPHeatMapViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewFactory+DPHeatMapViewDataSource.swift"; sourceTree = "<group>"; };
+		6473DD3C2A38A0640007C355 /* .swiftlint.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; name = .swiftlint.yml; path = ../.swiftlint.yml; sourceTree = "<group>"; };
 		64A37DDF2A2A53E700A8154B /* PickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerViewController.swift; sourceTree = "<group>"; };
 		64A37DE22A2A548000A8154B /* UIStoryboard+VCLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStoryboard+VCLoader.swift"; sourceTree = "<group>"; };
 		64A37DE52A2A54EC00A8154B /* ViewType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewType.swift; sourceTree = "<group>"; };
@@ -107,6 +109,7 @@
 				64F992682A29DCC400D5842A /* DPCharts-Demo-iOS */,
 				64F992672A29DCC400D5842A /* Products */,
 				64F992822A29DE8C00D5842A /* Frameworks */,
+				6473DD3C2A38A0640007C355 /* .swiftlint.yml */,
 			);
 			sourceTree = "<group>";
 		};
@@ -175,6 +178,7 @@
 				64F992622A29DCC400D5842A /* Sources */,
 				64F992632A29DCC400D5842A /* Frameworks */,
 				64F992642A29DCC400D5842A /* Resources */,
+				6473DD3E2A38A0900007C355 /* Run Swiftlint */,
 			);
 			buildRules = (
 			);
@@ -226,6 +230,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6473DD3D2A38A0640007C355 /* .swiftlint.yml in Resources */,
 				64F992762A29DCC400D5842A /* LaunchScreen.storyboard in Resources */,
 				64F992732A29DCC400D5842A /* Assets.xcassets in Resources */,
 				64F992712A29DCC400D5842A /* Main.storyboard in Resources */,
@@ -233,6 +238,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		6473DD3E2A38A0900007C355 /* Run Swiftlint */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Run Swiftlint";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export PATH=\"$PATH:/opt/homebrew/bin\"\nif which swiftlint > /dev/null; then\n  swiftlint --config ../.swiftlint.yml\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		64F992622A29DCC400D5842A /* Sources */ = {
