@@ -13,7 +13,7 @@ import Foundation
 import UIKit
 
 /// A struct to model heatmap values.
-public struct DPHeatMapCellValue {
+public struct DPHeatMapCellValue: Equatable {
     
     static let zero: DPHeatMapCellValue = DPHeatMapCellValue(value: 0, percentage: 0, rowIndex: 0, columnIndex: 0)
     

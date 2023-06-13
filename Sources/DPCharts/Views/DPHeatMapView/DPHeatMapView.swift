@@ -241,6 +241,24 @@ open class DPHeatMapView: UIView {
         }
     }
     
+    // MARK: - Interaction configuration properties
+
+    /// Whether or not to enable touch events (default = `true`).
+    @IBInspectable
+    open var touchEnabled: Bool = true {
+        didSet {
+            trackingView.isEnabled = touchEnabled
+        }
+    }
+    
+    /// Alpha channel predominance for selected bars (default = `0.6`).
+    @IBInspectable
+    open var touchAlphaPredominance: CGFloat = 0.6 {
+        didSet {
+            setNeedsLayout()
+        }
+    }
+    
     // MARK: - Public weak properties
 
     /// Reference to the view datasource.
@@ -249,6 +267,23 @@ open class DPHeatMapView: UIView {
             setNeedsLayout()
         }
     }
+    
+    /// Reference to the view delegate.
+    open weak var delegate: (any DPHeatMapViewDelegate)? {
+        didSet {
+            setNeedsLayout()
+        }
+    }
+    
+    // MARK: - Subviews
+    
+    lazy var trackingView: DPTrackingView = {
+        let trackingView = DPTrackingView(frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
+        trackingView.insets = insets
+        trackingView.delegate = self
+        trackingView.isEnabled = touchEnabled
+        return trackingView
+    }()
     
     // MARK: - Private properties
     
@@ -359,6 +394,7 @@ open class DPHeatMapView: UIView {
         initLimit()
         initValues()
         layoutCells()
+        layoutTrackingView()
         setNeedsDisplay()
     }
     
@@ -373,6 +409,7 @@ open class DPHeatMapView: UIView {
 
     func commonInit() {
         isOpaque = false
+        addSubview(trackingView)
     }
     
     func initCellsIfNeeded() {
@@ -449,6 +486,7 @@ open class DPHeatMapView: UIView {
                 cellLayer.animationEnabled = animationsEnabled
                 cellLayer.animationDuration = animationDuration
                 cellLayer.animationTimingFunction = animationTimingFunction
+                cellLayer.selectedIndexAlphaPredominance = touchAlphaPredominance
                 cellLayer.cellValue = cellValues[i][j]
                 cellLayer.absenceColor = cellAbsenceColor
                 cellLayer.lowPercentageColor = cellLowPercentageColor
@@ -459,6 +497,12 @@ open class DPHeatMapView: UIView {
             }
             y += cellHeight + cellVerticalSpacing
         }
+    }
+    
+    func layoutTrackingView() {
+        trackingView.frame = CGRect(x: canvasPosX, y: canvasPosY, width: canvasWidth, height: canvasHeight)
+        trackingView.insets = insets
+        trackingView.isEnabled = touchEnabled
     }
     
     // MARK: - Misc
@@ -482,6 +526,40 @@ open class DPHeatMapView: UIView {
             .foregroundColor: axisLabelsTextColor,
             .font: axisLabelsTextFont
         ])
+    }
+    
+    // MARK: - Touch gesture
+    
+    func cellValue(at point: CGPoint) -> DPHeatMapCellValue? {
+        let shifted = CGPoint(x: point.x + canvasPosX, y: point.y + canvasPosY)
+        for cellLayer in cellLayers.flatMap({ $0 }) {
+            if cellLayer.frame.contains(shifted) && cellLayer.cellValue != .zero {
+                return cellLayer.cellValue
+            }
+        }
+        return nil
+    }
+
+    func touchAt(_ point: CGPoint) {
+        guard touchEnabled else { return } // Disabled
+        guard point.x >= 0 else { return } // Out of bounds
+        guard let cellValue = cellValue(at: point) else { return } // Out of scope
+        cellLayers.flatMap({ $0 }).forEach { $0.selectedIndex = (rowIndex: cellValue.rowIndex, columnIndex: cellValue.columnIndex)}
+        delegate?.heatMapView(self, didTouchAtRowIndex: cellValue.rowIndex, andColumnIndex: cellValue.columnIndex)
+    }
+
+    func touchEndedAt(_ point: CGPoint) {
+        guard touchEnabled else { return } // Disabled
+        let cellValue: DPHeatMapCellValue
+        if let cell = self.cellValue(at: point) {
+            cellValue = cell
+        } else if let cell = cellLayers.flatMap({ $0 }).first(where: { $0.selectedIndex != nil })?.cellValue {
+            cellValue = cell
+        } else { // Out of scope and nothing was selected
+            return
+        }
+        cellLayers.flatMap({ $0 }).forEach { $0.selectedIndex = nil }
+        delegate?.heatMapView(self, didReleaseTouchFromItem: cellValue.rowIndex, andColumnIndex: cellValue.columnIndex)
     }
     
     // MARK: - Custom drawing
@@ -578,4 +656,34 @@ open class DPHeatMapView: UIView {
     }
     #endif
 
+}
+
+// MARK: - DPTrackingViewDelegate
+
+extension DPHeatMapView: DPTrackingViewDelegate {
+    
+    func trackingView(_ trackingView: DPTrackingView, touchDownAt point: CGPoint) {
+        touchAt(point)
+    }
+    
+    func trackingView(_ trackingView: DPTrackingView, touchMovedTo point: CGPoint) {
+        touchAt(point)
+    }
+    
+    func trackingView(_ trackingView: DPTrackingView, touchUpAt point: CGPoint) {
+        touchEndedAt(point)
+    }
+    
+    func trackingView(_ trackingView: DPTrackingView, touchCanceledAt point: CGPoint) {
+        touchEndedAt(point)
+    }
+    
+    func trackingView(_ trackingView: DPTrackingView, tapSingleAt point: CGPoint) {
+        touchEndedAt(point)
+    }
+    
+    func trackingView(_ trackingView: DPTrackingView, tapDoubleAt point: CGPoint) {
+        touchEndedAt(point)
+    }
+    
 }

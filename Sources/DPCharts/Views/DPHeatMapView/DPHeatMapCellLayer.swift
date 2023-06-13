@@ -25,6 +25,13 @@ open class DPHeatMapCellLayer: CALayer {
     var highPercentageColor: UIColor = .green
     var cellCornerRadius: CGFloat = 2.0
     var cellValue: DPHeatMapCellValue = .zero
+    var selectedIndexAlphaPredominance: CGFloat = 0.6
+    var selectedIndex: (rowIndex: Int, columnIndex: Int)? {
+        didSet {
+            setupLayer()
+            setupOpacity()
+        }
+    }
     
     // MARK: - Computed properties
     
@@ -113,7 +120,21 @@ open class DPHeatMapCellLayer: CALayer {
             animations.isRemovedOnCompletion = true
             shapeLayer.add(animations, forKey: "animations")
         }
-        
+    }
+    
+    private func setupOpacity() {
+        CATransaction.begin()
+        CATransaction.setDisableActions(true)
+        if let selectedIndex {
+            if selectedIndex.rowIndex == cellValue.rowIndex && selectedIndex.columnIndex == cellValue.columnIndex {
+                opacity = 1.0
+            } else {
+                opacity = 1.0 - Float(selectedIndexAlphaPredominance)
+            }
+        } else {
+            opacity = 1.0
+        }
+        CATransaction.commit()
     }
     
 }
