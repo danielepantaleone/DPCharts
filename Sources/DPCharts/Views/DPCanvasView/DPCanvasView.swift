@@ -170,7 +170,7 @@ open class DPCanvasView: UIView {
         }
     }
     
-    /// If `true` the Y-axis will be placed on the right, otherwise on the left (default = `true`).
+    /// If `true` the Y-axis will be placed on the right, otherwise on the left (default = `false`).
     @IBInspectable
     open var yAxisInverted: Bool = false {
         didSet {
