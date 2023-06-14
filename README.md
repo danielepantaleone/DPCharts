@@ -1,11 +1,9 @@
 <p align="center">
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="./Assets/DPChartsLogo.png" width="300">
-  <img alt="logo" src="./Assets/DPChartsLogo.png" width="300">
+  <source media="(prefers-color-scheme: dark)" srcset="./Assets/DPChartsLogo.png">
+  <img alt="logo" src="./Assets/DPChartsLogo.png">
 </picture>
 </p>
-
-<br/>
 
 ![Swift](https://img.shields.io/badge/Swift-5.5-orange?style=flat-square)
 ![Platform](https://img.shields.io/badge/Platform-iOS-Blue?style=flat-square)
