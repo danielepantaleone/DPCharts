@@ -141,6 +141,7 @@ extension ViewFactory {
         legendView.horizontal = horizontal
         legendView.spacing = horizontal ? 8.0 : 4.0
         legendView.textColor = .grey500
+        legendView.translatesAutoresizingMaskIntoConstraints = false
         return legendView
     }
     
@@ -153,6 +154,7 @@ extension ViewFactory {
         heatmapView.cellAbsenceColor = .grey300
         heatmapView.cellLowPercentageColor = .secondary300
         heatmapView.cellHighPercentageColor = .green600
+        heatmapView.translatesAutoresizingMaskIntoConstraints = false
         heatmapView.heightAnchor.constraint(equalToConstant: 220).isActive = true
         return heatmapView
     }
