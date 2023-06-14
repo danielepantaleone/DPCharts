@@ -255,14 +255,14 @@ open class DPLineChartView: DPCanvasView {
     
     // MARK: - Overridden properties
     
-    override var xAxisMarkersMaxHeight: CGFloat {
+    override var xAxisLabelsMaxHeight: CGFloat {
         guard xAxisMarkersCount > 0 else {
             return 0
         }
         var height: CGFloat = 0
         for i in 0..<xAxisMarkersCount {
-            if let marker = xAxisMarkerAtIndex(i) {
-                height = max(height, marker.size().height)
+            if let label = xAxisLabelAtIndex(i) {
+                height = max(height, label.size().height)
             }
         }
         return height + xAxisMarkersSpacing
@@ -538,13 +538,13 @@ open class DPLineChartView: DPCanvasView {
                 ctx.strokePath()
             }
             // Draw the marker text if we have some content
-            if let marker = xAxisMarkerAtIndex(i) {
+            if let label = xAxisLabelAtIndex(i) {
                 let xMin: CGFloat = 0.0
-                let xMax: CGFloat = bounds.width - marker.size().width
-                let xAxisLabelPosition: CGFloat = (xAxisPosition - (marker.size().width * 0.5)).clamped(to: xMin...xMax)
+                let xMax: CGFloat = bounds.width - label.size().width
+                let xAxisLabelPosition: CGFloat = (xAxisPosition - (label.size().width * 0.5)).clamped(to: xMin...xMax)
                 let yAxisLabelPosition: CGFloat = canvasPosY + canvasHeight + xAxisMarkersSpacing
                 ctx.setAlpha(1.0)
-                marker.draw(at: CGPoint(x: xAxisLabelPosition, y: yAxisLabelPosition))
+                label.draw(at: CGPoint(x: xAxisLabelPosition, y: yAxisLabelPosition))
             }
         }
         
@@ -554,20 +554,20 @@ open class DPLineChartView: DPCanvasView {
 
     // MARK: - Misc
     
-    func xAxisMarkerAtIndex(_ index: Int) -> NSAttributedString? {
+    func xAxisLabelAtIndex(_ index: Int) -> NSAttributedString? {
         guard let string = datasource?.lineChartView(self, xAxisLabelAtIndex: index) else {
             return nil
         }
-        return marker(string)
+        return axisLabel(string)
     }
     
     // MARK: - Overrides
     
-    override func yAxisMarkerAtIndex(_ index: Int, for value: CGFloat) -> NSAttributedString? {
+    override func yAxisLabelAtIndex(_ index: Int, for value: CGFloat) -> NSAttributedString? {
         guard let string = datasource?.lineChartView(self, yAxisLabelAtIndex: index, for: value) else {
             return nil
         }
-        return marker(string)
+        return axisLabel(string)
     }
     
     override func yAxisValueAtIndex(_ index: Int) -> CGFloat {

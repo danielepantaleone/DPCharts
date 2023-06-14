@@ -104,9 +104,9 @@ open class DPBarChartView: DPCanvasView {
     
     // MARK: - X-axis properties
     
-    /// The spacing between the marker label and the bottom border (default = `8`).
+    /// The spacing between X-axis label and the bottom border (default = `8`).
     @IBInspectable
-    open var xAxisMarkersSpacing: CGFloat = 8 {
+    open var xAxisLabelsSpacing: CGFloat = 8 {
         didSet {
             setNeedsLayout()
             setNeedsDisplay()
@@ -176,17 +176,17 @@ open class DPBarChartView: DPCanvasView {
     
     // MARK: - Overridden properties
     
-    override var xAxisMarkersMaxHeight: CGFloat {
+    override var xAxisLabelsMaxHeight: CGFloat {
         guard numberOfItems > 0 else {
             return 0
         }
         var height: CGFloat = 0
         for i in 0..<numberOfItems {
-            if let marker = xAxisMarkerAtItem(i) {
-                height = max(height, marker.size().height)
+            if let label = xAxisLabelAtItem(i) {
+                height = max(height, label.size().height)
             }
         }
-        return height + xAxisMarkersSpacing
+        return height + xAxisLabelsSpacing
     }
     
     // MARK: - Lifecycle
@@ -412,14 +412,13 @@ open class DPBarChartView: DPCanvasView {
                 ctx.addLine(to: CGPoint(x: xAxisPosition, y: yAxisLineEndPosition))
                 ctx.strokePath()
             }
-            // Draw the marker text if we have some content
-            if let marker = xAxisMarkerAtItem(i) {
+            // Draw the label if we have some content
+            if let label = xAxisLabelAtItem(i) {
                 let xAxisLabelShift: CGFloat = ((barItemWidth + barSpacing) * CGFloat(i + 1)) - (barItemWidth * 0.5)
-                let xAxisLabelPosition: CGFloat = canvasPosX + xAxisLabelShift - (marker.size().width * 0.5) - (barSpacing * 0.5)
-                let yAxisLabelPosition: CGFloat = canvasPosY + canvasHeight + xAxisMarkersSpacing
+                let xAxisLabelPosition: CGFloat = canvasPosX + xAxisLabelShift - (label.size().width * 0.5) - (barSpacing * 0.5)
+                let yAxisLabelPosition: CGFloat = canvasPosY + canvasHeight + xAxisLabelsSpacing
                 ctx.setAlpha(1.0)
-                ctx.setStrokeColor(markersTextColor.cgColor)
-                marker.draw(at: CGPoint(x: xAxisLabelPosition, y: yAxisLabelPosition))
+                label.draw(at: CGPoint(x: xAxisLabelPosition, y: yAxisLabelPosition))
             }
         }
         
@@ -429,20 +428,20 @@ open class DPBarChartView: DPCanvasView {
     
     // MARK: - Misc
     
-    func xAxisMarkerAtItem(_ index: Int) -> NSAttributedString? {
+    func xAxisLabelAtItem(_ index: Int) -> NSAttributedString? {
         guard let string = datasource?.barChartView(self, xAxisLabelForItemAtIndex: index) else {
             return nil
         }
-        return marker(string)
+        return axisLabel(string)
     }
     
     // MARK: - Overrides
     
-    override func yAxisMarkerAtIndex(_ index: Int, for value: CGFloat) -> NSAttributedString? {
+    override func yAxisLabelAtIndex(_ index: Int, for value: CGFloat) -> NSAttributedString? {
         guard let string = datasource?.barChartView(self, yAxisLabelAtIndex: index, for: value) else {
             return nil
         }
-        return marker(string)
+        return axisLabel(string)
     }
         
     override func yAxisValueAtIndex(_ index: Int) -> CGFloat {

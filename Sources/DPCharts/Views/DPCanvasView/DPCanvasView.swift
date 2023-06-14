@@ -35,6 +35,22 @@ open class DPCanvasView: UIView {
         }
     }
     
+    /// The color of labels on axis (default = `.lightGray`).
+    @IBInspectable
+    open var axisLabelsTextColor: UIColor = .lightGray {
+        didSet {
+            setNeedsDisplay()
+        }
+    }
+    
+    /// The font used to render axis labels (default = `.systemFont(ofSize: 12)`).
+    open var axisLabelsTextFont: UIFont = .systemFont(ofSize: 12) {
+        didSet {
+            setNeedsLayout()
+            setNeedsDisplay()
+        }
+    }
+    
     // MARK: - Markers properties
     
     /// The alpha to be applied when drawing markers lines (default = `0.7`).
@@ -68,6 +84,13 @@ open class DPCanvasView: UIView {
         get { markersLineDashLengths.map(String.init).joined(separator: ", ") }
         set { markersLineDashLengths = newValue.components(separatedBy: ",").compactMap { Double($0).map { CGFloat($0) } } }
     }
+    
+    /// The dash lengths to apply when `markersLineDashed` is `true` (default = `[2, 2]`).
+    open var markersLineDashLengths: [CGFloat] = [2, 2] {
+        didSet {
+            setNeedsDisplay()
+        }
+    }
    
     /// The width of marker lines (default = `0.5`).
     @IBInspectable
@@ -75,14 +98,6 @@ open class DPCanvasView: UIView {
         didSet {
             setNeedsDisplay()
             setNeedsLayout()
-        }
-    }
-    
-    /// The color of markers text (default = `.lightGray`).
-    @IBInspectable
-    open var markersTextColor: UIColor = .lightGray {
-        didSet {
-            setNeedsDisplay()
         }
     }
     
@@ -116,6 +131,14 @@ open class DPCanvasView: UIView {
         set { insets = UIEdgeInsets(top: newValue, left: insets.left, bottom: insets.bottom, right: insets.right) }
     }
     
+    /// The internal insets of the chart (default = `UIEdgeInsets.zero`).
+    open var insets: UIEdgeInsets = .zero {
+        didSet {
+            setNeedsLayout()
+            setNeedsDisplay()
+        }
+    }
+    
     // MARK: - X-axis properties
     
     /// The X-axis title (default = `nil`).
@@ -137,6 +160,14 @@ open class DPCanvasView: UIView {
     /// The spacing between X-axis title and the markers (default = `8`).
     @IBInspectable
     open var xAxisTitleSpacing: CGFloat = 8 {
+        didSet {
+            setNeedsLayout()
+            setNeedsDisplay()
+        }
+    }
+    
+    /// The font of the title of the X-axis (default = `.systemFont(ofSize: 12)`).
+    open var xAxisTitleFont: UIFont = .italicSystemFont(ofSize: 12) {
         didSet {
             setNeedsLayout()
             setNeedsDisplay()
@@ -215,40 +246,7 @@ open class DPCanvasView: UIView {
         }
     }
     
-    // MARK: - Public properties
-    
-    /// The internal insets of the chart (default = `UIEdgeInsets.zero`).
-    open var insets: UIEdgeInsets = .zero {
-        didSet {
-            setNeedsLayout()
-            setNeedsDisplay()
-        }
-    }
-    
-    /// The dash lengths to apply when `markersLineDashed` is `true` (default = `[2, 2]`).
-    open var markersLineDashLengths: [CGFloat] = [2, 2] {
-        didSet {
-            setNeedsDisplay()
-        }
-    }
-    
-    /// The font used to render markers (default = `.systemFont(ofSize: 12)`).
-    open var markersTextFont: UIFont = .systemFont(ofSize: 12) {
-        didSet {
-            setNeedsLayout()
-            setNeedsDisplay()
-        }
-    }
-    
-    /// The font of the title of the markers on the X-axis (default = `.systemFont(ofSize: 12)`).
-    open var xAxisTitleFont: UIFont = .italicSystemFont(ofSize: 12) {
-        didSet {
-            setNeedsLayout()
-            setNeedsDisplay()
-        }
-    }
-    
-    /// The font of the title of the markers on the Y-axis (default = `.systemFont(ofSize: 12)`).
+    /// The font of the title of the Y-axis (default = `.systemFont(ofSize: 12)`).
     open var yAxisTitleFont: UIFont = .italicSystemFont(ofSize: 12) {
         didSet {
             setNeedsLayout()
@@ -263,17 +261,17 @@ open class DPCanvasView: UIView {
     // MARK: - Computed properties
     
     var canvasHeight: CGFloat {
-        return frame.height - insets.top - insets.bottom - axisWidth - markersLineWidth - xAxisMarkersMaxHeight - xAxisTitleHeight
+        return frame.height - insets.top - insets.bottom - axisWidth - markersLineWidth - xAxisLabelsMaxHeight - xAxisTitleHeight
     }
     var canvasWidth: CGFloat {
-        return frame.width - insets.left - insets.right - axisWidth - markersLineWidth - yAxisMarkersMaxWidth - yAxisTitleHeight
+        return frame.width - insets.left - insets.right - axisWidth - markersLineWidth - yAxisLabelsMaxWidth - yAxisTitleHeight
     }
     var canvasPosX: CGFloat {
         var pos: CGFloat = insets.left
         if yAxisInverted {
             pos += markersLineWidth
         } else {
-            pos += axisWidth + yAxisMarkersMaxWidth + yAxisTitleHeight
+            pos += axisWidth + yAxisLabelsMaxWidth + yAxisTitleHeight
         }
         return pos
     }
@@ -319,10 +317,10 @@ open class DPCanvasView: UIView {
     
     // MARK: - Abstract properties
     
-    var xAxisMarkersMaxHeight: CGFloat {
+    var xAxisLabelsMaxHeight: CGFloat {
         preconditionFailure("xAxisMarkersMaxHeight must be implemented")
     }
-    var yAxisMarkersMaxWidth: CGFloat {
+    var yAxisLabelsMaxWidth: CGFloat {
         guard yAxisMarkersCount > 0 else {
             return 0
         }
@@ -334,7 +332,7 @@ open class DPCanvasView: UIView {
         }
         var width: CGFloat = 0
         for i in 0..<yAxisMarkersCount {
-            if let marker = yAxisMarkerAtIndex(i, for: yAxisValueAtIndex(i)) {
+            if let marker = yAxisLabelAtIndex(i, for: yAxisValueAtIndex(i)) {
                 width = max(width, marker.size().width)
             }
         }
@@ -345,20 +343,20 @@ open class DPCanvasView: UIView {
     
     // MARK: - Abstract interface
     
-    func yAxisMarkerAtIndex(_ index: Int, for value: CGFloat) -> NSAttributedString? {
-        preconditionFailure("markerOnYAxisAtIndex must be implemented")
+    func yAxisLabelAtIndex(_ index: Int, for value: CGFloat) -> NSAttributedString? {
+        preconditionFailure("yAxisLabelAtIndex must be implemented")
     }
 
     func yAxisValueAtIndex(_ index: Int) -> CGFloat {
-        preconditionFailure("valueOnYAxisAtIndex must be implemented")
+        preconditionFailure("yAxisValueAtIndex must be implemented")
     }
     
     // MARK: - Internals
     
-    func marker(_ string: String) -> NSAttributedString {
+    func axisLabel(_ string: String) -> NSAttributedString {
         return NSAttributedString(string: string, attributes: [
-            .foregroundColor: markersTextColor,
-            .font: markersTextFont
+            .foregroundColor: axisLabelsTextColor,
+            .font: axisLabelsTextFont
         ])
     }
     
@@ -384,12 +382,12 @@ open class DPCanvasView: UIView {
 
         let x1, x2: CGFloat
         let y1 = insets.top
-        let y2 = rect.height - insets.bottom - xAxisMarkersMaxHeight - xAxisTitleHeight
+        let y2 = rect.height - insets.bottom - xAxisLabelsMaxHeight - xAxisTitleHeight
         if yAxisInverted {
             x1 = insets.left
-            x2 = rect.width - insets.right - yAxisMarkersMaxWidth - yAxisTitleHeight
+            x2 = rect.width - insets.right - yAxisLabelsMaxWidth - yAxisTitleHeight
         } else {
-            x1 = insets.left + yAxisMarkersMaxWidth + yAxisTitleHeight
+            x1 = insets.left + yAxisLabelsMaxWidth + yAxisTitleHeight
             x2 = rect.width - insets.right
         }
         
@@ -398,7 +396,7 @@ open class DPCanvasView: UIView {
         ctx.setShouldAntialias(true)
 
         // ----------------------------------------
-        // BORDERS
+        // AXIS
         
         // ************************************* //
         // (x1, y1) ------------------ (x2, y1)  //
@@ -483,7 +481,7 @@ open class DPCanvasView: UIView {
         
         if let xAxisTitleAttributedString {
             let labelPositionOnXAxis: CGFloat = canvasPosX
-            let labelPositionOnYAxis: CGFloat = canvasPosY + canvasHeight + xAxisTitleSpacing + xAxisMarkersMaxHeight
+            let labelPositionOnYAxis: CGFloat = canvasPosY + canvasHeight + xAxisTitleSpacing + xAxisLabelsMaxHeight
             xAxisTitleAttributedString.draw(in: CGRect(
                 x: labelPositionOnXAxis,
                 y: labelPositionOnYAxis,
@@ -549,7 +547,7 @@ open class DPCanvasView: UIView {
                 ctx.strokePath()
             }
             // Draw the marker text if we have some content
-            if let marker = yAxisMarkerAtIndex(i, for: yAxisValueAtIndex(i)) {
+            if let marker = yAxisLabelAtIndex(i, for: yAxisValueAtIndex(i)) {
                 let yAxisLabelPosition: CGFloat = yAxisLinePosition - marker.size().height * 0.5
                 let xAxisLabelPosition: CGFloat
                 if yAxisInverted {
@@ -558,7 +556,6 @@ open class DPCanvasView: UIView {
                     xAxisLabelPosition = canvasPosX - marker.size().width - yAxisMarkersSpacing
                 }
                 ctx.setAlpha(1.0)
-                ctx.setStrokeColor(markersLineColor.cgColor)
                 marker.draw(at: CGPoint(x: xAxisLabelPosition, y: yAxisLabelPosition))
             }
         }

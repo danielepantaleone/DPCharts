@@ -167,7 +167,7 @@ open class DPHeatMapView: UIView {
     
     // MARK: - Labels properties
     
-    /// The color of markers text (default = `.lightGray`).
+    /// The color of axix labels text (default = `.lightGray`).
     @IBInspectable
     open var axisLabelsTextColor: UIColor = .lightGray {
         didSet {
@@ -175,7 +175,7 @@ open class DPHeatMapView: UIView {
         }
     }
     
-    /// The font used to render markers (default = `.systemFont(ofSize: 12)`).
+    /// The font used to render axis labels (default = `.systemFont(ofSize: 12)`).
     open var axisLabelsTextFont: UIFont = .systemFont(ofSize: 12) {
         didSet {
             setNeedsLayout()
@@ -321,8 +321,8 @@ open class DPHeatMapView: UIView {
         }
         var height: CGFloat = 0
         for i in 0..<numberOfColumns {
-            if let marker = xAxisMarkerAtColumnIndex(i) {
-                height = max(height, marker.size().height)
+            if let label = xAxisLabelAtColumnIndex(i) {
+                height = max(height, label.size().height)
             }
         }
         height += xAxisLabelsSpacing
@@ -342,8 +342,8 @@ open class DPHeatMapView: UIView {
         }
         var width: CGFloat = 0
         for i in 0..<numberOfRows {
-            if let marker = yAxisMarkerAtRowIndex(i) {
-                width = max(width, marker.size().width)
+            if let label = yAxisLabelAtRowIndex(i) {
+                width = max(width, label.size().width)
             }
         }
         width += yAxisLabelsSpacing
@@ -507,21 +507,21 @@ open class DPHeatMapView: UIView {
     
     // MARK: - Misc
     
-    func xAxisMarkerAtColumnIndex(_ columnIndex: Int) -> NSAttributedString? {
+    func xAxisLabelAtColumnIndex(_ columnIndex: Int) -> NSAttributedString? {
         guard let string = datasource?.heatMapView(self, xAxisLabelForColumnAtIndex: columnIndex) else {
             return nil
         }
-        return marker(string)
+        return axisLabel(string)
     }
     
-    func yAxisMarkerAtRowIndex(_ rowIndex: Int) -> NSAttributedString? {
+    func yAxisLabelAtRowIndex(_ rowIndex: Int) -> NSAttributedString? {
         guard let string = datasource?.heatMapView(self, yAxisLabelForRowAtIndex: rowIndex) else {
             return nil
         }
-        return marker(string)
+        return axisLabel(string)
     }
     
-    func marker(_ string: String) -> NSAttributedString {
+    func axisLabel(_ string: String) -> NSAttributedString {
         return NSAttributedString(string: string, attributes: [
             .foregroundColor: axisLabelsTextColor,
             .font: axisLabelsTextFont
@@ -590,18 +590,18 @@ open class DPHeatMapView: UIView {
         ctx.setAlpha(1.0)
         
         for i in 0..<numberOfColumns {
-            guard let marker = xAxisMarkerAtColumnIndex(i) else {
+            guard let label = xAxisLabelAtColumnIndex(i) else {
                 continue
             }
             let xShift: CGFloat = (cellWidth * CGFloat(i + 1)) + cellHorizontalSpacing * CGFloat(i) - (cellWidth * 0.5)
-            let xPos: CGFloat = canvasPosX + xShift - (marker.size().width * 0.5)
+            let xPos: CGFloat = canvasPosX + xShift - (label.size().width * 0.5)
             let yPos: CGFloat
             if xAxisInverted {
                 yPos = canvasPosY + canvasHeight + xAxisLabelsSpacing
             } else {
                 yPos = insets.top
             }
-            marker.draw(at: CGPoint(x: xPos, y: yPos))
+            label.draw(at: CGPoint(x: xPos, y: yPos))
         }
         
         ctx.restoreGState()
@@ -628,18 +628,18 @@ open class DPHeatMapView: UIView {
         ctx.setAlpha(1.0)
         
         for i in 0..<numberOfRows {
-            guard let marker = yAxisMarkerAtRowIndex(i) else {
+            guard let label = yAxisLabelAtRowIndex(i) else {
                 continue
             }
             let yShift: CGFloat = (cellHeight * CGFloat(i + 1)) + (cellVerticalSpacing * CGFloat(i)) - (cellHeight * 0.5)
-            let yPos: CGFloat = canvasPosY + yShift - (marker.size().height * 0.5)
+            let yPos: CGFloat = canvasPosY + yShift - (label.size().height * 0.5)
             let xPos: CGFloat
             if yAxisInverted {
                 xPos = canvasPosX + canvasWidth + yAxisLabelsSpacing
             } else {
                 xPos = insets.left
             }
-            marker.draw(at: CGPoint(x: xPos, y: yPos))
+            label.draw(at: CGPoint(x: xPos, y: yPos))
         }
         
         ctx.restoreGState()

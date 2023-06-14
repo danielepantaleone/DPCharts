@@ -123,8 +123,8 @@ extension ViewFactory {
         barChartView.datasource = self
         barChartView.barStacked = stacked
         barChartView.axisColor = .grey500
+        barChartView.axisLabelsTextColor = .grey500
         barChartView.markersLineColor = .grey500
-        barChartView.markersTextColor = .grey500
         barChartView.xAxisTitle = "Title of X-axis"
         barChartView.yAxisInverted = yAxisInverted
         barChartView.yAxisMarkersWidthRetained = true
@@ -148,9 +148,9 @@ extension ViewFactory {
     func createHeatmap(xAxisInverted: Bool, yAxisInverted: Bool) -> DPHeatMapView {
         let heatmapView = DPHeatMapView()
         heatmapView.datasource = self
+        heatmapView.axisLabelsTextColor = .grey500
         heatmapView.xAxisInverted = xAxisInverted
         heatmapView.yAxisInverted = yAxisInverted
-        heatmapView.axisLabelsTextColor = .grey500
         heatmapView.cellAbsenceColor = .grey300
         heatmapView.cellLowPercentageColor = .secondary300
         heatmapView.cellHighPercentageColor = .green600
@@ -165,8 +165,8 @@ extension ViewFactory {
         lineChartView.bezierCurveEnabled = bezierCurveEnabled
         lineChartView.areaEnabled = areaEnabled
         lineChartView.axisColor = .grey500
+        lineChartView.axisLabelsTextColor = .grey500
         lineChartView.markersLineColor = .grey500
-        lineChartView.markersTextColor = .grey500
         lineChartView.xAxisTitle = "Title of X-axis"
         lineChartView.yAxisInverted = yAxisInverted
         lineChartView.yAxisMarkersWidthRetained = true
@@ -194,8 +194,8 @@ extension ViewFactory {
         let scatterChartView = DPScatterChartView()
         scatterChartView.datasource = self
         scatterChartView.axisColor = .grey500
+        scatterChartView.axisLabelsTextColor = .grey500
         scatterChartView.markersLineColor = .grey500
-        scatterChartView.markersTextColor = .grey500
         scatterChartView.xAxisTitle = "Title of X-axis"
         scatterChartView.yAxisInverted = yAxisInverted
         scatterChartView.yAxisMarkersWidthRetained = true
