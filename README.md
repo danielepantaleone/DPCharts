@@ -32,51 +32,169 @@ DPCharts provides several features and extensive customization options. Presente
 
 ### BarChart
 
+A bar chart is a graphical representation of data using rectangular bars to represent different categories or variables. Each bar's length corresponds to the value or frequency of the category it represents.
+
 ![BarChart](./Assets/Charts/BarChart.png)
+
+```swift
+let barChartView = DPBarChartView()
+barChartView.datasource = self
+barChartView.barStacked = false
+barChartView.xAxisTitle = "Title of X-axis"
+barChartView.yAxisInverted = false
+barChartView.yAxisMarkersWidthRetained = true
+barChartView.yAxisTitle = "Title of Y-axis"
+```
 
 ### BarChart (stacked)
 
+
+A stacked bar chart is a type of graphical representation that uses rectangular bars to display multiple categories or variables, stacked on top of one another. Each bar segment represents a specific category or subgroup, and the total height of the stacked bars corresponds to the cumulative value or frequency of the variables being represented.
+
 ![StackedBarChart](./Assets/Charts/StackedBarChart.png)
+
+```swift
+let barChartView = DPBarChartView()
+barChartView.datasource = self
+barChartView.barStacked = true
+barChartView.xAxisTitle = "Title of X-axis"
+barChartView.yAxisInverted = false
+barChartView.yAxisMarkersWidthRetained = true
+barChartView.yAxisTitle = "Title of Y-axis"
+```
 
 ### LineChart
 
+A line chart is a graphical representation of data that uses lines to connect data points, typically showing the relationship or trend between two or more variables over a specific period.
+
 ![LineChart](./Assets/Charts/LineChart.png)
+
+```swift
+let lineChartView = DPLineChartView()
+lineChartView.datasource = self
+lineChartView.bezierCurveEnabled = false
+lineChartView.areaEnabled = false
+lineChartView.xAxisTitle = "Title of X-axis"
+lineChartView.yAxisInverted = false
+lineChartView.yAxisMarkersWidthRetained = true
+lineChartView.yAxisTitle = "Title of Y-axis"
+```
 
 ### LineChart (with area)
 
+A line chart with an area is a type of graphical representation that combines the features of a traditional line chart with the addition of a shaded area beneath the line. The line represents the trend or relationship between variables over time or a continuous scale, while the shaded area beneath the line represents the cumulative values or frequencies.
+
 ![LineChartArea](./Assets/Charts/LineChartArea.png)
+
+```swift
+let lineChartView = DPLineChartView()
+lineChartView.datasource = self
+lineChartView.bezierCurveEnabled = false
+lineChartView.areaEnabled = true
+lineChartView.xAxisTitle = "Title of X-axis"
+lineChartView.yAxisInverted = false
+lineChartView.yAxisMarkersWidthRetained = true
+lineChartView.yAxisTitle = "Title of Y-axis"
+```
 
 ### LineChart (with bezier curve)
 
+A line chart with a Bezier curve is a special graphical representation of a line chart that uses a smooth, curved line to connect data points, showing the trend or relationship between variables over time or a continuous scale. The Bezier curve is a mathematical curve that provides a smooth and visually appealing interpolation between data points.
+
 ![LineChartBezierCurve](./Assets/Charts/LineChartBezierCurve.png)
+
+```swift
+let lineChartView = DPLineChartView()
+lineChartView.datasource = self
+lineChartView.bezierCurveEnabled = true
+lineChartView.areaEnabled = false
+lineChartView.xAxisTitle = "Title of X-axis"
+lineChartView.yAxisInverted = false
+lineChartView.yAxisMarkersWidthRetained = true
+lineChartView.yAxisTitle = "Title of Y-axis"
+```
 
 ### LineChart (with bezier curve and area)
 
+A line chart with a Bezier curve and an area combines the smooth, curved line of a Bezier curve with the added visual representation of the cumulative values or frequencies through a shaded area beneath the curve.
+
 ![LineChartBezierCurveArea](./Assets/Charts/LineChartBezierCurveArea.png)
+
+```swift
+let lineChartView = DPLineChartView()
+lineChartView.datasource = self
+lineChartView.bezierCurveEnabled = true
+lineChartView.areaEnabled = true
+lineChartView.xAxisTitle = "Title of X-axis"
+lineChartView.yAxisInverted = false
+lineChartView.yAxisMarkersWidthRetained = true
+lineChartView.yAxisTitle = "Title of Y-axis"
+```
 
 ### ScatterChart
 
+A scatter chart, also known as a scatter plot, is a graphical representation that displays individual data points as dots on a two-dimensional coordinate system. It is used to show the relationship or correlation between two variables. Each data point on the chart represents a specific value pair for the two variables being analyzed.
+
 ![ScatterChart](./Assets/Charts/ScatterChart.png)
+
+```swift
+let scatterChartView = DPScatterChartView()
+scatterChartView.datasource = self
+scatterChartView.xAxisTitle = "Title of X-axis"
+scatterChartView.yAxisInverted = false
+scatterChartView.yAxisMarkersWidthRetained = true
+scatterChartView.yAxisTitle = "Title of Y-axis"
+```
 
 ### PieChart
 
+A pie chart is a circular graphical representation that visually displays data as slices of a pie. Each slice in the chart represents a different category or variable, and the size of each slice corresponds to the proportion or percentage of the whole it represents.
+
 ![PieChart](./Assets/Charts/PieChart.png)
+
+```swift
+let pieChartView = DPPieChartView()
+pieChartView.datasource = self
+pieChartView.donutEnabled = false
+```
 
 ### PieChart (as Donut)
 
+A donut chart is a circular graphical representation similar to a pie chart, but with a hollow center. It is formed by creating a hole in the middle of the pie chart, resulting in a ring-like structure.
+
 ![PieChartDonut](./Assets/Charts/PieChartDonut.png)
+
+```swift
+let pieChartView = DPPieChartView()
+pieChartView.datasource = self
+pieChartView.labelsColor = .grey500
+pieChartView.donutEnabled = true
+pieChartView.donutTitle = "Title"
+pieChartView.donutSubtitle = "Brief description"
+pieChartView.donutVerticalSpacing = 4.0
+```
 
 ### Heatmap
 
+A heatmap chart is a graphical representation that uses color-coded cells or rectangles to display data in a matrix or table format. It is particularly useful for visualizing and analyzing data sets that have multiple variables or dimensions.
+In a heatmap chart, each cell in the matrix represents a specific combination of variables or categories. The color of each cell is determined by the value or magnitude of the data it represents. Typically, a color gradient is used, where lighter or darker shades of a color represent higher or lower values, respectively.
+
 ![Heatmap](./Assets/Charts/Heatmap.png)
+
+```swift
+let heatmapView = DPHeatMapView()
+heatmapView.datasource = self
+heatmapView.xAxisInverted = false
+heatmapView.yAxisInverted = false
+```
 
 ## Requirements
 
 DPCharts can be installed on any platform that is compatible with it:
 
-- iOS 12+
-- Xcode 14+ 
-- Swift 5.5+  
+- iOS **12+**
+- Xcode **14+** 
+- Swift **5.5+**  
 
 ## Installation
 
