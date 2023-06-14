@@ -20,18 +20,18 @@ public protocol DPHeatMapViewDataSource: AnyObject {
     func numberOfColumns(_ heatMapView: DPHeatMapView) -> Int
     /// The size for the given dataset/point combination
     func heatMapView(_ heatMapView: DPHeatMapView, valueForRowAtIndex rowIndex: Int, forColumnAtIndex columnIndex: Int) -> CGFloat
-    /// The string to be displayed above/below the given column on the X axis.
-    func heatMapView(_ heatMapView: DPHeatMapView, xAxisMarkerLabelForColumnAtIndex columnIndex: Int) -> String?
-    /// The string to be displayed before/after the given row on the X axis.
-    func heatMapView(_ heatMapView: DPHeatMapView, yAxisMarkerLabelForRowAtIndex rowIndex: Int) -> String?
+    /// The string to be displayed above/below the given column on the X-axis.
+    func heatMapView(_ heatMapView: DPHeatMapView, xAxisLabelForColumnAtIndex columnIndex: Int) -> String?
+    /// The string to be displayed before/after the given row on the Y-axis.
+    func heatMapView(_ heatMapView: DPHeatMapView, yAxisLabelForRowAtIndex rowIndex: Int) -> String?
 }
 
 public extension DPHeatMapViewDataSource {
     
-    func heatMapView(_ heatMapView: DPHeatMapView, xAxisMarkerLabelForColumnAtIndex columnIndex: Int) -> String? {
+    func heatMapView(_ heatMapView: DPHeatMapView, xAxisLabelForColumnAtIndex columnIndex: Int) -> String? {
         return "\(columnIndex)"
     }
-    func heatMapView(_ heatMapView: DPHeatMapView, yAxisMarkerLabelForRowAtIndex rowIndex: Int) -> String? {
+    func heatMapView(_ heatMapView: DPHeatMapView, yAxisLabelForRowAtIndex rowIndex: Int) -> String? {
         if let scalar = UnicodeScalar(rowIndex + Int(("A" as UnicodeScalar).value)) {
             return String(Character(scalar))
         }

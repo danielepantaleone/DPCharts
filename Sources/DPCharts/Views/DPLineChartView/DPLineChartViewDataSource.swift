@@ -24,10 +24,10 @@ public protocol DPLineChartViewDataSource: AnyObject {
     func lineChartView(_ lineChartView: DPLineChartView, colorForLineAtIndex lineIndex: Int) -> UIColor
     /// The width for the given line.
     func lineChartView(_ lineChartView: DPLineChartView, widthForLineAtIndex lineIndex: Int) -> CGFloat
-    /// The string to be displayed below the marker at the given index on the X axis.
-    func lineChartView(_ lineChartView: DPLineChartView, labelForMarkerOnXAxisAtIndex index: Int) -> String?
-    /// The string to be displayed right next to the marker at the given index on the Y axis.
-    func lineChartView(_ lineChartView: DPLineChartView, labelForMarkerOnYAxisAtIndex index: Int, for value: CGFloat) -> String?
+    /// The string to be displayed below the marker at the given index on the X-axis.
+    func lineChartView(_ lineChartView: DPLineChartView, xAxisLabelAtIndex index: Int) -> String?
+    /// The string to be displayed right next to the marker at the given index on the Y-axis.
+    func lineChartView(_ lineChartView: DPLineChartView, yAxisLabelAtIndex index: Int, for value: CGFloat) -> String?
 }
 
 public extension DPLineChartViewDataSource {
@@ -38,10 +38,10 @@ public extension DPLineChartViewDataSource {
     func lineChartView(_ lineChartView: DPLineChartView, widthForLineAtIndex lineIndex: Int) -> CGFloat {
         return DPLineChartView.defaultLineWidth
     }
-    func lineChartView(_ lineChartView: DPLineChartView, labelForMarkerOnXAxisAtIndex index: Int) -> String? {
+    func lineChartView(_ lineChartView: DPLineChartView, xAxisLabelAtIndex index: Int) -> String? {
         return "\(index)"
     }
-    func lineChartView(_ lineChartView: DPLineChartView, labelForMarkerOnYAxisAtIndex index: Int, for value: CGFloat) -> String? {
+    func lineChartView(_ lineChartView: DPLineChartView, yAxisLabelAtIndex index: Int, for value: CGFloat) -> String? {
         return String(format: "%ld", Int(floor(value)))
     }
     

@@ -555,7 +555,7 @@ open class DPLineChartView: DPCanvasView {
     // MARK: - Misc
     
     func xAxisMarkerAtIndex(_ index: Int) -> NSAttributedString? {
-        guard let string = datasource?.lineChartView(self, labelForMarkerOnXAxisAtIndex: index) else {
+        guard let string = datasource?.lineChartView(self, xAxisLabelAtIndex: index) else {
             return nil
         }
         return marker(string)
@@ -564,7 +564,7 @@ open class DPLineChartView: DPCanvasView {
     // MARK: - Overrides
     
     override func yAxisMarkerAtIndex(_ index: Int, for value: CGFloat) -> NSAttributedString? {
-        guard let string = datasource?.lineChartView(self, labelForMarkerOnYAxisAtIndex: index, for: value) else {
+        guard let string = datasource?.lineChartView(self, yAxisLabelAtIndex: index, for: value) else {
             return nil
         }
         return marker(string)

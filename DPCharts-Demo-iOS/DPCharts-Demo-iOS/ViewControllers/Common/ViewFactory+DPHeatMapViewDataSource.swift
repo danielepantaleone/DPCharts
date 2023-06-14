@@ -24,10 +24,10 @@ extension ViewFactory: DPHeatMapViewDataSource {
     func heatMapView(_ heatMapView: DPHeatMapView, valueForRowAtIndex rowIndex: Int, forColumnAtIndex columnIndex: Int) -> CGFloat {
         return heatMapValues[rowIndex][columnIndex]
     }
-    func heatMapView(_ heatMapView: DPHeatMapView, xAxisMarkerLabelForColumnAtIndex columnIndex: Int) -> String? {
+    func heatMapView(_ heatMapView: DPHeatMapView, xAxisLabelForColumnAtIndex columnIndex: Int) -> String? {
         return "\(columnIndex)"
     }
-    func heatMapView(_ heatMapView: DPHeatMapView, yAxisMarkerLabelForRowAtIndex rowIndex: Int) -> String? {
+    func heatMapView(_ heatMapView: DPHeatMapView, yAxisLabelForRowAtIndex rowIndex: Int) -> String? {
         if let scalar = UnicodeScalar(rowIndex + Int(("A" as UnicodeScalar).value)) {
             return String(Character(scalar))
         }

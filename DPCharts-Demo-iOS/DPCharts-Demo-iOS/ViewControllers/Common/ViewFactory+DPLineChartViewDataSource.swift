@@ -39,14 +39,14 @@ extension ViewFactory: DPLineChartViewDataSource {
         return 1.0
     }
     
-    func lineChartView(_ lineChartView: DPLineChartView, labelForMarkerOnXAxisAtIndex index: Int) -> String? {
+    func lineChartView(_ lineChartView: DPLineChartView, xAxisLabelAtIndex index: Int) -> String? {
         if let scalar = UnicodeScalar(index + Int(("A" as UnicodeScalar).value)) {
             return String(Character(scalar))
         }
         return "\(index)"
     }
     
-    func lineChartView(_ lineChartView: DPLineChartView, labelForMarkerOnYAxisAtIndex index: Int, for value: CGFloat) -> String? {
+    func lineChartView(_ lineChartView: DPLineChartView, yAxisLabelAtIndex index: Int, for value: CGFloat) -> String? {
         return String(format: "%.2f", value)
     }
     

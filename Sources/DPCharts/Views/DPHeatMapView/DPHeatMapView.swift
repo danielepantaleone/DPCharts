@@ -508,14 +508,14 @@ open class DPHeatMapView: UIView {
     // MARK: - Misc
     
     func xAxisMarkerAtColumnIndex(_ columnIndex: Int) -> NSAttributedString? {
-        guard let string = datasource?.heatMapView(self, xAxisMarkerLabelForColumnAtIndex: columnIndex) else {
+        guard let string = datasource?.heatMapView(self, xAxisLabelForColumnAtIndex: columnIndex) else {
             return nil
         }
         return marker(string)
     }
     
     func yAxisMarkerAtRowIndex(_ rowIndex: Int) -> NSAttributedString? {
-        guard let string = datasource?.heatMapView(self, yAxisMarkerLabelForRowAtIndex: rowIndex) else {
+        guard let string = datasource?.heatMapView(self, yAxisLabelForRowAtIndex: rowIndex) else {
             return nil
         }
         return marker(string)
@@ -559,7 +559,7 @@ open class DPHeatMapView: UIView {
             return
         }
         cellLayers.flatMap({ $0 }).forEach { $0.selectedIndex = nil }
-        delegate?.heatMapView(self, didReleaseTouchFromItem: cellValue.rowIndex, andColumnIndex: cellValue.columnIndex)
+        delegate?.heatMapView(self, didReleaseTouchFromRowIndex: cellValue.rowIndex, andColumnIndex: cellValue.columnIndex)
     }
     
     // MARK: - Custom drawing

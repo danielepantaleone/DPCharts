@@ -47,11 +47,11 @@ extension ViewFactory: DPScatterChartViewDataSource {
         return scatterChartValues[datasetIndex][index].y
     }
     
-    func scatterChartView(_ scatterChartView: DPScatterChartView, labelForMarkerOnXAxisAtIndex index: Int, for value: CGFloat) -> String? {
+    func scatterChartView(_ scatterChartView: DPScatterChartView, xAxisLabelAtIndex index: Int, for value: CGFloat) -> String? {
         return String(format: "%.2f", value)
     }
     
-    func scatterChartView(_ scatterChartView: DPScatterChartView, labelForMarkerOnYAxisAtIndex index: Int, for value: CGFloat) -> String? {
+    func scatterChartView(_ scatterChartView: DPScatterChartView, yAxisLabelAtIndex index: Int, for value: CGFloat) -> String? {
         return String(format: "%.2f", value)
     }
     

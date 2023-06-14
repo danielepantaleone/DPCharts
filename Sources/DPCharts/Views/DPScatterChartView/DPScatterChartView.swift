@@ -392,7 +392,7 @@ open class DPScatterChartView: DPCanvasView {
     // MARK: - Misc
     
     func xAxisMarkerAtIndex(_ index: Int, for value: CGFloat) -> NSAttributedString? {
-        guard let string = datasource?.scatterChartView(self, labelForMarkerOnXAxisAtIndex: index, for: value) else {
+        guard let string = datasource?.scatterChartView(self, xAxisLabelAtIndex: index, for: value) else {
             return nil
         }
         return marker(string)
@@ -405,7 +405,7 @@ open class DPScatterChartView: DPCanvasView {
     // MARK: - Overrides
     
     override func yAxisMarkerAtIndex(_ index: Int, for value: CGFloat) -> NSAttributedString? {
-        guard let string = datasource?.scatterChartView(self, labelForMarkerOnYAxisAtIndex: index, for: value) else {
+        guard let string = datasource?.scatterChartView(self, yAxisLabelAtIndex: index, for: value) else {
             return nil
         }
         return marker(string)

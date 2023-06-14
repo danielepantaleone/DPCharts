@@ -429,8 +429,8 @@ open class DPBarChartView: DPCanvasView {
     
     // MARK: - Misc
     
-    func xAxisMarkerAtItem(_ item: Int) -> NSAttributedString? {
-        guard let string = datasource?.barChartView(self, labelForMarkerOnXAxisAtItem: item) else {
+    func xAxisMarkerAtItem(_ index: Int) -> NSAttributedString? {
+        guard let string = datasource?.barChartView(self, xAxisLabelForItemAtIndex: index) else {
             return nil
         }
         return marker(string)
@@ -439,7 +439,7 @@ open class DPBarChartView: DPCanvasView {
     // MARK: - Overrides
     
     override func yAxisMarkerAtIndex(_ index: Int, for value: CGFloat) -> NSAttributedString? {
-        guard let string = datasource?.barChartView(self, labelForMarkerOnYAxisAtIndex: index, for: value) else {
+        guard let string = datasource?.barChartView(self, yAxisLabelAtIndex: index, for: value) else {
             return nil
         }
         return marker(string)

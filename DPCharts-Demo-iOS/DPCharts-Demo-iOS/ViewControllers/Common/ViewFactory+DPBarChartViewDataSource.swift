@@ -35,14 +35,14 @@ extension ViewFactory: DPBarChartViewDataSource {
         }
     }
 
-    func barChartView(_ barChartView: DPBarChartView, labelForMarkerOnXAxisAtItem index: Int) -> String? {
+    func barChartView(_ barChartView: DPBarChartView, xAxisLabelForItemAtIndex index: Int) -> String? {
         if let scalar = UnicodeScalar(index + Int(("A" as UnicodeScalar).value)) {
             return String(Character(scalar))
         }
         return "\(index)"
     }
 
-    func barChartView(_ barChartView: DPBarChartView, labelForMarkerOnYAxisAtIndex index: Int, for value: CGFloat) -> String? {
+    func barChartView(_ barChartView: DPBarChartView, yAxisLabelAtIndex index: Int, for value: CGFloat) -> String? {
         return String(format: "%ld", Int(floor(value)))
     }
     

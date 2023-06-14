@@ -22,10 +22,10 @@ public protocol DPBarChartViewDataSource: AnyObject {
     func barChartView(_ barChartView: DPBarChartView, valueForBarAtIndex barIndex: Int, forItemAtIndex index: Int) -> CGFloat
     /// The color for the given bar.
     func barChartView(_ barChartView: DPBarChartView, colorForBarAtIndex barIndex: Int) -> UIColor
-    /// The string to be displayed below the marker at the given item on the X axis.
-    func barChartView(_ barChartView: DPBarChartView, labelForMarkerOnXAxisAtItem index: Int) -> String?
-    /// The string to be displayed right next to the marker at the given index on the Y axis.
-    func barChartView(_ barChartView: DPBarChartView, labelForMarkerOnYAxisAtIndex index: Int, for value: CGFloat) -> String?
+    /// The string to be displayed below the item on the X-axis.
+    func barChartView(_ barChartView: DPBarChartView, xAxisLabelForItemAtIndex index: Int) -> String?
+    /// The string to be displayed right next to the given index on the Y-axis.
+    func barChartView(_ barChartView: DPBarChartView, yAxisLabelAtIndex index: Int, for value: CGFloat) -> String?
 }
 
 public extension DPBarChartViewDataSource {
@@ -33,10 +33,10 @@ public extension DPBarChartViewDataSource {
     func barChartView(_ barChartView: DPBarChartView, colorForBarAtIndex barIndex: Int) -> UIColor {
         return DPBarChartView.defaultBarColor
     }
-    func barChartView(_ barChartView: DPBarChartView, labelForMarkerOnXAxisAtItem index: Int) -> String? {
+    func barChartView(_ barChartView: DPBarChartView, xAxisLabelForItemAtIndex index: Int) -> String? {
         return "\(index)"
     }
-    func barChartView(_ barChartView: DPBarChartView, labelForMarkerOnYAxisAtIndex index: Int, for value: CGFloat) -> String? {
+    func barChartView(_ barChartView: DPBarChartView, yAxisLabelAtIndex index: Int, for value: CGFloat) -> String? {
         return String(format: "%ld", Int(floor(value)))
     }
     
