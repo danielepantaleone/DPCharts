@@ -29,8 +29,8 @@ DPCharts is a Swift-based lightweight framework designed specifically for render
     * [Heatmap](#heatmap)
 * [Requirements](#requirements)
 * [Installation](#installation)
-      * [Cocoapods](#cocoapods)
-      * [Swift Package Manager](#swift-package-manager)
+    * [Cocoapods](#cocoapods)
+    * [Swift Package Manager](#swift-package-manager)
 * [Running the demo](#running-the-demo)
 
 ## Feature Highlights
