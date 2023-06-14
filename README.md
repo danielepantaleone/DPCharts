@@ -38,7 +38,7 @@ DPCharts is a Swift-based lightweight framework designed specifically for render
 DPCharts provides several features and extensive customization options. Presented below is a concise list showcasing some of its capabilities:
 
 - **5** different chart types
-- **Legend** support using a specific view
+- **Legend** support using a specific view (see [DPLegendView](./Sources/DPCharts/Views/DPLegendView/DPLegendView.swift))
 - **Storyboard** support by means of **@IBDesignable** and **@IBInspectable**
 - **Animations** support (where applicable)
 - **Touch gesture** interaction (where applicable)
