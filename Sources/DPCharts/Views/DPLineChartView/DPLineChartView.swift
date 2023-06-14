@@ -298,7 +298,7 @@ open class DPLineChartView: DPCanvasView {
     // MARK: - Interface
     
     /// Reload chart content by reading its datasource.
-    func reloadData() {
+    open func reloadData() {
         setNeedsLayout()
     }
     

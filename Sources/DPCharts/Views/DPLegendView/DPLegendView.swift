@@ -159,7 +159,7 @@ open class DPLegendView: UIView {
     // MARK: - Interface
     
     /// Reload legend content by reading its datasource.
-    func reloadData() {
+    open func reloadData() {
         setNeedsLayout()
     }
     

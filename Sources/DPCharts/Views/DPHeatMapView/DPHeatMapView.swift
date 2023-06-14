@@ -401,7 +401,7 @@ open class DPHeatMapView: UIView {
     // MARK: - Interface
     
     /// Reload heatmap content by reading its datasource.
-    func reloadData() {
+    open func reloadData() {
         setNeedsLayout()
     }
     
