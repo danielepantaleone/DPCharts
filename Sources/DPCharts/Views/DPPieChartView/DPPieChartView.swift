@@ -549,10 +549,11 @@ open class DPPieChartView: UIView {
     // MARK: - Touch gesture
     
     func isOnMaskLayer(point: CGPoint) -> Bool {
+        let shifted = CGPoint(x: point.x + canvasPosX, y: point.y + canvasPosY)
         for shapeMaskLayer in shapeMaskLayers {
             for shapeMaskLayer in shapeMaskLayer.sublayers ?? [] {
                 if let maskLayer = shapeMaskLayer as? CAShapeLayer {
-                    if let path = maskLayer.path, path.contains(point) {
+                    if let path = maskLayer.path, path.contains(shifted) {
                         return true
                     }
                 }
@@ -575,7 +576,13 @@ open class DPPieChartView: UIView {
     func touchAt(_ point: CGPoint) {
         guard touchEnabled else { return } // Disabled
         guard point.x >= 0 else { return } // Out of bounds
-        guard let index = sliceIndex(at: point) else { return } // Out of scope
+        guard let index = sliceIndex(at: point) else { // Out of scope
+            if let selectedIndex = selectedIndex, donutEnabled {
+                self.selectedIndex = nil
+                self.delegate?.pieChartView(self, didReleaseTouchFromSliceIndex: selectedIndex)
+            }
+            return
+        }
         selectedIndex = index
         delegate?.pieChartView(self, didTouchAtSliceIndex: index)
     }
