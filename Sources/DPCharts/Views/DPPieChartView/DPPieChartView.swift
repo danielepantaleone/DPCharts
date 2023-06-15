@@ -547,26 +547,29 @@ open class DPPieChartView: UIView {
     }
     
     // MARK: - Touch gesture
-    
-    func isOnMaskLayer(point: CGPoint) -> Bool {
+
+    func isOnPath(point: CGPoint) -> Bool {
         let shifted = CGPoint(x: point.x + canvasPosX, y: point.y + canvasPosY)
-        for shapeMaskLayer in shapeMaskLayers {
-            for shapeMaskLayer in shapeMaskLayer.sublayers ?? [] {
-                if let maskLayer = shapeMaskLayer as? CAShapeLayer {
-                    if let path = maskLayer.path, path.contains(shifted) {
-                        return true
-                    }
-                }
-            }
+        let xDist = shifted.x - arcCenter.x;
+        let yDist = shifted.y - arcCenter.y;
+        let distance = sqrt((xDist * xDist) + (yDist * yDist))
+        if distance > arcRadius {
+            return false
         }
-        return false
+        if donutEnabled && distance < arcDonutInnerRadius {
+            return false
+        }
+        return true
     }
     
     func sliceIndex(at point: CGPoint) -> Int? {
+        guard isOnPath(point: point) else {
+            return nil
+        }
         let shifted = CGPoint(x: point.x + canvasPosX, y: point.y + canvasPosY)
         for i in 0..<numberOfSlices {
             let shapeLayer = shapeLayers[i]
-            if let path = shapeLayer.path, path.contains(shifted), !isOnMaskLayer(point: shifted) {
+            if let path = shapeLayer.path, path.contains(shifted) {
                 return i
             }
         }
@@ -577,7 +580,7 @@ open class DPPieChartView: UIView {
         guard touchEnabled else { return } // Disabled
         guard point.x >= 0 else { return } // Out of bounds
         guard let index = sliceIndex(at: point) else { // Out of scope
-            if let selectedIndex = selectedIndex, donutEnabled {
+            if let selectedIndex = selectedIndex {
                 self.selectedIndex = nil
                 self.delegate?.pieChartView(self, didReleaseTouchFromSliceIndex: selectedIndex)
             }
