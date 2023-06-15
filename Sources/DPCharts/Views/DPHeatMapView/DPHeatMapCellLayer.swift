@@ -125,7 +125,7 @@ open class DPHeatMapCellLayer: CALayer {
     private func setupOpacity() {
         CATransaction.begin()
         CATransaction.setDisableActions(true)
-        if let selectedIndex {
+        if let selectedIndex = selectedIndex {
             if selectedIndex.rowIndex == cellValue.rowIndex && selectedIndex.columnIndex == cellValue.columnIndex {
                 opacity = 1.0
             } else {
