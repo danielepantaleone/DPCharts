@@ -223,7 +223,7 @@ DPCharts can be installed on any platform that is compatible with it:
 Add the dependency to the `DPCharts` framework in your `Podfile`:
 
 ```ruby
-pod 'DPCharts', '~> 1.0'
+pod 'DPCharts', '~> 1.0.0'
 ```
 
 ### Swift Package Manager
