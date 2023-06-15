@@ -169,10 +169,35 @@ open class DPPieChartView: UIView {
         }
     }
     
+    // MARK: - Interaction configuration properties
+
+    /// Whether or not to enable touch events (default = `true`).
+    @IBInspectable
+    open var touchEnabled: Bool = true {
+        didSet {
+            trackingView.isEnabled = touchEnabled
+        }
+    }
+    
+    /// Alpha channel predominance for selected bars (default = `0.6`).
+    @IBInspectable
+    open var touchAlphaPredominance: CGFloat = 0.6 {
+        didSet {
+            setNeedsLayout()
+        }
+    }
+    
     // MARK: - Public weak properties
     
     /// Reference to the chart datasource.
     open weak var datasource: (any DPPieChartViewDataSource)? {
+        didSet {
+            setNeedsLayout()
+        }
+    }
+    
+    /// Reference to the view delegate.
+    open weak var delegate: (any DPPieChartViewDelegate)? {
         didSet {
             setNeedsLayout()
         }
@@ -196,7 +221,7 @@ open class DPPieChartView: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    lazy private var stackView: UIStackView = {
+    lazy var stackView: UIStackView = {
         let stackView = UIStackView()
         stackView.distribution = .fill
         stackView.alignment = .fill
@@ -205,11 +230,18 @@ open class DPPieChartView: UIView {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
-    lazy private var stackViewContainer: UIView = {
+    lazy var stackViewContainer: UIView = {
         let stackViewContainer = UIView()
         stackViewContainer.addSubview(stackView)
         stackViewContainer.translatesAutoresizingMaskIntoConstraints = false
         return stackViewContainer
+    }()
+    lazy var trackingView: DPTrackingView = {
+        let trackingView = DPTrackingView(frame: CGRect(x: 0, y: 0, width: frame.width, height: frame.height))
+        trackingView.insets = insets
+        trackingView.delegate = self
+        trackingView.isEnabled = touchEnabled
+        return trackingView
     }()
     
     // MARK: - Private properties
@@ -221,6 +253,11 @@ open class DPPieChartView: UIView {
     var chartRatios: [CGFloat] = []
     var chartValues: [CGFloat] = []
     var numberOfSlices: Int = 0
+    var selectedIndex: Int? {
+        didSet {
+            setupOpacity()
+        }
+    }
     
     // MARK: - Computed properties
     
@@ -246,6 +283,10 @@ open class DPPieChartView: UIView {
         }
         return size
     }
+    var canvasHeight: CGFloat { frame.height - insets.top - insets.bottom }
+    var canvasWidth: CGFloat { frame.width - insets.left - insets.right }
+    var canvasPosX: CGFloat { insets.left }
+    var canvasPosY: CGFloat { insets.top }
     
     // MARK: - Lifecycle
     
@@ -272,6 +313,7 @@ open class DPPieChartView: UIView {
         layoutLabels()
         layoutShapes()
         layoutDonutContent()
+        layoutTrackingView()
     }
 
     // MARK: - Interface
@@ -288,6 +330,7 @@ open class DPPieChartView: UIView {
         stackView.addArrangedSubview(donutTitleLabel)
         stackView.addArrangedSubview(donutSubtitleLabel)
         addSubview(stackViewContainer)
+        addSubview(trackingView)
         NSLayoutConstraint.activate([
             stackView.leadingAnchor.constraint(equalTo: stackViewContainer.leadingAnchor),
             stackView.trailingAnchor.constraint(equalTo: stackViewContainer.trailingAnchor),
@@ -478,6 +521,79 @@ open class DPPieChartView: UIView {
         }
     }
     
+    func layoutTrackingView() {
+        trackingView.frame = CGRect(x: canvasPosX, y: canvasPosY, width: canvasWidth, height: canvasHeight)
+        trackingView.insets = insets
+        trackingView.isEnabled = touchEnabled
+    }
+    
+    // MARK: - Misc
+    
+    func setupOpacity() {
+        CATransaction.begin()
+        CATransaction.setDisableActions(true)
+        for i in 0..<numberOfSlices {
+            let shapeLayer = shapeLayers[i]
+            let chartLabel = chartLabels[i]
+            if selectedIndex == nil || selectedIndex == i {
+                shapeLayer.opacity = 1.0
+                chartLabel.alpha = 1.0
+            } else {
+                shapeLayer.opacity = 1.0 - Float(touchAlphaPredominance)
+                chartLabel.alpha = 1.0 - CGFloat(touchAlphaPredominance)
+            }
+        }
+        CATransaction.commit()
+    }
+    
+    // MARK: - Touch gesture
+    
+    func isOnMaskLayer(point: CGPoint) -> Bool {
+        for shapeMaskLayer in shapeMaskLayers {
+            for shapeMaskLayer in shapeMaskLayer.sublayers ?? [] {
+                if let maskLayer = shapeMaskLayer as? CAShapeLayer {
+                    if let path = maskLayer.path, path.contains(point) {
+                        return true
+                    }
+                }
+            }
+        }
+        return false
+    }
+    
+    func sliceIndex(at point: CGPoint) -> Int? {
+        let shifted = CGPoint(x: point.x + canvasPosX, y: point.y + canvasPosY)
+        for i in 0..<numberOfSlices {
+            let shapeLayer = shapeLayers[i]
+            if let path = shapeLayer.path, path.contains(shifted), !isOnMaskLayer(point: shifted) {
+                return i
+            }
+        }
+        return nil
+    }
+
+    func touchAt(_ point: CGPoint) {
+        guard touchEnabled else { return } // Disabled
+        guard point.x >= 0 else { return } // Out of bounds
+        guard let index = sliceIndex(at: point) else { return } // Out of scope
+        selectedIndex = index
+        delegate?.pieChartView(self, didTouchAtSliceIndex: index)
+    }
+
+    func touchEndedAt(_ point: CGPoint) {
+        guard touchEnabled else { return } // Disabled
+        let index: Int
+        if let sliceIndex = self.sliceIndex(at: point) {
+            index = sliceIndex
+        } else if let selectedIndex {
+            index = selectedIndex
+        } else { // Out of scope and nothing was selected
+            return
+        }
+        selectedIndex = nil
+        delegate?.pieChartView(self, didReleaseTouchFromSliceIndex: index)
+    }
+    
     // MARK: - Storyboard
     
     #if TARGET_INTERFACE_BUILDER
@@ -490,4 +606,35 @@ open class DPPieChartView: UIView {
     #endif
   
 }
+
+// MARK: - DPTrackingViewDelegate
+
+extension DPPieChartView: DPTrackingViewDelegate {
+    
+    func trackingView(_ trackingView: DPTrackingView, touchDownAt point: CGPoint) {
+        touchAt(point)
+    }
+    
+    func trackingView(_ trackingView: DPTrackingView, touchMovedTo point: CGPoint) {
+        touchAt(point)
+    }
+    
+    func trackingView(_ trackingView: DPTrackingView, touchUpAt point: CGPoint) {
+        touchEndedAt(point)
+    }
+    
+    func trackingView(_ trackingView: DPTrackingView, touchCanceledAt point: CGPoint) {
+        touchEndedAt(point)
+    }
+    
+    func trackingView(_ trackingView: DPTrackingView, tapSingleAt point: CGPoint) {
+        touchEndedAt(point)
+    }
+    
+    func trackingView(_ trackingView: DPTrackingView, tapDoubleAt point: CGPoint) {
+        touchEndedAt(point)
+    }
+    
+}
+
 

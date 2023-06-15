@@ -41,7 +41,7 @@ DPCharts provides several features and extensive customization options. Presente
 - **Legend** support using a specific view (see [DPLegendView](./Sources/DPCharts/Views/DPLegendView/DPLegendView.swift))
 - **Storyboard** support by means of **@IBDesignable** and **@IBInspectable**
 - **Animations** support (where applicable)
-- **Touch gesture** interaction (where applicable)
+- **Touch gesture** interaction
 - Highly customizable (colors, fonts, axis positioning, spacing, insets ...)
 
 - Data control achieved by implementing a **datasource** protocol
