@@ -15,7 +15,7 @@ import UIKit
 
 extension ViewFactory: DPBarChartViewDataSource {
     
-    func numberOfBars(_ barChartView: DPBarChartView) -> Int {
+    func numberOfDatasets(_ barChartView: DPBarChartView) -> Int {
         return barChartValues.count
     }
 
@@ -23,12 +23,12 @@ extension ViewFactory: DPBarChartViewDataSource {
         return barChartValues.first?.count ?? 0
     }
 
-    func barChartView(_ barChartView: DPBarChartView, valueForBarAtIndex barIndex: Int, forItemAtIndex index: Int) -> CGFloat {
-        return barChartValues[barIndex][index]
+    func barChartView(_ barChartView: DPBarChartView, valueForDatasetAtIndex datasetIndex: Int, forItemAtIndex index: Int) -> CGFloat {
+        return barChartValues[datasetIndex][index]
     }
 
-    func barChartView(_ barChartView: DPBarChartView, colorForBarAtIndex barIndex: Int) -> UIColor {
-        if barIndex == 0 {
+    func barChartView(_ barChartView: DPBarChartView, colorForDatasetAtIndex datasetIndex: Int) -> UIColor {
+        if datasetIndex == 0 {
             return .primary500
         } else {
             return .secondary500

@@ -12,13 +12,13 @@
 import Foundation
 import UIKit
 
-/// A struct to model bar points
+/// A struct to model bar points.
 public struct DPBarPoint {
     var x: CGFloat
     var y: CGFloat
     var height: CGFloat
     var width: CGFloat
-    var barIndex: Int
+    var datasetIndex: Int
     var index: Int
     var cgPoint: CGPoint { CGPoint(x: x, y: y) }
 }

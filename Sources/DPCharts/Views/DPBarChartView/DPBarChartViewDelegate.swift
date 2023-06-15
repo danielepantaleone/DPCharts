@@ -14,8 +14,8 @@ import UIKit
 
 /// A protocol to handle bar chart user interaction.
 public protocol DPBarChartViewDelegate: AnyObject {
-    /// Sent to the delegate when the user touches the chart
+    /// Sent to the delegate when the user touches the chart.
     func barChartView(_ barChartView: DPBarChartView, didTouchAtItem index: Int)
-    /// Sent to the delegate when the user releases the touch from the chart
+    /// Sent to the delegate when the user releases the touch from the chart.
     func barChartView(_ barChartView: DPBarChartView, didReleaseTouchFromItem index: Int)
 }

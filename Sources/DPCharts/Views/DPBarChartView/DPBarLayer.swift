@@ -12,7 +12,7 @@
 import Foundation
 import UIKit
 
-/// A layer to draw a set of bars
+/// A layer to draw a set of bars.
 open class DPBarLayer: CALayer {
     
     // MARK: - Properties
@@ -23,7 +23,7 @@ open class DPBarLayer: CALayer {
     var barPoints: [DPBarPoint] = []
     var barColor: UIColor = .darkGray
     var barCornerRadius: CGFloat = 3.0
-    var barIndex: Int = 0
+    var datasetIndex: Int = 0
     var selectedIndexAlphaPredominance: CGFloat = 0.6
     var selectedIndex: Int? {
         didSet {
@@ -58,9 +58,9 @@ open class DPBarLayer: CALayer {
         commonInit()
     }
     
-    convenience init(barIndex: Int) {
+    convenience init(datasetIndex: Int) {
         self.init()
-        self.barIndex = barIndex
+        self.datasetIndex = datasetIndex
     }
     
     override init(layer: Any) {
@@ -73,7 +73,7 @@ open class DPBarLayer: CALayer {
         barPoints = layer.barPoints
         barColor = layer.barColor
         barCornerRadius = layer.barCornerRadius
-        barIndex = layer.barIndex
+        datasetIndex = layer.datasetIndex
         selectedIndexAlphaPredominance = layer.selectedIndexAlphaPredominance
         selectedIndex = layer.selectedIndex
         super.init(layer: layer)

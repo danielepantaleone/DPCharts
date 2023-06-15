@@ -14,14 +14,14 @@ import UIKit
 
 /// A protocol to configure bar chart appearance.
 public protocol DPBarChartViewDataSource: AnyObject {
-    /// The number of bars in this chart.
-    func numberOfBars(_ barChartView: DPBarChartView) -> Int
+    /// The number of datasets to display in this chart.
+    func numberOfDatasets(_ barChartView: DPBarChartView) -> Int
     /// The number of items along the X-axis of the chart.
     func numberOfItems(_ barChartView: DPBarChartView) -> Int
-    /// The value for the given bar/index combination.
-    func barChartView(_ barChartView: DPBarChartView, valueForBarAtIndex barIndex: Int, forItemAtIndex index: Int) -> CGFloat
+    /// The value for the given dataset/index combination.
+    func barChartView(_ barChartView: DPBarChartView, valueForDatasetAtIndex datasetIndex: Int, forItemAtIndex index: Int) -> CGFloat
     /// The color for the given bar.
-    func barChartView(_ barChartView: DPBarChartView, colorForBarAtIndex barIndex: Int) -> UIColor
+    func barChartView(_ barChartView: DPBarChartView, colorForDatasetAtIndex datasetIndex: Int) -> UIColor
     /// The string to be displayed below the item on the X-axis.
     func barChartView(_ barChartView: DPBarChartView, xAxisLabelForItemAtIndex index: Int) -> String?
     /// The string to be displayed right next to the given index on the Y-axis.
@@ -30,7 +30,7 @@ public protocol DPBarChartViewDataSource: AnyObject {
 
 public extension DPBarChartViewDataSource {
     
-    func barChartView(_ barChartView: DPBarChartView, colorForBarAtIndex barIndex: Int) -> UIColor {
+    func barChartView(_ barChartView: DPBarChartView, colorForDatasetAtIndex datasetIndex: Int) -> UIColor {
         return DPBarChartView.defaultBarColor
     }
     func barChartView(_ barChartView: DPBarChartView, xAxisLabelForItemAtIndex index: Int) -> String? {
@@ -45,13 +45,13 @@ public extension DPBarChartViewDataSource {
 #if TARGET_INTERFACE_BUILDER
 public class DPBarChartViewIBDataSource: DPBarChartViewDataSource {
     
-    func numberOfBars(_ barChartView: OCTOBarChartView) -> Int {
+    func numberOfDatasets(_ barChartView: OCTOBarChartView) -> Int {
         return 1
     }
     func numberOfItems(_ barChartView: OCTOBarChartView) -> Int {
         return 8
     }
-    func barChartView(_ barChartView: OCTOBarChartView, valueForBarAtIndex barIndex: Int, forItemAtIndex index: Int) -> CGFloat {
+    func barChartView(_ barChartView: OCTOBarChartView, valueForDatasetAtIndex datasetIndex: Int, forItemAtIndex index: Int) -> CGFloat {
         return .random(in: 100...200)
     }
     

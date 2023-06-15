@@ -144,10 +144,10 @@ open class DPBarChartView: DPCanvasView {
     var barLayers: [DPBarLayer] = []
     var barPoints: [[DPBarPoint]] = []
     var numberOfItems: Int = 0
-    var numberOfBars: Int = 0
+    var numberOfDatasets: Int = 0
     var yAxisMaxValue: CGFloat = 0
     var barWidth: CGFloat {
-        guard numberOfBars > 0 && numberOfItems > 0 else {
+        guard numberOfDatasets > 0 && numberOfItems > 0 else {
             return 0
         }
         var width: CGFloat = canvasWidth
@@ -155,7 +155,7 @@ open class DPBarChartView: DPCanvasView {
             width -= (barSpacing * CGFloat(numberOfItems - 1))
         }
         width -= barSpacing
-        width /= CGFloat(numberOfItems * (barStacked ? 1 : numberOfBars))
+        width /= CGFloat(numberOfItems * (barStacked ? 1 : numberOfDatasets))
         return width
     }
     var barGroups: [DPBarGroup] {
@@ -165,7 +165,7 @@ open class DPBarChartView: DPCanvasView {
                 barGroups.append(DPBarGroup(
                     x: .greatestFiniteMagnitude,
                     y: 0.0,
-                    width: p.width * (barStacked ? 1.0 : CGFloat(numberOfBars)),
+                    width: p.width * (barStacked ? 1.0 : CGFloat(numberOfDatasets)),
                     index: p.index))
             }
             barGroups[p.index].x = min(barGroups[p.index].x, p.x)
@@ -235,8 +235,8 @@ open class DPBarChartView: DPCanvasView {
             return
         }
         let numberOfItemsChanged = datasource.numberOfItems(self) != numberOfItems
-        let numberOfBarsChanged = datasource.numberOfBars(self) != numberOfBars
-        let numberOfBarLayersInvalidated = datasource.numberOfBars(self) != barLayers.count
+        let numberOfBarsChanged = datasource.numberOfDatasets(self) != numberOfDatasets
+        let numberOfBarLayersInvalidated = datasource.numberOfDatasets(self) != barLayers.count
         if numberOfItemsChanged || numberOfBarsChanged || numberOfBarLayersInvalidated {
             initBars()
         }
@@ -249,9 +249,9 @@ open class DPBarChartView: DPCanvasView {
         barLayers.forEach { $0.removeFromSuperlayer() }
         barLayers.removeAll()
         numberOfItems = datasource.numberOfItems(self)
-        numberOfBars = datasource.numberOfBars(self)
-        for i in 0..<numberOfBars {
-            barLayers.append(DPBarLayer(barIndex: i))
+        numberOfDatasets = datasource.numberOfDatasets(self)
+        for i in 0..<numberOfDatasets {
+            barLayers.append(DPBarLayer(datasetIndex: i))
         }
         // We reverse the order of bar layers to ease stacked bars layout
         for barLayer in barLayers.reversed() {
@@ -265,15 +265,15 @@ open class DPBarChartView: DPCanvasView {
         if barStacked {
             for i in 0..<numberOfItems {
                 var accumulator: CGFloat = 0
-                for j in 0..<numberOfBars {
-                    accumulator += abs(datasource.barChartView(self, valueForBarAtIndex: j, forItemAtIndex: i))
+                for j in 0..<numberOfDatasets {
+                    accumulator += abs(datasource.barChartView(self, valueForDatasetAtIndex: j, forItemAtIndex: i))
                 }
                 yAxisMaxValue = max(yAxisMaxValue, accumulator)
             }
         } else {
-            for i in 0..<numberOfBars {
+            for i in 0..<numberOfDatasets {
                 for j in 0..<numberOfItems {
-                    yAxisMaxValue = max(abs(datasource.barChartView(self, valueForBarAtIndex: i, forItemAtIndex: j)), yAxisMaxValue)
+                    yAxisMaxValue = max(abs(datasource.barChartView(self, valueForDatasetAtIndex: i, forItemAtIndex: j)), yAxisMaxValue)
                 }
             }
         }
@@ -290,10 +290,10 @@ open class DPBarChartView: DPCanvasView {
         }
         let barWidth = barWidth
         let canvasHeight = canvasHeight
-        for i in 0..<numberOfBars {
+        for i in 0..<numberOfDatasets {
             barPoints.insert([], at: i)
             for j in 0..<numberOfItems {
-                let value = datasource.barChartView(self, valueForBarAtIndex: i, forItemAtIndex: j)
+                let value = datasource.barChartView(self, valueForDatasetAtIndex: i, forItemAtIndex: j)
                 var barHeight = yAxisMaxValue == 0 ? canvasHeight : (canvasHeight * (value / yAxisMaxValue))
                 let barSpacing = barSpacing * CGFloat(j)
                 let xAxisPosition: CGFloat
@@ -307,10 +307,10 @@ open class DPBarChartView: DPCanvasView {
                     yAxisPosition = canvasHeight - barHeight - stackHeight
                     barHeight = canvasHeight - yAxisPosition // recompute to prevent glitches when changing bars alpha
                 } else {
-                    xAxisPosition = ((barWidth * CGFloat(numberOfBars) * CGFloat(j)) + (barWidth * CGFloat(i))) + barSpacing
+                    xAxisPosition = ((barWidth * CGFloat(numberOfDatasets) * CGFloat(j)) + (barWidth * CGFloat(i))) + barSpacing
                     yAxisPosition = canvasHeight - barHeight
                 }
-                barPoints[i].insert(DPBarPoint(x: xAxisPosition, y: yAxisPosition, height: barHeight, width: barWidth, barIndex: i, index: j), at: j)
+                barPoints[i].insert(DPBarPoint(x: xAxisPosition, y: yAxisPosition, height: barHeight, width: barWidth, datasetIndex: i, index: j), at: j)
             }
         }
     }
@@ -322,7 +322,7 @@ open class DPBarChartView: DPCanvasView {
         let canvasPosY = canvasPosY
         let canvasWidth = canvasWidth - barSpacing
         let canvasHeight = canvasHeight
-        for i in 0..<numberOfBars {
+        for i in 0..<numberOfDatasets {
             let bar = barLayers[i]
             bar.frame = CGRect(x: canvasPosX, y: canvasPosY, width: canvasWidth, height: canvasHeight)
             bar.animationEnabled = animationsEnabled
@@ -330,7 +330,7 @@ open class DPBarChartView: DPCanvasView {
             bar.animationTimingFunction = animationTimingFunction
             bar.selectedIndexAlphaPredominance = touchAlphaPredominance
             bar.barCornerRadius = barCornerRadius
-            bar.barColor = datasource?.barChartView(self, colorForBarAtIndex: i) ?? DPBarChartView.defaultBarColor
+            bar.barColor = datasource?.barChartView(self, colorForDatasetAtIndex: i) ?? DPBarChartView.defaultBarColor
             bar.barPoints = barPoints[i]
             bar.setNeedsLayout()
         }
@@ -393,7 +393,7 @@ open class DPBarChartView: DPCanvasView {
         let canvasHeight = canvasHeight
         let yAxisLineBeginPosition: CGFloat = canvasPosY + (markersLineWidth * 0.5)
         let yAxisLineEndPosition: CGFloat = yAxisLineBeginPosition + canvasHeight - (markersLineWidth * 0.5)
-        let barItemWidth: CGFloat = barWidth * (barStacked ? 1.0 : CGFloat(numberOfBars))
+        let barItemWidth: CGFloat = barWidth * (barStacked ? 1.0 : CGFloat(numberOfDatasets))
         
         ctx.saveGState()
         ctx.setAllowsAntialiasing(true)
