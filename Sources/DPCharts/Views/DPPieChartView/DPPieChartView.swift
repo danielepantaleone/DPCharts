@@ -521,9 +521,12 @@ open class DPPieChartView: UIView {
                 clockwise: true)
             path.addLine(to: arcCenter)
             path.close()
+            CATransaction.begin()
+            CATransaction.setDisableActions(true)
             shapeLayers[i].fillColor = datasource.pieChartView(self, colorForSliceAtIndex: i).cgColor
             shapeLayers[i].mask = shapeMaskLayers[i]
             shapeLayers[i].path = path.cgPath
+            CATransaction.commit()
             from = to
         }
     }
