@@ -102,12 +102,13 @@ open class DPScatterDatasetLayer: CALayer {
             let oldBounds = shape.bounds
             let newPosition: CGPoint = point.cgPoint
             let newBounds: CGRect = CGRect(x: 0, y: 0, width: point.size, height: point.size)
+            CATransaction.begin()
             CATransaction.setDisableActions(true)
             shape.color = scatterPointsColor.withAlphaComponent(scatterPointsAlpha)
             shape.type = scatterPointsType
             shape.position = newPosition
             shape.bounds = newBounds
-            CATransaction.setDisableActions(false)
+            CATransaction.commit()
             shape.removeAllAnimations()
             shape.setNeedsLayout()
             if animationEnabled {

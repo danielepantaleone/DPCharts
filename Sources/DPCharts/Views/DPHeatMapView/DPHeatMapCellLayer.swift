@@ -101,10 +101,11 @@ open class DPHeatMapCellLayer: CALayer {
         let newPath = shapePath.cgPath
         let oldFillColor = shapeLayer.fillColor
         let newFillColor = shapeFillColor.cgColor
+        CATransaction.begin()
         CATransaction.setDisableActions(true)
         shapeLayer.fillColor = newFillColor
         shapeLayer.path = newPath
-        CATransaction.setDisableActions(false)
+        CATransaction.commit()
         shapeLayer.removeAllAnimations()
         if animationEnabled {
             let colorAnim: CABasicAnimation = CABasicAnimation(keyPath: "fillColor")
