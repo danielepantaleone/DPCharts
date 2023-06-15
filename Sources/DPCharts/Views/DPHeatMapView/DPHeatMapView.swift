@@ -20,7 +20,7 @@ open class DPHeatMapView: UIView {
     
     // MARK: - Animation properties
     
-    /// The duration (in seconds) to use when animating bars (default = `0.2`).
+    /// The duration (in seconds) to use when animating cells (default = `0.2`).
     @IBInspectable
     open var animationDuration: Double = 0.2 {
         didSet {
@@ -28,7 +28,7 @@ open class DPHeatMapView: UIView {
         }
     }
     
-    /// The animation function to use when animating bars (default = `linear`).
+    /// The animation function to use when animating cells (default = `linear`).
     @IBInspectable
     @available(*, unavailable, message: "This property is reserved for Interface Builder. Use 'animationTimingFunction' instead.")
     open var animationTimingFunctionName: String {
@@ -36,7 +36,7 @@ open class DPHeatMapView: UIView {
         set { animationTimingFunction = CAMediaTimingFunctionName(rawValue: newValue) }
     }
     
-    /// The animation function to use when animating bars (default = `.linear`).
+    /// The animation function to use when animating cells (default = `.linear`).
     open var animationTimingFunction: CAMediaTimingFunctionName = .linear {
         didSet {
             setNeedsLayout()
