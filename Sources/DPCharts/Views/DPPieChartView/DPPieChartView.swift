@@ -248,7 +248,7 @@ open class DPPieChartView: UIView {
         
     var shapeLayers: [CAShapeLayer] = []
     var shapeMaskLayers: [CALayer] = []
-    var chartLabels: [UILabel] = []
+    var chartLabels: [CATextLayer] = []
     var chartLabelsShift: [CGPoint] = []
     var chartRatios: [CGFloat] = []
     var chartValues: [CGFloat] = []
@@ -369,11 +369,11 @@ open class DPPieChartView: UIView {
             shapeMaskLayers.append(shapeMaskLayer)
             layer.addSublayer(shapeLayer)
         }
-        chartLabels.forEach { $0.removeFromSuperview() }
+        chartLabels.forEach { $0.removeFromSuperlayer() }
         chartLabels.removeAll()
         for _ in 0..<numberOfSlices {
-            let sliceLabel = UILabel()
-            addSubview(sliceLabel)
+            let sliceLabel = CATextLayer()
+            layer.addSublayer(sliceLabel)
             chartLabels.append(sliceLabel)
         }
     }
@@ -434,6 +434,8 @@ open class DPPieChartView: UIView {
         guard let datasource = datasource else {
             return
         }
+        CATransaction.begin()
+        CATransaction.setDisableActions(true)
         let rotation = rotateBy.fromDegToRad
         let total: CGFloat = chartValues.sum()
         var from: CGFloat = 0.0
@@ -442,14 +444,19 @@ open class DPPieChartView: UIView {
             let angle = from + (chartRatios[i] / 2) + rotation
             let fromX = ((arcRadius + labelsSpacing) * cos(angle)) + chartLabelsShift[i].x
             let fromY = ((arcRadius + labelsSpacing) * sin(angle)) + chartLabelsShift[i].y
-            label.font = labelsFont
-            label.text = datasource.pieChartView(self, labelForSliceAtIndex: i, forValue: chartValues[i], withTotal: total)
-            label.textColor = labelsColor
-            label.textAlignment = .center
-            label.center = CGPoint(x: fromX + arcCenter.x, y: fromY + arcCenter.y)
-            label.sizeToFit()
+            let string = datasource.pieChartView(self, labelForSliceAtIndex: i, forValue: chartValues[i], withTotal: total) ?? ""
+            let attributedString = NSAttributedString(string: string, attributes: [
+                .foregroundColor: labelsColor,
+                .font: labelsFont
+            ])
+            label.contentsScale = UIScreen.main.scale
+            label.alignmentMode = .center
+            label.string = attributedString
+            label.bounds = CGRect(origin: .zero, size: attributedString.size())
+            label.position = CGPoint(x: fromX + arcCenter.x, y: fromY + arcCenter.y)
             from += chartRatios[i]
         }
+        CATransaction.commit()
     }
     
     func layoutMaskLayers() {
@@ -537,10 +544,10 @@ open class DPPieChartView: UIView {
             let chartLabel = chartLabels[i]
             if selectedIndex == nil || selectedIndex == i {
                 shapeLayer.opacity = 1.0
-                chartLabel.alpha = 1.0
+                chartLabel.opacity = 1.0
             } else {
                 shapeLayer.opacity = 1.0 - Float(touchAlphaPredominance)
-                chartLabel.alpha = 1.0 - CGFloat(touchAlphaPredominance)
+                chartLabel.opacity = 1.0 - Float(touchAlphaPredominance)
             }
         }
         CATransaction.commit()
