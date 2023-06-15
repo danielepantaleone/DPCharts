@@ -14,13 +14,13 @@ import UIKit
 
 /// A protocol to configure chart legend appearance.
 public protocol DPLegendViewDataSource: AnyObject {
-    /// The number of items in the legend view
+    /// The number of items in the legend view.
     func numberOfItems(_ legendView: DPLegendView) -> Int
-    /// The color of the shape of the item at the given index
+    /// The color of the shape of the item at the given index.
     func legendView(_ legendView: DPLegendView, shapeColorForItemAtIndex index: Int) -> UIColor
-    /// The type of the shape of the item at the given index
+    /// The type of the shape of the item at the given index.
     func legendView(_ legendView: DPLegendView, shapeTypeForItemAtIndex index: Int) -> DPShapeType
-    /// The label for the title of the item at the given index
+    /// The label for the title of the item at the given index.
     func legendView(_ legendView: DPLegendView, titleForItemAtIndex index: Int) -> String
 }
 

@@ -14,8 +14,8 @@ import UIKit
 
 /// A protocol to handle heatmap user interaction.
 public protocol DPHeatMapViewDelegate: AnyObject {
-    /// Sent to the delegate when the user touches the chart
+    /// Sent to the delegate when the user touches the chart.
     func heatMapView(_ heatMapView: DPHeatMapView, didTouchAtRowIndex rowIndex: Int, andColumnIndex columnIndex: Int)
-    /// Sent to the delegate when the user releases the touch from the chart
+    /// Sent to the delegate when the user releases the touch from the chart.
     func heatMapView(_ heatMapView: DPHeatMapView, didReleaseTouchFromRowIndex rowIndex: Int, andColumnIndex columnIndex: Int)
 }

@@ -14,13 +14,13 @@ import UIKit
 
 /// A protocol to configure pie chart appearance.
 public protocol DPPieChartViewDataSource: AnyObject {
-    /// The number of slices in this chart
+    /// The number of slices in this chart.
     func numberOfSlices(_ pieChartView: DPPieChartView) -> Int
-    /// The value for the given slice
+    /// The value for the given slice.
     func pieChartView(_ pieChartView: DPPieChartView, valueForSliceAtIndex index: Int) -> CGFloat
-    /// The color for the given slice
+    /// The color for the given slice.
     func pieChartView(_ pieChartView: DPPieChartView, colorForSliceAtIndex index: Int) -> UIColor
-    /// The string to be displayed on the slice at the given index
+    /// The string to be displayed on the slice at the given index.
     func pieChartView(_ pieChartView: DPPieChartView, labelForSliceAtIndex index: Int, forValue value: CGFloat, withTotal total: CGFloat) -> String?
 }
 

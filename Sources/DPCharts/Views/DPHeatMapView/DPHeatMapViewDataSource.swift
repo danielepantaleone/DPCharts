@@ -12,13 +12,13 @@
 import Foundation
 import UIKit
 
-/// A protocol to configure line chart appearance.
+/// A protocol to configure heatmap appearance.
 public protocol DPHeatMapViewDataSource: AnyObject {
-    /// The number of rows that we want to display in this heatmap chart
+    /// The number of rows that we want to display in this heatmap chart.
     func numberOfRows(_ heatMapView: DPHeatMapView) -> Int
-    /// The number of columns to display in this heatmap chart
+    /// The number of columns to display in this heatmap chart.
     func numberOfColumns(_ heatMapView: DPHeatMapView) -> Int
-    /// The size for the given dataset/point combination
+    /// The size for the given row/column combination.
     func heatMapView(_ heatMapView: DPHeatMapView, valueForRowAtIndex rowIndex: Int, forColumnAtIndex columnIndex: Int) -> CGFloat
     /// The string to be displayed above/below the given column on the X-axis.
     func heatMapView(_ heatMapView: DPHeatMapView, xAxisLabelForColumnAtIndex columnIndex: Int) -> String?

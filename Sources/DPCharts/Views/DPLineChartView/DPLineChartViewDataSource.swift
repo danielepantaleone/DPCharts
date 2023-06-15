@@ -14,11 +14,11 @@ import UIKit
 
 /// A protocol to configure line chart appearance.
 public protocol DPLineChartViewDataSource: AnyObject {
-    /// The number of lines in this chart
+    /// The number of lines in this chart.
     func numberOfLines(_ lineChartView: DPLineChartView) -> Int
-    /// The number of points along the X-axis of the chart
+    /// The number of points along the X-axis of the chart.
     func numberOfPoints(_ lineChartView: DPLineChartView) -> Int
-    /// The value for the given line/index combination
+    /// The value for the given line/index combination.
     func lineChartView(_ lineChartView: DPLineChartView, valueForLineAtIndex lineIndex: Int, forPointAtIndex index: Int) -> CGFloat
     /// The color for the given line.
     func lineChartView(_ lineChartView: DPLineChartView, colorForLineAtIndex lineIndex: Int) -> UIColor

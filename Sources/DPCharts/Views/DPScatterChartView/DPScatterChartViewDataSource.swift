@@ -14,19 +14,19 @@ import UIKit
 
 /// A protocol to configure scatter chart appearance.
 public protocol DPScatterChartViewDataSource: AnyObject {
-    /// The number of datasets that we want to display in this scatter chart
+    /// The number of datasets to display in this scatter chart.
     func numberOfDatasets(_ scatterChartView: DPScatterChartView) -> Int
-    /// The number of points to display for the given dataset
+    /// The number of points to display for the given dataset.
     func scatterChartView(_ scatterChartView: DPScatterChartView, numberOfPointsForDatasetAtIndex datasetIndex: Int) -> Int
-    /// The color used to render the given dataset
+    /// The color used to render the given dataset.
     func scatterChartView(_ scatterChartView: DPScatterChartView, shapeColorForDataSetAtIndex datasetIndex: Int) -> UIColor
-    /// The shape type used to render the given dataset
+    /// The shape type used to render the given dataset.
     func scatterChartView(_ scatterChartView: DPScatterChartView, shapeTypeForDataSetAtIndex datasetIndex: Int) -> DPShapeType
-    /// The size for the given dataset/point combination
+    /// The size for the given dataset/point combination.
     func scatterChartView(_ scatterChartView: DPScatterChartView, shapeSizeForDataSetAtIndex datasetIndex: Int, forPointAtIndex index: Int) -> CGFloat
-    /// The X-axis value for the given dataset/point combination
+    /// The X-axis value for the given dataset/point combination.
     func scatterChartView(_ scatterChartView: DPScatterChartView, xAxisValueForDataSetAtIndex datasetIndex: Int, forPointAtIndex index: Int) -> CGFloat
-    /// The Y-axis value for the given dataset/point combination
+    /// The Y-axis value for the given dataset/point combination.
     func scatterChartView(_ scatterChartView: DPScatterChartView, yAxisValueForDataSetAtIndex datasetIndex: Int, forPointAtIndex index: Int) -> CGFloat
     /// The string to be displayed below the marker at the given index on the X-axis.
     func scatterChartView(_ scatterChartView: DPScatterChartView, xAxisLabelAtIndex index: Int, for value: CGFloat) -> String?
