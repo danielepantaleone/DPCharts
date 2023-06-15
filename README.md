@@ -9,7 +9,6 @@
 ![Platform](https://img.shields.io/badge/Platform-iOS-Blue?style=flat-square)
 ![Swift PM](https://img.shields.io/badge/Swift_Package_Manager-compatible-orange?style=flat-square)
 ![CocoaPods](https://img.shields.io/cocoapods/v/DPCharts.svg?style=flat-square)
-![License](https://img.shields.io/github/license/danielepantaleone/DPCharts?style=flat-square)
 
 DPCharts is a Swift-based lightweight framework designed specifically for rendering charts on iOS. Its main objective is to create a user-friendly chart library that follows the iOS delegation pattern approach. Each chart within the framework is responsible solely for presenting data, rather than managing the data itself. To manage the data, you provide the chart with a datasource object (an object conforming to the chart datasource protocol). Additionally, charts manage gesture interaction, and touch gesture events are delivered to the configured delegate (an object conforming to the chart delegate protocol) when applicable.
 
