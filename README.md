@@ -32,6 +32,8 @@ DPCharts is a Swift-based lightweight framework designed specifically for render
     * [Cocoapods](#cocoapods)
     * [Swift Package Manager](#swift-package-manager)
 * [Running the demo](#running-the-demo)
+* [Documentation](#documentation)
+* [Contributing](#contributing)
 
 ## Feature Highlights
 
@@ -243,3 +245,16 @@ DPCharts includes a demo application to showcases all the chart features it offe
 - Make sure you are running a supported version of Xcode.
 - Open the `DPCharts-Demo-iOS/DPCharts-Demo-iOS.xcodeproj` Xcode project.
 - Run the `DPCharts-Demo-iOS` on a simulator.
+
+## Documentation
+
+This library is currently lacking any form of structured documentation. However, Swift documentation can be accessed directly in Xcode Quick Help. Currently, there is no need for comprehensive documentation because using DPCharts' views simply involves adding the desired chart subview to your ViewController hierarchy and configuring a datasource and delegate (resemble **UITableView** and **UICollectionView** usage). Storyboard in-place configuration is also supported.
+
+If you need assistance in using DPCharts please [open an issue](https://github.com/danielepantaleone/DPCharts/issues).
+
+## Contributing
+
+If you like this project you can contribute it by:
+
+- Submit a Bug Report by opening an [issue](https://github.com/danielepantaleone/DPCharts/issues)
+- Submit code by opening a [pull request](https://github.com/danielepantaleone/DPCharts/pulls)
