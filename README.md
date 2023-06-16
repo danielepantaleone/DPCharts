@@ -1,14 +1,13 @@
 <p align="center">
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="./Assets/DPChartsLogo.png">
-  <img alt="logo" src="./Assets/DPChartsLogo.png">
-</picture>
+<img alt="logo" src="./Assets/DPChartsLogo.png">
 </p>
 
-![Swift](https://img.shields.io/badge/Swift-5.5-orange?style=flat-square)
-![Platform](https://img.shields.io/badge/Platform-iOS-Blue?style=flat-square)
+![Swift](https://img.shields.io/badge/Swift-5.5_|_5.6_|_5.7_|5.8-orange?style=flat-square)
+![Platform](https://img.shields.io/badge/Platform-iOS-blue?style=flat-square)
 ![Swift PM](https://img.shields.io/badge/Swift_Package_Manager-compatible-orange?style=flat-square)
 ![CocoaPods](https://img.shields.io/cocoapods/v/DPCharts.svg?style=flat-square)
+![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/danielepantaleone/DPCharts?style=flat-square)
+![GitHub](https://img.shields.io/github/license/danielepantaleone/DPCharts?style=flat-square)
 
 DPCharts is a Swift-based lightweight framework designed specifically for rendering charts on iOS. Its main objective is to create a user-friendly chart library that follows the iOS delegation pattern approach. Each chart within the framework is responsible solely for presenting data, rather than managing the data itself. To manage the data, you provide the chart with a datasource object (an object conforming to the chart datasource protocol). Additionally, charts manage gesture interaction, and touch gesture events are delivered to the configured delegate (an object conforming to the chart delegate protocol) when applicable.
 
@@ -33,6 +32,7 @@ DPCharts is a Swift-based lightweight framework designed specifically for render
 * [Running the demo](#running-the-demo)
 * [Documentation](#documentation)
 * [Contributing](#contributing)
+* [License](#license)
 
 ## Feature Highlights
 
@@ -257,3 +257,29 @@ If you like this project you can contribute it by:
 
 - Submit a Bug Report by opening an [issue](https://github.com/danielepantaleone/DPCharts/issues)
 - Submit code by opening a [pull request](https://github.com/danielepantaleone/DPCharts/pulls)
+
+## License
+
+```
+MIT License
+
+Copyright (c) 2023 Daniele Pantaleone
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
