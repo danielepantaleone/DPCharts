@@ -8,5 +8,5 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = "12.0"
   s.source                = { :git => "https://github.com/danielepantaleone/DPCharts.git", :tag => "#{s.version}" }
   s.source_files          = "Sources/DPCharts/**/*.swift"
-  s.swift_version         = "5.5"  
+  s.swift_version         = "5.7"
 end

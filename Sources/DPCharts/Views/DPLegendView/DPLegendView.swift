@@ -132,7 +132,7 @@ open class DPLegendView: UIView {
     // MARK: - Initialization
     
     func initLegendItemsIfNeeded() {
-        guard let datasource = datasource else {
+        guard let datasource else {
             return
         }
         let numberOfLegendItemsChanged = datasource.numberOfItems(self) != numberOfLegendItems
@@ -143,7 +143,7 @@ open class DPLegendView: UIView {
     }
     
     func initLegendItems() {
-        guard let datasource = datasource else {
+        guard let datasource else {
             return
         }
         numberOfLegendItems = datasource.numberOfItems(self)
@@ -166,7 +166,7 @@ open class DPLegendView: UIView {
     // MARK: - Layout
 
     func layoutLegendItems() {
-        guard let datasource = datasource else {
+        guard let datasource else {
             return
         }
         var acc: CGFloat = 0.0

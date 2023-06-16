@@ -2,7 +2,7 @@
 <img alt="logo" src="./Assets/DPChartsLogo.png">
 </p>
 
-![Swift](https://img.shields.io/badge/Swift-5.5_|_5.6_|_5.7_|5.8-orange?style=flat-square)
+![Swift](https://img.shields.io/badge/Swift-5.7_|5.8-orange?style=flat-square)
 ![Platform](https://img.shields.io/badge/Platform-iOS-blue?style=flat-square)
 ![Swift PM](https://img.shields.io/badge/Swift_Package_Manager-compatible-orange?style=flat-square)
 ![CocoaPods](https://img.shields.io/cocoapods/v/DPCharts.svg?style=flat-square)
@@ -215,7 +215,7 @@ DPCharts can be installed on any platform that is compatible with it:
 
 - iOS **12+**
 - Xcode **14+** 
-- Swift **5.5+**  
+- Swift **5.7+**  
 
 ## Installation
 

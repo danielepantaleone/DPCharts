@@ -311,7 +311,7 @@ open class DPLineChartView: DPCanvasView {
     }
 
     func initLinesIfNeeded() {
-        guard let datasource = datasource else {
+        guard let datasource else {
             return
         }
         let numberOfPointsChanged = datasource.numberOfPoints(self) != numberOfPoints
@@ -323,7 +323,7 @@ open class DPLineChartView: DPCanvasView {
     }
     
     func initLines() {
-        guard let datasource = datasource else {
+        guard let datasource else {
             return
         }
         lineLayers.forEach { $0.removeFromSuperlayer() }
@@ -345,7 +345,7 @@ open class DPLineChartView: DPCanvasView {
     func initLimits() {
         yAxisMaxValue = DPLineChartView.defaultYAxisMaxValue
         yAxisMinValue = DPLineChartView.defaultYAxisMinValue
-        guard let datasource = datasource else { return }
+        guard let datasource else { return }
         for i in 0..<numberOfLines {
             for j in 0..<numberOfPoints {
                 let v = datasource.lineChartView(self, valueForLineAtIndex: i, forPointAtIndex: j)
@@ -370,7 +370,7 @@ open class DPLineChartView: DPCanvasView {
 
     func initPoints() {
         points.removeAll()
-        guard let datasource = datasource else { return }
+        guard let datasource else { return }
         let canvasHeight = canvasHeight
         let canvasWidth = canvasWidth
         let maxYAxisSpan = yAxisMaxSpan
@@ -433,7 +433,7 @@ open class DPLineChartView: DPCanvasView {
     }
     
     func layoutShapesAt(_ closestIndex: Int) {
-        guard let datasource = datasource else {
+        guard let datasource else {
             return
         }
         let canvasPosX = canvasPosX

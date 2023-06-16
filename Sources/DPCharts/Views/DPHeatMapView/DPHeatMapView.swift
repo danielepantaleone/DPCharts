@@ -413,7 +413,7 @@ open class DPHeatMapView: UIView {
     }
     
     func initCellsIfNeeded() {
-        guard let datasource = datasource else {
+        guard let datasource else {
             return
         }
         let numberOfRowsChanged = datasource.numberOfRows(self) != numberOfRows
@@ -424,7 +424,7 @@ open class DPHeatMapView: UIView {
     }
     
     func initCells() {
-        guard let datasource = datasource else {
+        guard let datasource else {
             return
         }
         cellLayers.flatMap { $0 }.forEach { $0.removeFromSuperlayer() }
@@ -443,7 +443,7 @@ open class DPHeatMapView: UIView {
     
     func initLimit() {
         maxValue = 0
-        guard let datasource = datasource else {
+        guard let datasource else {
             return
         }
         for i in 0..<numberOfRows {
@@ -454,7 +454,7 @@ open class DPHeatMapView: UIView {
     }
     
     func initValues() {
-        guard let datasource = datasource else {
+        guard let datasource else {
             return
         }
         let step = ((1.0 / CGFloat(cellInterpolationCount)) * 100.0).rounded(.toNearestOrEven)

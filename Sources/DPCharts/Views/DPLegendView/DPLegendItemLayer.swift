@@ -28,7 +28,7 @@ open class DPLegendItemLayer: CALayer {
     // MARK: - Computed properties
     
     var titleAttributedString: NSAttributedString? {
-        guard let title = title else {
+        guard let title else {
             return nil
         }
         return NSAttributedString(string: title, attributes: [
