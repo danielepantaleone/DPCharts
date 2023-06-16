@@ -2,14 +2,13 @@
 <img alt="logo" src="./Assets/DPChartsLogo.png">
 </p>
 
-![Swift](https://img.shields.io/badge/Swift-5.7_|5.8-orange?style=flat-square)
-![Platform](https://img.shields.io/badge/Platform-iOS-blue?style=flat-square)
-![Swift PM](https://img.shields.io/badge/Swift_Package_Manager-compatible-orange?style=flat-square)
+[![Swift](https://img.shields.io/endpoint?url=https://swiftpackageindex.com/api/packages/danielepantaleone/DPCharts/badge?type=swift-versions&style=flat-square)](https://swiftpackageindex.com/danielepantaleone/DPCharts)
+[![Platform](https://img.shields.io/endpoint?url=https://swiftpackageindex.com/api/packages/danielepantaleone/DPCharts/badge?type=platforms&style=flat-square)](https://swiftpackageindex.com/danielepantaleone/DPCharts)
 ![CocoaPods](https://img.shields.io/cocoapods/v/DPCharts.svg?style=flat-square)
 ![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/danielepantaleone/DPCharts?style=flat-square)
 ![GitHub](https://img.shields.io/github/license/danielepantaleone/DPCharts?style=flat-square)
 
-DPCharts is a Swift-based lightweight framework designed specifically for rendering charts on iOS. Its main objective is to create a user-friendly chart library that follows the iOS delegation pattern approach. Each chart within the framework is responsible solely for presenting data, rather than managing the data itself. To manage the data, you provide the chart with a datasource object (an object conforming to the chart datasource protocol). Additionally, charts manage gesture interaction, and touch gesture events are delivered to the configured delegate (an object conforming to the chart delegate protocol) when applicable.
+DPCharts is a Swift-based lightweight framework designed specifically for rendering charts on iOS. Its main objective is to create a user-friendly chart library that follows the iOS delegation pattern approach. Each chart within the framework is responsible solely for presenting data, rather than managing the data itself. To manage the data, you provide the chart with a datasource object (an object conforming to the chart datasource protocol). Additionally, charts manage gesture interaction, and touch gesture events are delivered to the configured delegate (an object conforming to the chart delegate protocol).
 
 ## Table of contents
 
