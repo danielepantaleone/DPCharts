@@ -14,7 +14,9 @@ import UIKit
 
 // MARK: - DPLineChartChartView
 
-/// A line chart that draws according with a provided datasource.
+/// A line chart is a graphical representation of data that uses lines to connect
+/// data points, typically showing the relationship or trend between two or more
+/// variables over a specific period.
 @IBDesignable
 open class DPLineChartView: DPCanvasView {
     

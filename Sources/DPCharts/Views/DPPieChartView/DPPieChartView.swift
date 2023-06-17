@@ -12,7 +12,10 @@
 import Foundation
 import UIKit
 
-/// A pie chart that draws according with a provided datasource.
+/// A pie chart is a circular graphical representation that visually displays data
+/// as slices of a pie. Each slice in the chart represents a different category or
+/// variable, and the size of each slice corresponds to the proportion or percentage
+/// of the whole it represents.
 @IBDesignable
 open class DPPieChartView: UIView {
     

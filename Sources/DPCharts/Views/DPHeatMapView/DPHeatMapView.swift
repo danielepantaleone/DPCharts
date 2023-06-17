@@ -14,7 +14,13 @@ import UIKit
 
 // MARK: - DPBarChartView
 
-/// An heatmap chart that draws according with the configured datasource.
+/// A heatmap chart is a graphical representation that uses color-coded cells or rectangles
+/// to display data in a matrix or table format. It is particularly useful for visualizing
+/// and analyzing data sets that have multiple variables or dimensions. In a heatmap chart,
+/// each cell in the matrix represents a specific combination of variables or categories.
+/// The color of each cell is determined by the value or magnitude of the data it represents.
+/// Typically, a color gradient is used, where lighter or darker shades of a color represent
+/// higher or lower values, respectively.
 @IBDesignable
 open class DPHeatMapView: UIView {
     

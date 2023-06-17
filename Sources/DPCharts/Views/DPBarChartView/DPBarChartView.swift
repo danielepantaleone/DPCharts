@@ -14,7 +14,9 @@ import UIKit
 
 // MARK: - DPBarChartView
 
-/// A bar chart that draws according with the configured datasource.
+/// A bar chart is a graphical representation of data using rectangular
+/// bars to represent different categories or variables. Each bar's length
+/// corresponds to the value or frequency of the category it represents.
 @IBDesignable
 open class DPBarChartView: DPCanvasView {
     

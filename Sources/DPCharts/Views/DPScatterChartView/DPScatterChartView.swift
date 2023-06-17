@@ -14,7 +14,10 @@ import UIKit
 
 // MARK: - DPScatterChartView
 
-/// A scatter chart that draws according with a provided datasource.
+/// A scatter chart, also known as a scatter plot, is a graphical representation that
+/// displays individual data points as dots on a two-dimensional coordinate system.
+/// It is used to show the relationship or correlation between two variables. Each data
+/// point on the chart represents a specific value pair for the two variables being analyzed.
 @IBDesignable
 open class DPScatterChartView: DPCanvasView {
     
