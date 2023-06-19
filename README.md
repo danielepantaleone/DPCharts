@@ -4,7 +4,7 @@
 
 [![Swift](https://img.shields.io/endpoint?url=https://swiftpackageindex.com/api/packages/danielepantaleone/DPCharts/badge?type=swift-versions&style=flat-square)](https://swiftpackageindex.com/danielepantaleone/DPCharts)
 [![Platform](https://img.shields.io/endpoint?url=https://swiftpackageindex.com/api/packages/danielepantaleone/DPCharts/badge?type=platforms&style=flat-square)](https://swiftpackageindex.com/danielepantaleone/DPCharts)
-![CocoaPods](https://img.shields.io/cocoapods/v/DPCharts.svg?style=flat-square)
+![CocoaPods](https://img.shields.io/cocoapods/v/DPCharts?style=flat-square)
 ![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/danielepantaleone/DPCharts?style=flat-square)
 ![GitHub](https://img.shields.io/github/license/danielepantaleone/DPCharts?style=flat-square)
 
