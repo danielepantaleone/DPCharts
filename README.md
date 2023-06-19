@@ -210,8 +210,6 @@ heatmapView.yAxisInverted = false
 
 ## Requirements
 
-DPCharts can be installed on any platform that is compatible with it:
-
 - iOS **12+**
 - Xcode **14+** 
 - Swift **5.7+**  
@@ -254,7 +252,7 @@ If you need assistance in using DPCharts please [open an issue](https://github.c
 
 If you like this project you can contribute it by:
 
-- Submit a Bug Report by opening an [issue](https://github.com/danielepantaleone/DPCharts/issues)
+- Submit a bug report by opening an [issue](https://github.com/danielepantaleone/DPCharts/issues)
 - Submit code by opening a [pull request](https://github.com/danielepantaleone/DPCharts/pulls)
 
 ## License
