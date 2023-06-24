@@ -187,7 +187,6 @@ A donut chart is a circular graphical representation similar to a pie chart, but
 ```swift
 let pieChartView = DPPieChartView()
 pieChartView.datasource = self
-pieChartView.labelsColor = .grey500
 pieChartView.donutEnabled = true
 pieChartView.donutTitle = "Title"
 pieChartView.donutSubtitle = "Brief description"
