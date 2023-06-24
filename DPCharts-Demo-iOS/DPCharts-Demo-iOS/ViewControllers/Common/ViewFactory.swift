@@ -44,13 +44,21 @@ class ViewFactory {
             case .barChartYAxisInvertedStacked:
                 return createBarChart(stacked: true, yAxisInverted: true)
             case .heatmap:
-                return createHeatmap(xAxisInverted: false, yAxisInverted: false)
+                return createHeatmap(xAxisInverted: false, yAxisInverted: false, textEnabled: false)
             case .heatmapXAxisInverted:
-                return createHeatmap(xAxisInverted: true, yAxisInverted: false)
+                return createHeatmap(xAxisInverted: true, yAxisInverted: false, textEnabled: false)
             case .heatmapYAxisInverted:
-                return createHeatmap(xAxisInverted: false, yAxisInverted: true)
+                return createHeatmap(xAxisInverted: false, yAxisInverted: true, textEnabled: false)
             case .heatmapXandYAxisInverted:
-                return createHeatmap(xAxisInverted: true, yAxisInverted: true)
+                return createHeatmap(xAxisInverted: true, yAxisInverted: true, textEnabled: false)
+            case .heatmapText:
+                return createHeatmap(xAxisInverted: false, yAxisInverted: false, textEnabled: true)
+            case .heatmapTextXAxisInverted:
+                return createHeatmap(xAxisInverted: true, yAxisInverted: false, textEnabled: true)
+            case .heatmapTextYAxisInverted:
+                return createHeatmap(xAxisInverted: false, yAxisInverted: true, textEnabled: true)
+            case .heatmapTextXandYAxisInverted:
+                return createHeatmap(xAxisInverted: true, yAxisInverted: true, textEnabled: true)
             case .legendHorizontal:
                 return createLegend(horizontal: true)
             case .legendVertical:
@@ -104,9 +112,9 @@ class ViewFactory {
         ]
         // HEATMAP
         heatMapValues = []
-        for i in 0..<8 {
+        for i in 0..<6 {
             heatMapValues.insert([], at: i)
-            for j in 0..<10 {
+            for j in 0..<6 {
                 heatMapValues[i].insert(.random(in: 0...100), at: j)
             }
         }
@@ -145,7 +153,7 @@ extension ViewFactory {
         return legendView
     }
     
-    func createHeatmap(xAxisInverted: Bool, yAxisInverted: Bool) -> DPHeatMapView {
+    func createHeatmap(xAxisInverted: Bool, yAxisInverted: Bool, textEnabled: Bool) -> DPHeatMapView {
         let heatmapView = DPHeatMapView()
         heatmapView.datasource = self
         heatmapView.axisLabelsTextColor = .grey500
@@ -154,6 +162,7 @@ extension ViewFactory {
         heatmapView.cellAbsenceColor = .grey300
         heatmapView.cellLowPercentageColor = .secondary300
         heatmapView.cellHighPercentageColor = .green600
+        heatmapView.cellTextEnabled = textEnabled
         heatmapView.translatesAutoresizingMaskIntoConstraints = false
         heatmapView.heightAnchor.constraint(equalToConstant: 220).isActive = true
         return heatmapView

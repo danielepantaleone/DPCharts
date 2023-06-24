@@ -23,6 +23,12 @@ open class DPHeatMapCellLayer: CALayer {
     var absenceColor: UIColor = .lightGray
     var lowPercentageColor: UIColor = .yellow
     var highPercentageColor: UIColor = .green
+    var absenceTextColor: UIColor = .clear
+    var text: String?
+    var textColor: UIColor = .white
+    var textFont: UIFont = .systemFont(ofSize: 12)
+    var textCentered: Bool = false
+    var textPadding: CGFloat = 2.0
     var cellCornerRadius: CGFloat = 2.0
     var cellValue: DPHeatMapCellValue = .zero
     var selectedIndexAlphaPredominance: CGFloat = 0.6
@@ -45,9 +51,22 @@ open class DPHeatMapCellLayer: CALayer {
     var shapePath: UIBezierPath {
         return UIBezierPath(roundedRect: bounds, cornerRadius: max(cellCornerRadius, 0))
     }
+    var textAttributedString: NSAttributedString? {
+        guard let text else {
+            return nil
+        }
+        return NSAttributedString(string: text, attributes: [
+            .foregroundColor: cellValue.percentage > 0 ? textColor : absenceTextColor,
+            .font: textFont
+        ])
+    }
+    var textSize: CGSize {
+        return textAttributedString?.size() ?? .zero
+    }
     
     // MARK: - Sublayers
     
+    lazy var textLayer: CATextLayer = CATextLayer()
     lazy var shapeLayer: CAShapeLayer = {
         let layer = CAShapeLayer()
         layer.lineCap = .butt
@@ -69,10 +88,14 @@ open class DPHeatMapCellLayer: CALayer {
             fatalError("Expecting DPHeatMapCellLayer got \(Swift.type(of: layer))")
         }
         absenceColor = layer.absenceColor
+        absenceTextColor = layer.absenceTextColor
         lowPercentageColor = layer.lowPercentageColor
         highPercentageColor = layer.highPercentageColor
         cellCornerRadius = layer.cellCornerRadius
         cellValue = layer.cellValue
+        textColor = layer.textColor
+        textFont = layer.textFont
+        text = layer.text
         super.init(layer: layer)
         commonInit()
     }
@@ -84,6 +107,7 @@ open class DPHeatMapCellLayer: CALayer {
     
     func commonInit() {
         addSublayer(shapeLayer)
+        addSublayer(textLayer)
         masksToBounds = true
     }
     
@@ -105,6 +129,19 @@ open class DPHeatMapCellLayer: CALayer {
         CATransaction.setDisableActions(true)
         shapeLayer.fillColor = newFillColor
         shapeLayer.path = newPath
+        textLayer.contentsScale = UIScreen.main.scale
+        textLayer.alignmentMode = .center
+        if let string = textAttributedString {
+            let x = textCentered ? (bounds.width - textSize.width) * 0.5 : textPadding
+            let y = textCentered ? (bounds.height - textSize.height) * 0.5 : textPadding
+            let w = min(textSize.width, bounds.width - 2 * textPadding)
+            let h = min(textSize.height, bounds.height - 2 * textPadding)
+            textLayer.string = string
+            textLayer.frame = CGRect(x: x, y: y, width: h, height: w)
+        } else {
+            textLayer.string = nil
+            textLayer.frame = .zero
+        }
         CATransaction.commit()
         shapeLayer.removeAllAnimations()
         if animationEnabled {

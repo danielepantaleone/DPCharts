@@ -173,7 +173,7 @@ open class DPHeatMapView: UIView {
     
     // MARK: - Labels properties
     
-    /// The color of axix labels text (default = `.lightGray`).
+    /// The color of axis labels text (default = `.lightGray`).
     @IBInspectable
     open var axisLabelsTextColor: UIColor = .lightGray {
         didSet {
@@ -242,6 +242,53 @@ open class DPHeatMapView: UIView {
     /// The color to be used to display the high percentage value (interpolated) (default = `.yellow`).
     @IBInspectable
     open var cellHighPercentageColor: UIColor = .green {
+        didSet {
+            setNeedsLayout()
+        }
+    }
+    
+    /// The color of the text inside cells when there is no value to display (default = `.clear`).
+    @IBInspectable
+    open var cellAbsenceTextColor: UIColor = .clear {
+        didSet {
+            setNeedsLayout()
+        }
+    }
+    
+    /// The color of axix labels text (default = `.white`).
+    @IBInspectable
+    open var cellTextColor: UIColor = .white {
+        didSet {
+            setNeedsLayout()
+        }
+    }
+    
+    /// The font used to render text inside cells (default = `.systemFont(ofSize: 12)`).
+    open var cellTextFont: UIFont = .systemFont(ofSize: 12) {
+        didSet {
+            setNeedsLayout()
+        }
+    }
+    
+    /// True to enable drawing text inside cells` (default = `false`).
+    @IBInspectable
+    open var cellTextEnabled: Bool = false {
+        didSet {
+            setNeedsLayout()
+        }
+    }
+    
+    /// True to draw cell text centered in the cells` (default = `false`).
+    @IBInspectable
+    open var cellTextCentered: Bool = false {
+        didSet {
+            setNeedsLayout()
+        }
+    }
+    
+    /// The padding between cell text and the cell border (default = `2.0`).
+    @IBInspectable
+    open var cellTextPadding: CGFloat = 2.0 {
         didSet {
             setNeedsLayout()
         }
@@ -497,6 +544,12 @@ open class DPHeatMapView: UIView {
                 cellLayer.absenceColor = cellAbsenceColor
                 cellLayer.lowPercentageColor = cellLowPercentageColor
                 cellLayer.highPercentageColor = cellHighPercentageColor
+                cellLayer.absenceTextColor = cellAbsenceTextColor
+                cellLayer.textCentered = cellTextCentered
+                cellLayer.textPadding = cellTextPadding
+                cellLayer.textColor = cellTextColor
+                cellLayer.textFont = cellTextFont
+                cellLayer.text = cellTextEnabled ? datasource?.heatMapView(self, textForRowAtIndex: i, forColumnAtIndex: j) : nil
                 cellLayer.frame = CGRectMake(x, y, cellWidth, cellHeight)
                 cellLayer.setNeedsLayout()
                 x += cellWidth + cellHorizontalSpacing

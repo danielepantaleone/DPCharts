@@ -24,6 +24,14 @@ extension ViewFactory: DPHeatMapViewDataSource {
     func heatMapView(_ heatMapView: DPHeatMapView, valueForRowAtIndex rowIndex: Int, forColumnAtIndex columnIndex: Int) -> CGFloat {
         return heatMapValues[rowIndex][columnIndex]
     }
+    func heatMapView(_ heatMapView: DPHeatMapView, textForRowAtIndex rowIndex: Int, forColumnAtIndex columnIndex: Int) -> String? {
+        if heatMapView.cellTextEnabled {
+            return "\(Int(heatMapValues[rowIndex][columnIndex]))"
+        } else {
+            return nil
+        }
+    }
+    
     func heatMapView(_ heatMapView: DPHeatMapView, xAxisLabelForColumnAtIndex columnIndex: Int) -> String? {
         return "\(columnIndex)"
     }

@@ -20,6 +20,8 @@ public protocol DPHeatMapViewDataSource: AnyObject {
     func numberOfColumns(_ heatMapView: DPHeatMapView) -> Int
     /// The size for the given row/column combination.
     func heatMapView(_ heatMapView: DPHeatMapView, valueForRowAtIndex rowIndex: Int, forColumnAtIndex columnIndex: Int) -> CGFloat
+    /// The text to display in the cell at the given row/column combination.
+    func heatMapView(_ heatMapView: DPHeatMapView, textForRowAtIndex rowIndex: Int, forColumnAtIndex columnIndex: Int) -> String?
     /// The string to be displayed above/below the given column on the X-axis.
     func heatMapView(_ heatMapView: DPHeatMapView, xAxisLabelForColumnAtIndex columnIndex: Int) -> String?
     /// The string to be displayed before/after the given row on the Y-axis.
@@ -36,6 +38,9 @@ public extension DPHeatMapViewDataSource {
             return String(Character(scalar))
         }
         return "\(rowIndex)"
+    }
+    func heatMapView(_ heatMapView: DPHeatMapView, textForRowAtIndex rowIndex: Int, forColumnAtIndex columnIndex: Int) -> String? {
+        return nil
     }
     
 }
