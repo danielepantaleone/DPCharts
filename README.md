@@ -208,6 +208,20 @@ heatmapView.xAxisInverted = false
 heatmapView.yAxisInverted = false
 ```
 
+### Heatmap (with cell text)
+
+A heatmap chart with text inside cells is a graphical representation that combines the visual elements of a heatmap with the inclusion of textual information within each individual cell. It is often used to display and analyze data that involves both numerical values and corresponding labels or categories.
+
+![Heatmap](./Assets/Charts/HeatmapText.png)
+
+```swift
+let heatmapView = DPHeatMapView()
+heatmapView.datasource = self
+heatmapView.cellTextEnabled = true
+heatmapView.xAxisInverted = false
+heatmapView.yAxisInverted = false
+```
+
 ## Requirements
 
 - iOS **12+**
