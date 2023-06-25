@@ -64,21 +64,37 @@ class ViewFactory {
             case .legendVertical:
                 return createLegend(horizontal: false)
             case .lineChart:
-                return createLineChart(bezierCurveEnabled: false, areaEnabled: false, yAxisInverted: false)
+                return createLineChart(bezierCurveEnabled: false, areaEnabled: false, pointsHidden: true, yAxisInverted: false)
             case .lineChartArea:
-                return createLineChart(bezierCurveEnabled: false, areaEnabled: true, yAxisInverted: false)
+                return createLineChart(bezierCurveEnabled: false, areaEnabled: true, pointsHidden: true, yAxisInverted: false)
             case .lineChartBezier:
-                return createLineChart(bezierCurveEnabled: true, areaEnabled: false, yAxisInverted: false)
+                return createLineChart(bezierCurveEnabled: true, areaEnabled: false, pointsHidden: true, yAxisInverted: false)
             case .lineChartBezierArea:
-                return createLineChart(bezierCurveEnabled: true, areaEnabled: true, yAxisInverted: false)
+                return createLineChart(bezierCurveEnabled: true, areaEnabled: true, pointsHidden: true, yAxisInverted: false)
+            case .lineChartPoints:
+                return createLineChart(bezierCurveEnabled: false, areaEnabled: false, pointsHidden: false, yAxisInverted: false)
+            case .lineChartPointsArea:
+                return createLineChart(bezierCurveEnabled: false, areaEnabled: true, pointsHidden: false, yAxisInverted: false)
+            case .lineChartPointsBezier:
+                return createLineChart(bezierCurveEnabled: true, areaEnabled: false, pointsHidden: false, yAxisInverted: false)
+            case .lineChartPointsBezierArea:
+                return createLineChart(bezierCurveEnabled: true, areaEnabled: true, pointsHidden: false, yAxisInverted: false)
             case .lineChartYAxisInverted:
-                return createLineChart(bezierCurveEnabled: false, areaEnabled: false, yAxisInverted: true)
+                return createLineChart(bezierCurveEnabled: false, areaEnabled: false, pointsHidden: true, yAxisInverted: true)
             case .lineChartYAxisInvertedArea:
-                return createLineChart(bezierCurveEnabled: false, areaEnabled: true, yAxisInverted: true)
+                return createLineChart(bezierCurveEnabled: false, areaEnabled: true, pointsHidden: true, yAxisInverted: true)
             case .lineChartYAxisInvertedBezier:
-                return createLineChart(bezierCurveEnabled: true, areaEnabled: false, yAxisInverted: true)
+                return createLineChart(bezierCurveEnabled: true, areaEnabled: false, pointsHidden: true, yAxisInverted: true)
             case .lineChartYAxisInvertedBezierArea:
-                return createLineChart(bezierCurveEnabled: true, areaEnabled: true, yAxisInverted: true)
+                return createLineChart(bezierCurveEnabled: true, areaEnabled: true, pointsHidden: true, yAxisInverted: true)
+            case .lineChartYAxisInvertedPoints:
+                return createLineChart(bezierCurveEnabled: false, areaEnabled: false, pointsHidden: false, yAxisInverted: true)
+            case .lineChartYAxisInvertedPointsArea:
+                return createLineChart(bezierCurveEnabled: false, areaEnabled: true, pointsHidden: false, yAxisInverted: true)
+            case .lineChartYAxisInvertedPointsBezier:
+                return createLineChart(bezierCurveEnabled: true, areaEnabled: false, pointsHidden: false, yAxisInverted: true)
+            case .lineChartYAxisInvertedPointsBezierArea:
+                return createLineChart(bezierCurveEnabled: true, areaEnabled: true, pointsHidden: false, yAxisInverted: true)
             case .pieChart:
                 return createPieChart(asDonut: false)
             case .pieChartDonut:
@@ -168,7 +184,7 @@ extension ViewFactory {
         return heatmapView
     }
     
-    func createLineChart(bezierCurveEnabled: Bool, areaEnabled: Bool, yAxisInverted: Bool) -> DPLineChartView {
+    func createLineChart(bezierCurveEnabled: Bool, areaEnabled: Bool, pointsHidden: Bool, yAxisInverted: Bool) -> DPLineChartView {
         let lineChartView = DPLineChartView()
         lineChartView.datasource = self
         lineChartView.bezierCurveEnabled = bezierCurveEnabled
@@ -176,6 +192,7 @@ extension ViewFactory {
         lineChartView.axisColor = .grey500
         lineChartView.axisLabelsTextColor = .grey500
         lineChartView.markersLineColor = .grey500
+        lineChartView.pointsHidden = pointsHidden
         lineChartView.xAxisTitle = "Title of X-axis"
         lineChartView.yAxisInverted = yAxisInverted
         lineChartView.yAxisMarkersWidthRetained = true

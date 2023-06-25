@@ -122,24 +122,34 @@ open class DPLineChartView: DPCanvasView {
         }
     }
     
-    /// The size of the shape displayed on every point when the chart is touched (default = `8`).
+    // MARK: - Point properties
+    
+    /// True to hide the display of points by default and show them only upon touch events, false to display them always (default = `true`).
     @IBInspectable
-    open var touchShapeSize: CGFloat = 8 {
+    open var pointsHidden: Bool = true {
         didSet {
             setNeedsLayout()
         }
     }
     
-    /// The name type of the shape to render on points when the chart is touched (default = `circle`).
+    /// The size of the shape displayed on every point in the chart (default = `8`).
     @IBInspectable
-    @available(*, unavailable, message: "This property is reserved for Interface Builder. Use 'touchShapeType' instead.")
-    open var touchShapeTypeName: String {
-        get { touchShapeType.rawValue }
-        set { touchShapeType = DPShapeType(rawValue: newValue) ?? .circle }
+    open var pointSize: CGFloat = 8 {
+        didSet {
+            setNeedsLayout()
+        }
     }
     
-    /// The type of the shape to render on points when the chart is touched (default = `.circle`).
-    open var touchShapeType: DPShapeType = .circle {
+    /// The name type of the shape to render on points in the chart (default = `circle`).
+    @IBInspectable
+    @available(*, unavailable, message: "This property is reserved for Interface Builder. Use 'touchShapeType' instead.")
+    open var pointShapeTypeName: String {
+        get { pointShapeType.rawValue }
+        set { pointShapeType = DPShapeType(rawValue: newValue) ?? .circle }
+    }
+    
+    /// The type of the shape to render on points in the chart (default = `.circle`).
+    open var pointShapeType: DPShapeType = .circle {
         didSet {
             setNeedsLayout()
         }
@@ -218,7 +228,7 @@ open class DPLineChartView: DPCanvasView {
     // MARK: - Private properties
         
     var lineLayers: [DPLineLayer] = [] // array of line shapes
-    var shapeLayers: [DPShapeLayer] = [] // array of views to be displayed selected points
+    var pointLayers: [[DPShapeLayer]] = [] // array of shapes to display chart points
     var points: [[DPLinePoint]] = [] // array of points in the chart
     var numberOfPoints: Int = 0 // number of points on the X-axis
     var numberOfLines: Int = 0 // number of lines in the chart
@@ -289,10 +299,11 @@ open class DPLineChartView: DPCanvasView {
     
     public override func layoutSubviews() {
         super.layoutSubviews()
-        initLinesIfNeeded()
+        initShapesIfNeeded()
         initLimits()
         initPoints()
         layoutLines()
+        layoutPoints()
         layoutTrackingView()
         setNeedsDisplay()
     }
@@ -312,35 +323,37 @@ open class DPLineChartView: DPCanvasView {
         addSubview(trackingView)
     }
 
-    func initLinesIfNeeded() {
+    func initShapesIfNeeded() {
         guard let datasource else {
             return
         }
         let numberOfPointsChanged = datasource.numberOfPoints(self) != numberOfPoints
         let numberOfLinesChanged = datasource.numberOfLines(self) != numberOfLines
-        let numberOfLineViewsInvalidated = datasource.numberOfLines(self) != lineLayers.count
-        if numberOfPointsChanged || numberOfLinesChanged || numberOfLineViewsInvalidated {
-            initLines()
+        if numberOfPointsChanged || numberOfLinesChanged {
+            initShapes()
         }
     }
     
-    func initLines() {
+    func initShapes() {
         guard let datasource else {
             return
         }
         lineLayers.forEach { $0.removeFromSuperlayer() }
         lineLayers.removeAll()
-        shapeLayers.forEach { $0.removeFromSuperlayer() }
-        shapeLayers.removeAll()
+        pointLayers.flatMap { $0 }.forEach { $0.removeFromSuperlayer() }
+        pointLayers.removeAll()
         numberOfLines = datasource.numberOfLines(self)
         numberOfPoints = datasource.numberOfPoints(self)
-        for _ in 0..<numberOfLines {
+        for i in 0..<numberOfLines {
             let lineLayer = DPLineLayer()
-            let shapeLayer = DPShapeLayer()
-            lineLayers.append(lineLayer)
-            shapeLayers.append(shapeLayer)
+            pointLayers.insert([], at: i)
+            lineLayers.insert(lineLayer, at: i)
             layer.addSublayer(lineLayer)
-            layer.addSublayer(shapeLayer)
+            for j in 0..<numberOfPoints {
+                let pointLayer = DPShapeLayer()
+                pointLayers[i].insert(pointLayer, at: j)
+                layer.addSublayer(pointLayer)
+            }
         }
     }
     
@@ -417,13 +430,71 @@ open class DPLineChartView: DPCanvasView {
         }
     }
     
+    func layoutPoints() {
+        guard let datasource else {
+            return
+        }
+        let canvasPosX = canvasPosX
+        let canvasPosY = canvasPosY
+        for i in 0..<numberOfLines {
+            for j in 0..<numberOfPoints {
+                let shape = pointLayers[i][j]
+                let point = points[i][j]
+                let oldPosition = shape.position
+                let oldBounds = shape.bounds
+                let newBounds = CGRect(origin: .zero, size: CGSize(width: pointSize, height: pointSize))
+                let newPosition = CGPoint(x: canvasPosX + point.x, y: canvasPosY + point.y)
+                CATransaction.begin()
+                CATransaction.setDisableActions(true)
+                shape.bounds = newBounds
+                shape.position = newPosition
+                shape.type = pointShapeType
+                shape.color = datasource.lineChartView(self, colorForLineAtIndex: i)
+                shape.isHidden = pointsHidden
+                shape.setNeedsLayout()
+                CATransaction.commit()
+                if animationsEnabled {
+                    let positionAnim: CABasicAnimation = CABasicAnimation(keyPath: "position")
+                    positionAnim.fromValue = oldPosition
+                    positionAnim.toValue = newPosition
+                    let boundsAnim: CABasicAnimation = CABasicAnimation(keyPath: "bounds")
+                    boundsAnim.fromValue = oldBounds
+                    boundsAnim.toValue = newBounds
+                    let animations: CAAnimationGroup = CAAnimationGroup()
+                    animations.animations = [positionAnim, boundsAnim]
+                    animations.duration = animationDuration
+                    animations.timingFunction = CAMediaTimingFunction(name: animationTimingFunction)
+                    animations.isRemovedOnCompletion = true
+                    shape.add(positionAnim, forKey: "frame")
+                }
+            }
+        }
+    }
+    
     func layoutTrackingView() {
         trackingView.frame = CGRect(x: canvasPosX, y: canvasPosY, width: canvasWidth, height: canvasHeight)
         trackingView.insets = insets
         trackingView.isEnabled = touchEnabled
     }
     
-    func layoutTouchCursorAt(_ point: CGPoint) {
+    func hideTouchCursor() {
+        touchCursor.isHidden = true
+    }
+    
+    func hideOrShowAllPoints() {
+        CATransaction.begin()
+        CATransaction.setDisableActions(true)
+        for i in 0..<numberOfLines {
+            for j in 0..<numberOfPoints {
+                let shape = pointLayers[i][j]
+                shape.isHidden = pointsHidden
+                shape.setNeedsLayout()
+            }
+        }
+        CATransaction.commit()
+    }
+    
+    func showTouchCursorAt(_ point: CGPoint) {
         guard numberOfPoints > 0 else {
             return
         }
@@ -434,39 +505,15 @@ open class DPLineChartView: DPCanvasView {
         touchCursor.isHidden = false
     }
     
-    func layoutShapesAt(_ closestIndex: Int) {
-        guard let datasource else {
-            return
-        }
-        let canvasPosX = canvasPosX
-        let canvasPosY = canvasPosY
+    func showPointAt(_ closestIndex: Int) {
         CATransaction.begin()
         CATransaction.setDisableActions(true)
         for i in 0..<numberOfLines {
-            guard i < shapeLayers.count, i < points.count else { break }
-            guard closestIndex >= 0 && closestIndex < points[i].count else { break}
-            let shape = shapeLayers[i]
-            let point = points[i][closestIndex]
-            let x = canvasPosX + point.x - (touchShapeSize * 0.5)
-            let y = canvasPosY + point.y - (touchShapeSize * 0.5)
-            shape.frame = CGRect(x: x, y: y, width: touchShapeSize, height: touchShapeSize)
-            shape.type = .circle
-            shape.color = datasource.lineChartView(self, colorForLineAtIndex: i)
-            shape.isHidden = false
-            shape.setNeedsLayout()
-        }
-        CATransaction.commit()
-    }
-    
-    func hideTouchCursor() {
-        touchCursor.isHidden = true
-    }
-    
-    func hideShapes() {
-        CATransaction.begin()
-        CATransaction.setDisableActions(true)
-        shapeLayers.forEach {
-            $0.isHidden = true
+            for j in 0..<numberOfPoints {
+                let shape = pointLayers[i][j]
+                shape.isHidden = j != closestIndex
+                shape.setNeedsLayout()
+            }
         }
         CATransaction.commit()
     }
@@ -486,8 +533,8 @@ open class DPLineChartView: DPCanvasView {
         guard touchEnabled else { return } // Disabled
         guard point.x >= 0 else { return } // Out of bounds
         guard let closestIndex = closestIndex(at: point.x) else { return } // Out of scope
-        layoutTouchCursorAt(point)
-        layoutShapesAt(closestIndex)
+        showTouchCursorAt(point)
+        showPointAt(closestIndex)
         delegate?.lineChartView(self, didTouchAtIndex: closestIndex)
     }
     
@@ -495,7 +542,7 @@ open class DPLineChartView: DPCanvasView {
         guard touchEnabled else { return } // Disabled
         guard let closestIndex = closestIndex(at: point.x) else { return } // Out of scope
         hideTouchCursor()
-        hideShapes()
+        hideOrShowAllPoints()
         delegate?.lineChartView(self, didReleaseTouchFromIndex: closestIndex)
     }
     
@@ -617,6 +664,34 @@ extension DPLineChartView: DPTrackingViewDelegate {
     
     func trackingView(_ trackingView: DPTrackingView, tapDoubleAt point: CGPoint) {
         touchEndedAt(point)
+    }
+    
+}
+
+// MARK: - Deprecations
+
+extension DPLineChartView {
+    
+    /// The size of the shape displayed on every point when the chart is touched (default = `8`).
+    @available(*, deprecated, renamed: "pointSize")
+    public var touchShapeSize: CGFloat {
+        get { pointSize }
+        set { pointSize = newValue }
+    }
+    
+    /// The name type of the shape to render on points when the chart is touched (default = `circle`).
+    @IBInspectable
+    @available(*, deprecated, renamed: "pointShapeTypeName")
+    public var touchShapeTypeName: String {
+        get { pointShapeType.rawValue }
+        set { pointShapeType = DPShapeType(rawValue: newValue) ?? .circle }
+    }
+    
+    /// The type of the shape to render on points when the chart is touched (default = `.circle`).
+    @available(*, deprecated, renamed: "pointShapeType")
+    public var touchShapeType: DPShapeType {
+        get { pointShapeType }
+        set { pointShapeType = newValue}
     }
     
 }
