@@ -45,13 +45,13 @@ public extension DPBarChartViewDataSource {
 #if TARGET_INTERFACE_BUILDER
 public class DPBarChartViewIBDataSource: DPBarChartViewDataSource {
     
-    func numberOfDatasets(_ barChartView: OCTOBarChartView) -> Int {
+    func numberOfDatasets(_ barChartView: DPBarChartView) -> Int {
         return 1
     }
-    func numberOfItems(_ barChartView: OCTOBarChartView) -> Int {
+    func numberOfItems(_ barChartView: DPBarChartView) -> Int {
         return 8
     }
-    func barChartView(_ barChartView: OCTOBarChartView, valueForDatasetAtIndex datasetIndex: Int, forItemAtIndex index: Int) -> CGFloat {
+    func barChartView(_ barChartView: DPBarChartView, valueForDatasetAtIndex datasetIndex: Int, forItemAtIndex index: Int) -> CGFloat {
         return .random(in: 100...200)
     }
     
