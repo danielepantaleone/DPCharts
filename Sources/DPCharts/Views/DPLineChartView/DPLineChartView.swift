@@ -589,7 +589,7 @@ open class DPLineChartView: DPCanvasView {
             // Draw the marker text if we have some content
             if let label = xAxisLabelAtIndex(i) {
                 let xMin: CGFloat = canvasPosX
-                let xMax: CGFloat = bounds.width - label.size().width
+                let xMax: CGFloat = canvasPosX + canvasWidth - label.size().width
                 let xAxisLabelPosition: CGFloat = (xAxisPosition - (label.size().width * 0.5)).clamped(to: xMin...xMax)
                 let yAxisLabelPosition: CGFloat = canvasPosY + canvasHeight + xAxisMarkersSpacing
                 ctx.setAlpha(1.0)
