@@ -461,6 +461,7 @@ open class DPHeatMapView: UIView {
     // MARK: - Initialization
 
     func commonInit() {
+        backgroundColor = .clear
         isOpaque = false
         addSubview(trackingView)
     }

@@ -329,6 +329,7 @@ open class DPPieChartView: UIView {
     // MARK: - Initialization
 
     func commonInit() {
+        backgroundColor = .clear
         isOpaque = false
         stackView.addArrangedSubview(donutTitleLabel)
         stackView.addArrangedSubview(donutSubtitleLabel)

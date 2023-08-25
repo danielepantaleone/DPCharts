@@ -198,6 +198,7 @@ open class DPScatterChartView: DPCanvasView {
     // MARK: - Initialization
 
     func commonInit() {
+        backgroundColor = .clear
         isOpaque = false
         addSubview(trackingView)
     }

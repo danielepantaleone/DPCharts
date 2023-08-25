@@ -318,7 +318,8 @@ open class DPLineChartView: DPCanvasView {
     // MARK: - Initialization
 
     func commonInit() {
-        isOpaque = false
+        backgroundColor = .clear
+        isOpaque = true
         addSubview(touchCursor)
         addSubview(trackingView)
     }
