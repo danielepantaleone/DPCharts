@@ -565,5 +565,3 @@ open class DPCanvasView: UIView {
     }
 
 }
-
-
