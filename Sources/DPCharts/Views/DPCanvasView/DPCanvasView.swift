@@ -35,22 +35,6 @@ open class DPCanvasView: UIView {
         }
     }
     
-    /// The color of labels on axis (default = `.lightGray`).
-    @IBInspectable
-    open var axisLabelsTextColor: UIColor = .lightGray {
-        didSet {
-            setNeedsDisplay()
-        }
-    }
-    
-    /// The font used to render axis labels (default = `.systemFont(ofSize: 12)`).
-    open var axisLabelsTextFont: UIFont = .systemFont(ofSize: 12) {
-        didSet {
-            setNeedsLayout()
-            setNeedsDisplay()
-        }
-    }
-    
     // MARK: - Markers properties
     
     /// The alpha to be applied when drawing markers lines (default = `0.7`).
@@ -98,6 +82,22 @@ open class DPCanvasView: UIView {
         didSet {
             setNeedsDisplay()
             setNeedsLayout()
+        }
+    }
+    
+    /// The color of labels on axis (default = `.lightGray`).
+    @IBInspectable
+    open var markersLabelsTextColor: UIColor = .lightGray {
+        didSet {
+            setNeedsDisplay()
+        }
+    }
+    
+    /// The font used to render axis labels (default = `.systemFont(ofSize: 12)`).
+    open var markersLabelsTextFont: UIFont = .systemFont(ofSize: 12) {
+        didSet {
+            setNeedsLayout()
+            setNeedsDisplay()
         }
     }
     
@@ -355,8 +355,8 @@ open class DPCanvasView: UIView {
     
     func axisLabel(_ string: String) -> NSAttributedString {
         return NSAttributedString(string: string, attributes: [
-            .foregroundColor: axisLabelsTextColor,
-            .font: axisLabelsTextFont
+            .foregroundColor: markersLabelsTextColor,
+            .font: markersLabelsTextFont
         ])
     }
     

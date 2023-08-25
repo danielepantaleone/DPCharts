@@ -147,7 +147,7 @@ extension ViewFactory {
         barChartView.datasource = self
         barChartView.barStacked = stacked
         barChartView.axisColor = .grey500
-        barChartView.axisLabelsTextColor = .grey500
+        barChartView.markersLabelsTextColor = .grey500
         barChartView.markersLineColor = .grey500
         barChartView.xAxisTitle = "Title of X-axis"
         barChartView.yAxisInverted = yAxisInverted
@@ -190,7 +190,7 @@ extension ViewFactory {
         lineChartView.bezierCurveEnabled = bezierCurveEnabled
         lineChartView.areaEnabled = areaEnabled
         lineChartView.axisColor = .grey500
-        lineChartView.axisLabelsTextColor = .grey500
+        lineChartView.markersLabelsTextColor = .grey500
         lineChartView.markersLineColor = .grey500
         lineChartView.pointsHidden = pointsHidden
         lineChartView.xAxisTitle = "Title of X-axis"
@@ -220,7 +220,7 @@ extension ViewFactory {
         let scatterChartView = DPScatterChartView()
         scatterChartView.datasource = self
         scatterChartView.axisColor = .grey500
-        scatterChartView.axisLabelsTextColor = .grey500
+        scatterChartView.markersLabelsTextColor = .grey500
         scatterChartView.markersLineColor = .grey500
         scatterChartView.xAxisTitle = "Title of X-axis"
         scatterChartView.yAxisInverted = yAxisInverted
