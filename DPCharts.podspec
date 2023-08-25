@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name                  = "DPCharts"
-  s.version               = "1.1.2"
+  s.version               = "1.2.0"
   s.summary               = "A lightweight framework to render charts on iOS written in Swift"
   s.license               = { :type => "MIT", :file => "LICENSE" }
   s.homepage              = "https://github.com/danielepantaleone/DPCharts"
