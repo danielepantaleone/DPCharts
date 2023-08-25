@@ -61,7 +61,7 @@ public class DPScatterChartViewIBDataSource: DPScatterChartViewDataSource {
         return 2
     }
     public func scatterChartView(_ scatterChartView: DPScatterChartView, numberOfPointsForDatasetAtIndex datasetIndex: Int) -> Int {
-        if index == 0 {
+        if datasetIndex == 0 {
             return 40
         } else {
             return 20
