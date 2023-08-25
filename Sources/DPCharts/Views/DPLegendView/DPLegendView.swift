@@ -190,6 +190,17 @@ open class DPLegendView: UIView {
             legendItemLayer.setNeedsLayout()
         }
     }
+    
+    // MARK: - Storyboard
+    
+    #if TARGET_INTERFACE_BUILDER
+    let ibDataSource = DPLegendViewIBDataSource()
+    
+    // swiftlint:disable:next overridden_super_call
+    public override func prepareForInterfaceBuilder() {
+        datasource = ibDataSource
+    }
+    #endif
 
     // MARK: - Overrides
     
