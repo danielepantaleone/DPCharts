@@ -35,13 +35,13 @@ public extension DPPieChartViewDataSource {
 #if TARGET_INTERFACE_BUILDER
 public class DPPieChartViewIBDataSource: DPPieChartViewDataSource {
     
-    func numberOfSlices(_ pieChartView: DPPieChartView) -> Int {
+    public func numberOfSlices(_ pieChartView: DPPieChartView) -> Int {
         return 4
     }
-    func pieChartView(_ pieChartView: DPPieChartView, valueForSliceAtIndex index: Int) -> CGFloat {
+    public func pieChartView(_ pieChartView: DPPieChartView, valueForSliceAtIndex index: Int) -> CGFloat {
         return .random(in: 10...100)
     }
-    func pieChartView(_ pieChartView: DPPieChartView, colorForSliceAtIndex index: Int) -> UIColor {
+    public func pieChartView(_ pieChartView: DPPieChartView, colorForSliceAtIndex index: Int) -> UIColor {
         switch index {
             case 1:
                 return .blue

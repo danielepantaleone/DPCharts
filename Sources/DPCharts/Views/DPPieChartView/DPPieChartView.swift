@@ -329,6 +329,7 @@ open class DPPieChartView: UIView {
     // MARK: - Initialization
 
     func commonInit() {
+        backgroundColor = .clear
         isOpaque = false
         stackView.addArrangedSubview(donutTitleLabel)
         stackView.addArrangedSubview(donutSubtitleLabel)
@@ -620,7 +621,7 @@ open class DPPieChartView: UIView {
     // MARK: - Storyboard
     
     #if TARGET_INTERFACE_BUILDER
-    let ibDataSource = DPLineChartViewIBDataSource()
+    let ibDataSource = DPPieChartViewIBDataSource()
     
     // swiftlint:disable:next overridden_super_call
     public override func prepareForInterfaceBuilder() {

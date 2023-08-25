@@ -228,6 +228,7 @@ open class DPBarChartView: DPCanvasView {
     // MARK: - Initialization
 
     func commonInit() {
+        backgroundColor = .clear
         isOpaque = false
         addSubview(trackingView)
     }
