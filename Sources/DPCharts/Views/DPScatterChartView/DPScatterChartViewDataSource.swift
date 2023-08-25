@@ -57,24 +57,24 @@ public extension DPScatterChartViewDataSource {
 #if TARGET_INTERFACE_BUILDER
 public class DPScatterChartViewIBDataSource: DPScatterChartViewDataSource {
     
-    func numberOfDatasets(_ scatterChartView: DPScatterChartView) -> Int {
+    public func numberOfDatasets(_ scatterChartView: DPScatterChartView) -> Int {
         return 2
     }
-    func scatterChartView(_ scatterChartView: DPScatterChartView, numberOfPointsForDatasetAtIndex datasetIndex: Int) -> Int {
+    public func scatterChartView(_ scatterChartView: DPScatterChartView, numberOfPointsForDatasetAtIndex datasetIndex: Int) -> Int {
         if index == 0 {
             return 40
         } else {
             return 20
         }
     }
-    func scatterChartView(_ scatterChartView: DPScatterChartView, xAxisValueForDataSetAtIndex datasetIndex: Int, forPointAtIndex index: Int) -> CGFloat {
+    public func scatterChartView(_ scatterChartView: DPScatterChartView, xAxisValueForDataSetAtIndex datasetIndex: Int, forPointAtIndex index: Int) -> CGFloat {
         if index == 0 {
             return .random(in: 100...300)
         } else {
             return .random(in: 20...140)
         }
     }
-    func scatterChartView(_ scatterChartView: DPScatterChartView, yAxisValueForDataSetAtIndex datasetIndex: Int, forPointAtIndex index: Int) -> CGFloat {
+    public func scatterChartView(_ scatterChartView: DPScatterChartView, yAxisValueForDataSetAtIndex datasetIndex: Int, forPointAtIndex index: Int) -> CGFloat {
         if index == 0 {
             return .random(in: 100...300)
         } else {

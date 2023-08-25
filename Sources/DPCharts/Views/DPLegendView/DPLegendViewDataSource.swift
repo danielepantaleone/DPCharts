@@ -27,16 +27,16 @@ public protocol DPLegendViewDataSource: AnyObject {
 #if TARGET_INTERFACE_BUILDER
 public class DPLegendViewIBDataSource: DPLegendViewDataSource {
     
-    func numberOfItems(_ legendView: DPLegendView) -> Int {
+    public func numberOfItems(_ legendView: DPLegendView) -> Int {
         return 2
     }
-    func legendView(_ legendView: DPLegendView, shapeColorForItemAtIndex index: Int) -> UIColor {
+    public func legendView(_ legendView: DPLegendView, shapeColorForItemAtIndex index: Int) -> UIColor {
         return index == 0 ? .blue : .red
     }
-    func legendView(_ legendView: DPLegendView, shapeTypeForItemAtIndex index: Int) -> DPShapeType {
+    public func legendView(_ legendView: DPLegendView, shapeTypeForItemAtIndex index: Int) -> DPShapeType {
         return .circle
     }
-    func legendView(_ legendView: DPLegendView, titleForItemAtIndex index: Int) -> String {
+    public func legendView(_ legendView: DPLegendView, titleForItemAtIndex index: Int) -> String {
         return "Item #\(index)"
     }
     

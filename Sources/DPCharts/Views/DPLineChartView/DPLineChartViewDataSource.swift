@@ -50,13 +50,13 @@ public extension DPLineChartViewDataSource {
 #if TARGET_INTERFACE_BUILDER
 public class DPLineChartViewIBDataSource: DPLineChartViewDataSource {
     
-    func numberOfPoints(_ lineChartView: DPLineChartView) -> Int {
+    public func numberOfPoints(_ lineChartView: DPLineChartView) -> Int {
         return 20
     }
-    func numberOfLines(_ lineChartView: DPLineChartView) -> Int {
+    public func numberOfLines(_ lineChartView: DPLineChartView) -> Int {
         return 1
     }
-    func lineChartView(_ lineChartView: DPLineChartView, valueForLineAtIndex lineIndex: Int, forPointAtIndex index: Int) -> CGFloat {
+    public func lineChartView(_ lineChartView: DPLineChartView, valueForLineAtIndex lineIndex: Int, forPointAtIndex index: Int) -> CGFloat {
         return .random(in: 100...300)
     }
     
