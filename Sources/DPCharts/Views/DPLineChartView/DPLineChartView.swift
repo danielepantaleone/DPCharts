@@ -22,10 +22,6 @@ open class DPLineChartView: DPCanvasView {
     
     // MARK: - Static properties
     
-    /// Y-axis shift factor not to let bezier lines touch the top of the chart
-    static let defaultBezierShiftFactor: CGFloat = 0.20
-    /// Y-axis shift factor not to let lines touch the top of the chart
-    static let defaultShiftFactor: CGFloat = 0.10
     /// Default color for every line
     static let defaultLineColor: UIColor = .black
     /// Default width for every line
@@ -368,19 +364,6 @@ open class DPLineChartView: DPCanvasView {
                 yAxisMaxValue = max(v, yAxisMaxValue)
                 yAxisMinValue = min(v, yAxisMinValue)
             }
-        }
-        // Adjust min value (if needed) so that the chart is not cut on bottom and values are better distributed in the canvas
-        let shiftFactor = bezierCurveEnabled ? DPLineChartView.defaultBezierShiftFactor : DPLineChartView.defaultShiftFactor
-        let maxYAxisSpan = yAxisMaxSpan
-        if yAxisMinValue >= 0 {
-            yAxisMinValue = 0
-        } else {
-            yAxisMinValue -= (shiftFactor * maxYAxisSpan)
-        }
-        if yAxisMaxValue <= 0 {
-            yAxisMaxValue = 0
-        } else {
-            yAxisMaxValue += (shiftFactor * maxYAxisSpan)
         }
     }
 

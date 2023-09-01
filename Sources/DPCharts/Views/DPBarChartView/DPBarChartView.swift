@@ -24,8 +24,6 @@ open class DPBarChartView: DPCanvasView {
     
     /// Default color for every bar
     static let defaultBarColor: UIColor = .darkGray
-    /// Y-axis shift factor not to let bars touch the top of the chart
-    static let defaultShiftFactor: CGFloat = 6.0
     
     // MARK: - Animation properties
     
@@ -279,10 +277,6 @@ open class DPBarChartView: DPCanvasView {
                     yAxisMaxValue = max(abs(datasource.barChartView(self, valueForDatasetAtIndex: i, forItemAtIndex: j)), yAxisMaxValue)
                 }
             }
-        }
-        // Adjust max value so that the chart is not cut on top and values are better distributed in the canvas
-        if yAxisMaxValue != 0 {
-            yAxisMaxValue += (yAxisMaxValue / DPBarChartView.defaultShiftFactor)
         }
     }
     
