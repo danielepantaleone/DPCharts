@@ -22,7 +22,7 @@ open class DPBarChartView: DPCanvasView {
     
     // MARK: - Static properties
     
-    /// Default color for every bar
+    /// Default color for every bar.
     static let defaultBarColor: UIColor = .darkGray
     
     // MARK: - Animation properties
@@ -110,6 +110,16 @@ open class DPBarChartView: DPCanvasView {
         didSet {
             setNeedsLayout()
             setNeedsDisplay()
+        }
+    }
+    
+    // MARK: - Y-axis properties
+    
+    /// Y-axis shift percentage over the maximum value not to let bars touch the top of the chart (default = `0.05`).
+    @IBInspectable
+    open var yAxisShiftPercentage: CGFloat = 0.05 {
+        didSet {
+            setNeedsLayout()
         }
     }
     
@@ -277,6 +287,10 @@ open class DPBarChartView: DPCanvasView {
                     yAxisMaxValue = max(abs(datasource.barChartView(self, valueForDatasetAtIndex: i, forItemAtIndex: j)), yAxisMaxValue)
                 }
             }
+        }
+        // Adjust max value so that the chart is not cut on top and values are better distributed in the canvas
+        if yAxisMaxValue != 0 && yAxisShiftPercentage > 0 {
+            yAxisMaxValue += (yAxisMaxValue * yAxisShiftPercentage)
         }
     }
     

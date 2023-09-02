@@ -189,6 +189,16 @@ open class DPLineChartView: DPCanvasView {
         }
     }
     
+    // MARK: - Y-axis properties
+    
+    /// Y-axis shift percentage over the maximum value not to let lines touch the top and the bottom of the chart (default = `0.05`).
+    @IBInspectable
+    open var yAxisShiftPercentage: CGFloat = 0.05 {
+        didSet {
+            setNeedsLayout()
+        }
+    }
+    
     // MARK: - Public weak properties
     
     /// Reference to the chart datasource.
@@ -364,6 +374,18 @@ open class DPLineChartView: DPCanvasView {
                 yAxisMaxValue = max(v, yAxisMaxValue)
                 yAxisMinValue = min(v, yAxisMinValue)
             }
+        }
+        // Adjust min value (if needed) so that the chart is not cut on bottom and values are better distributed in the canvas
+        let maxYAxisSpan = yAxisMaxSpan
+        if yAxisMinValue >= 0 {
+            yAxisMinValue = 0
+        } else if yAxisShiftPercentage > 0 {
+            yAxisMinValue -= (maxYAxisSpan * yAxisShiftPercentage)
+        }
+        if yAxisMaxValue <= 0 {
+            yAxisMaxValue = 0
+        } else if yAxisShiftPercentage > 0 {
+            yAxisMaxValue += (maxYAxisSpan * yAxisShiftPercentage)
         }
     }
 
