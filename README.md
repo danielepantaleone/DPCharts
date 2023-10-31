@@ -24,7 +24,6 @@ DPCharts is a Swift-based lightweight framework designed specifically for render
     * [PieChart](#piechart)
     * [PieChart (as Donut)](#piechart-as-donut)
     * [Heatmap](#heatmap)
-* [Requirements](#requirements)
 * [Installation](#installation)
     * [Cocoapods](#cocoapods)
     * [Swift Package Manager](#swift-package-manager)
@@ -220,12 +219,6 @@ heatmapView.cellTextEnabled = true
 heatmapView.xAxisInverted = false
 heatmapView.yAxisInverted = false
 ```
-
-## Requirements
-
-- iOS **12+**
-- Xcode **14+** 
-- Swift **5.7+**  
 
 ## Installation
 
