@@ -41,7 +41,8 @@ DPCharts provides several features and extensive customization options. Presente
 - **Storyboard** support by means of **@IBDesignable** and **@IBInspectable**
 - **Animations** support (where applicable)
 - **Touch gesture** interaction
-- Highly customizable (colors, fonts, axis positioning, spacing, insets ...)
+- **UIKit** based apps support
+- **Highly customizable** (colors, fonts, axis positioning, spacing, insets ...)
 
 - Data control achieved by implementing a **datasource** protocol
 - User interaction by means of implementing a **delegate** protocol
@@ -227,7 +228,7 @@ heatmapView.yAxisInverted = false
 Add the dependency to the `DPCharts` framework in your `Podfile`:
 
 ```ruby
-pod 'DPCharts', '~> 1.2.2'
+pod 'DPCharts', '~> 1.3.0'
 ```
 
 ### Swift Package Manager
@@ -236,7 +237,7 @@ Add it as a dependency in a Swift Package:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/danielepantaleone/DPCharts.git", .upToNextMajor(from: "1.2.2"))
+    .package(url: "https://github.com/danielepantaleone/DPCharts.git", .upToNextMajor(from: "1.3.0"))
 ]
 ```
 

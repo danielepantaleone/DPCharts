@@ -16,6 +16,7 @@ let package = Package(
     targets: [
         .target(
             name: "DPCharts",
-            path: "Sources/DPCharts"),
+            dependencies: [],
+            resources: [.copy("PrivacyInfo.xcprivacy")]),
     ]
 )
